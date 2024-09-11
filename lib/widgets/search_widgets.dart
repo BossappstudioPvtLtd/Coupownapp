@@ -34,7 +34,7 @@ class _SearchWidgetsState extends State<SearchWidgets> {
         _speech.listen(onResult: (val) {
           setState(() {
             _voiceInput = val.recognizedWords;
-            searchController.text = _voiceInput;  // Update the text field with voice input
+            searchController.text = _voiceInput; // Update the text field with voice input
             // Optionally, you can also trigger a search/filter here if needed
           });
         });
@@ -47,25 +47,40 @@ class _SearchWidgetsState extends State<SearchWidgets> {
 
   @override
   Widget build(BuildContext context) {
+    // Use MediaQuery to get screen size
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Padding(
-      padding: EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(screenWidth * 0.02), // Adjust padding dynamically
       child: Material(
-        elevation: 10,
-        borderRadius: BorderRadius.circular(32),
+        elevation: 5,
+        borderRadius: BorderRadius.circular(screenWidth * 0.08), // Adjust border radius dynamically
         color: Colors.white,
         child: SizedBox(
-          height: 50, // Adjust this value to set the desired height
+          height: screenHeight * 0.07, // Adjust height dynamically
           child: Center(
             child: TextField(
               controller: searchController,
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0), // Adjust the vertical padding to make the height smaller
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: screenHeight * 0.01, // Adjust vertical padding
+                  horizontal: screenWidth * 0.04, // Adjust horizontal padding
+                ),
                 hintText: "Search...",
                 hintStyle: const TextStyle(color: iconColorSecondary),
-                prefixIcon: const Icon(Icons.search, color: iconColorSecondary), // Icon on the left side
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: iconColorSecondary,
+                  size: screenWidth * 0.06, // Adjust icon size dynamically
+                ), // Icon on the left side
                 suffixIcon: IconButton(
-                  icon: const Icon(Icons.mic, color: iconColorSecondary),  // Mic icon for voice input
-                  onPressed: _listen,  // Start listening on mic press
+                  icon: Icon(
+                    Icons.mic,
+                    color: iconColorSecondary,
+                    size: screenWidth * 0.06, // Adjust mic icon size
+                  ), // Mic icon for voice input
+                  onPressed: _listen, // Start listening on mic press
                 ),
                 border: InputBorder.none, // Removes the baseline (underline)
               ),

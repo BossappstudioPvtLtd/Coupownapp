@@ -23,6 +23,8 @@ class _TexteditState extends State<Textedit> {
     return Text(
       widget.text, // Example text
       style: TextStyle(
+        
+        overflow: TextOverflow.clip,
         color: widget.color, // Text color
         fontSize: widget.fontSize, // Text size
         fontWeight:widget.fontWeight, // Font style
@@ -31,11 +33,13 @@ class _TexteditState extends State<Textedit> {
         height: 1.5, // Line height (leading)
       ),
       textAlign: TextAlign.center, // Align the text (centered)
-      maxLines: 2, // Maximum number of lines
+      maxLines: 1, // Maximum number of lines
       overflow: TextOverflow.ellipsis, // Text overflow style
       textDirection: TextDirection.ltr, // Text direction
       softWrap: true, // Wrap text when overflow
       textScaleFactor: 1.2, // Scale the text size
+      
+                                      
     );
   }
 }
