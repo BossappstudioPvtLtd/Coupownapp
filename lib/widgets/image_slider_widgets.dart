@@ -12,7 +12,7 @@ class ImageSlider extends StatefulWidget {
 class _ImageSliderState extends State<ImageSlider> {
   final List<String> imgList = [
     "assets/images/Banner.png",
-    "assets/images/Banner1.png",
+    "assets/images/banner1.png",
     "assets/images/Banner3.png",
     "assets/images/Banner6.png",
     "assets/images/Banner7.png",

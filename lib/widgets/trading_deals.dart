@@ -1,6 +1,7 @@
 import 'package:coupown/Const/app_colors.dart';
 import 'package:coupown/components/small_sutton.dart';
 import 'package:coupown/components/text_edit.dart';
+import 'package:coupown/widgets/namebar.dart';
 import 'package:flutter/material.dart';
 
 class TradingDeals extends StatefulWidget {
@@ -55,47 +56,7 @@ class _TradingDealsState extends State<TradingDeals> {
       color: const Color.fromARGB(210, 237, 247, 251),
       child: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: isSmallScreen ? 8 : 15,
-              vertical: isSmallScreen ? 5 : 10,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Textedit(
-                  text: "Trending Deals",
-                  fontWeight: FontWeight.bold,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1, color: appColorAccent),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: isSmallScreen ? 4 : 6,
-                      vertical: isSmallScreen ? 1 : 2,
-                    ),
-                    child: const Row(
-                      children: [
-                        Textedit(
-                          text: "view all",
-                          color: appColorAccent,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        Icon(
-                          Icons.arrow_forward,
-                          color: appColorAccent,
-                          size: 20,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          Namebar(nametext: "Trending Deals" ,text: 'View all',color:appColorAccent,icon: Icons.arrow_forward,border: Border.all(width: 1, color: appColorAccent),iconcolor: appColorAccent,iconsize: 16,),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),

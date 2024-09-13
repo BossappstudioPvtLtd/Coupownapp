@@ -2,6 +2,7 @@ import 'package:coupown/Const/app_colors.dart';
 import 'package:coupown/widgets/adds.dart';
 import 'package:coupown/widgets/all_featuers.dart';
 import 'package:coupown/widgets/appbar_containers.dart';
+import 'package:coupown/widgets/deals_of_the_day.dart';
 import 'package:coupown/widgets/image_slider_widgets.dart';
 import 'package:coupown/widgets/search_widgets.dart';
 import 'package:coupown/widgets/trading_deals.dart';
@@ -46,6 +47,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
               const TradingDeals(), // Adjust size for large screens
               SizedBox(height: isLargeScreen ? 25 : 15),
               ImageSliderPage(), 
+              SizedBox(height: isLargeScreen ? 25 : 15),
+              const DealsOfTheDay(),
+              ImageSliderPage(), 
+              SizedBox(height: isLargeScreen ? 25 : 15),
             ],
           ),
         ),
