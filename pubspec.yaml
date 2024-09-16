@@ -45,6 +45,7 @@ dependencies:
   carousel_slider: ^5.0.0
   searchable_listview: ^2.15.2
   animations: ^2.0.11
+  rating_summary: ^1.0.3+1
 
 dev_dependencies:
   flutter_test:
@@ -83,6 +84,8 @@ flutter:
      - assets/logo/
      - assets/featurerd/
      - assets/add/
+     - assets/images/banner1.png
+     - assets/images/Banner.png
      - assets/images/Banner1.png
      - assets/images/Banner3.png
      - assets/images/Banner6.png

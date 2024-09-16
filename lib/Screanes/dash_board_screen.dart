@@ -3,9 +3,12 @@ import 'package:coupown/widgets/adds.dart';
 import 'package:coupown/widgets/all_featuers.dart';
 import 'package:coupown/widgets/appbar_containers.dart';
 import 'package:coupown/widgets/deals_of_the_day.dart';
+import 'package:coupown/widgets/exlusive_offers.dart';
 import 'package:coupown/widgets/image_slider_widgets.dart';
 import 'package:coupown/widgets/search_widgets.dart';
+import 'package:coupown/widgets/spacial_offers.dart';
 import 'package:coupown/widgets/trading_deals.dart';
+import 'package:coupown/widgets/upcoming_offers.dart';
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -51,6 +54,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
               const DealsOfTheDay(),
               ImageSliderPage(), 
               SizedBox(height: isLargeScreen ? 25 : 15),
+              const SpacialOffers(),
+              SizedBox(height: isLargeScreen ? 25 : 15),
+              ImageSliderPage(), 
+              SizedBox(height: isLargeScreen ? 25 : 15),
+              const ExclusiveOffers(),
+              SizedBox(height: isLargeScreen ? 25 : 15),
+              ImageSliderPage(), 
+              SizedBox(height: isLargeScreen ? 25 : 15),
+              const UpcomingOffers(),
+              SizedBox(height: isLargeScreen ? 25 : 15),
+              ImageSliderPage(),
             ],
           ),
         ),
