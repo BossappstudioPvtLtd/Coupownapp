@@ -1,369 +1,236 @@
 import 'dart:async';
-import 'package:coupown/Const/app_colors.dart';
-import 'package:coupown/Const/appwidgets.dart';
-import 'package:coupown/components/text_edit.dart';
-import 'package:coupown/widgets/namebar.dart';
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
-import 'package:nb_utils/nb_utils.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:map_launcher/map_launcher.dart'; // Import the package
 
-class DealsOfTheDay extends StatefulWidget {
-  const DealsOfTheDay({super.key});
-
-  @override
-  State<DealsOfTheDay> createState() => _DealsOfTheDayState();
+void main() {
+  runApp(const MyApp());
 }
 
-class _DealsOfTheDayState extends State<DealsOfTheDay> {
-  final List<Map<String, dynamic>> todatdeal = [
-    {
-      'logoUrl': 'assets/featurerd/travel.png',
-      'productUrl': 'assets/featurerd/travel.png',
-      'name': 'Travels',
-      'productname': 'Travels',
-      'price': "2499",
-      'offerprice': "1500",
-      "percentage": "60%",
-      'rating': "4.5",
-      "productlike": 0,  // Storing like count here
-      'isFavorite': false,
-    },
-    {
-      'logoUrl': 'assets/featurerd/collectionfood.png',
-      'productUrl': 'assets/featurerd/travel.png',
-      'name': 'Travels',
-      'productname': 'Travels',
-      'price': "2499",
-      'offerprice': "1500",
-      "percentage": "50%",
-      'rating': "4.5",
-      "productlike": 0,
-      'isFavorite': false,
-    },
-    {
-      'logoUrl': 'assets/featurerd/dinnerset.png',
-      'productUrl': 'assets/featurerd/travel.png',
-      'name': 'Travels',
-      'productname': 'Travels',
-      'price': "2499",
-      'offerprice': "1500",
-      "percentage": "60%",
-      'rating': "4.5",
-      "productlike": 0,
-      'isFavorite': false,
-    },
-    {
-      'logoUrl': 'assets/featurerd/store.png',
-      'productUrl': 'assets/featurerd/travel.png',
-      'name': 'Travels',
-      'productname': 'Travels',
-      'price': "2499",
-      'offerprice': "1500",
-      "percentage": "70%",
-      'rating': "4.5",
-      "productlike": 0,
-      'isFavorite': false,
-    },
-  ];
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-  late Timer _timer;
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Geolocator Example',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const GeolocatorWidget(),
+    );
+  }
+}
 
-  Duration remainingTime = const Duration(hours: 24); // 24-hour countdown
+class GeolocatorWidget extends StatefulWidget {
+  const GeolocatorWidget({super.key});
+
+  @override
+  State<GeolocatorWidget> createState() => _GeolocatorWidgetState();
+}
+
+class _GeolocatorWidgetState extends State<GeolocatorWidget> {
+  static const String _kLocationServicesDisabledMessage = 'Location services are disabled.';
+  static const String _kPermissionDeniedMessage = 'Permission denied.';
+  static const String _kPermissionDeniedForeverMessage = 'Permission denied forever.';
+  static const String _kPermissionGrantedMessage = 'Permission granted.';
+
+  final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
+  Position? _currentPosition;
+  String? _placeName;
+  String? _pincode;
+  String? _city;
+  String? _state;
+  String? _country;
+  StreamSubscription<Position>? _positionStreamSubscription;
+  bool _isListening = false;
 
   @override
   void initState() {
     super.initState();
-    startTimer();
+    _checkPermissionAndFetchPosition();
   }
 
-  void startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (remainingTime.inSeconds > 0) {
-        setState(() {
-          remainingTime = remainingTime - const Duration(seconds: 1);
-        });
-      } else {
-        _timer.cancel(); // Stop the timer when countdown reaches zero
+  Future<void> _checkPermissionAndFetchPosition() async {
+    bool hasPermission = await _handlePermission();
+    if (hasPermission) {
+      _getCurrentPosition();
+    }
+  }
+
+  Future<bool> _handlePermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Check if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      _showMessage(_kLocationServicesDisabledMessage);
+      return false;
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        _showMessage(_kPermissionDeniedMessage);
+        return false;
       }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      _showMessage(_kPermissionDeniedForeverMessage);
+      return false;
+    }
+
+    _showMessage(_kPermissionGrantedMessage);
+    return true;
+  }
+
+  Future<void> _getCurrentPosition() async {
+    final position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    setState(() {
+      _currentPosition = position;
     });
+    _getAddressFromLatLng(position);
+  }
+
+  Future<void> _getAddressFromLatLng(Position position) async {
+    try {
+      final placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+      final place = placemarks.first;
+      setState(() {
+        _placeName = place.name;
+        _city = place.locality;
+        _state = place.administrativeArea;
+        _country = place.country;
+        _pincode = place.postalCode;
+      });
+    } catch (e) {
+      _showMessage('Failed to get address.');
+    }
+  }
+
+  void _toggleListening() {
+    if (_positionStreamSubscription == null) {
+      final positionStream = Geolocator.getPositionStream();
+      _positionStreamSubscription = positionStream.listen(
+        (Position position) {
+          setState(() {
+            _currentPosition = position;
+          });
+          _getAddressFromLatLng(position);
+        },
+      );
+    }
+
+    if (_isListening) {
+      _positionStreamSubscription?.pause();
+    } else {
+      _positionStreamSubscription?.resume();
+    }
+
+    setState(() {
+      _isListening = !_isListening;
+    });
+  }
+
+  Future<void> _launchMap() async {
+    if (_currentPosition != null) {
+      final availableMaps = await MapLauncher.installedMaps;
+      if (availableMaps.isNotEmpty) {
+        await availableMaps.first.showMarker(
+          coords: Coords(_currentPosition!.latitude, _currentPosition!.longitude),
+          title: 'Current Location',
+        );
+      } else {
+        _showMessage('No map apps installed.');
+      }
+    } else {
+      _showMessage('Location not available yet.');
+    }
+  }
+
+  void _showMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+    _positionStreamSubscription?.cancel();
     super.dispose();
-  }
-
-  String formatDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, '0');
-    final hours = twoDigits(duration.inHours);
-    final minutes = twoDigits(duration.inMinutes.remainder(60));
-    final seconds = twoDigits(duration.inSeconds.remainder(60));
-    return "$hours:$minutes:$seconds";
   }
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-
-    return Container(
-      width: double.infinity,
-      height: 450,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Namebar(
-            nametext: "Deals Of The Day",
-            text: 'View all',
-            color: appColorAccent,
-            icon: Icons.arrow_forward,
-            border: Border.all(width: 1, color: appColorAccent),
-            iconcolor: appColorAccent,
-            iconsize: 16,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
-              children: [
-                const Icon(Icons.alarm),
-                Textedit(text: formatDuration(remainingTime)),
-                const Textedit(text: " remaining"),
-              ],
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal, // Horizontal scrolling
-              itemCount: todatdeal.length,
-              itemBuilder: (context, index) {
-                final deal = todatdeal[index];
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: 210, // Set a fixed width for each card
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Row(
-                            children: [
-                              Material(
-                                borderRadius: BorderRadius.circular(8),
-                                elevation: 10,
-                                child: Container(
-                                  width: 100,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: appColorPrimary,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(50),
-                                          child: Image.asset(
-                                            deal['logoUrl'],
-                                            width: 25,
-                                            height: 25,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          deal['name'],
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: appTextColorPrimary,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              IconButton(
-                                icon: Icon(
-                                  deal['isFavorite']
-                                      ? Icons.favorite
-                                      : Icons.favorite_border,
-                                  color: deal['isFavorite']
-                                      ? Colors.red
-                                      : Colors.grey,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    deal['isFavorite'] = !deal['isFavorite'];
-                                    // Reset countdown on unlike
-                                    if (!deal['isFavorite']) {
-                                      deal['remainingTime'] = const Duration(hours: 24);
-                                    }
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                        Card(
-                          color: appStore.appBarColor,
-                          elevation: 2,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(16)),
-                          ),
-                          child: InkWell(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(16)),
-                            onTap: () {},
-                            child: Column(
-                              children: <Widget>[
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: Image.asset(
-                                    deal['logoUrl'],
-                                    fit: BoxFit.fill,
-                                    width: double.infinity,
-                                    height: 170,
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Container(
-                                      height: 100,
-                                      width: 150,
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 10),
-                                            child: Text(
-                                              deal['productname'],
-                                              style: boldTextStyle(
-                                                size: 20,
-                                                color: appStore.textPrimaryColor,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 10),
-                                            child: Text(" ${deal['offerprice']}",
-                                                style: secondaryTextStyle(
-                                                  size: 16,
-                                                  color: appStore.textSecondaryColor,
-                                                )),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 10),
-                                            child: Row(
-                                              children: [
-                                                Text(
-                                                  " ${deal['price']}",
-                                                  style: secondaryTextStyle(
-                                                    size: 16,
-                                                    color: appStore.textSecondaryColor,
-                                                  ),
-                                                ),
-                                                Text(" ${deal['percentage']}".toString(),
-                                                    style: boldTextStyle(
-                                                      size: 14,
-                                                      color: appColorAccent,
-                                                    )),
-                                              ],
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 8.0),
-                                            child: Row(
-                                              children: List.generate(5, (index) {
-                                                if (index < 4) {
-                                                  return const Icon(
-                                                    Icons.star,
-                                                    color: Colors.amber,
-                                                    size: 20.0,
-                                                  );
-                                                } else if (index == 4) {
-                                                  return const Icon(
-                                                    Icons.star_half,
-                                                    color: Colors.amber,
-                                                    size: 20.0,
-                                                  );
-                                                } else {
-                                                  return const Icon(
-                                                    Icons.star_border,
-                                                    color: Colors.grey,
-                                                    size: 20.0,
-                                                  );
-                                                }
-                                              }),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Column(
-                                      children: [
-                                        IconButton(
-                                          icon: Icon(
-                                            deal['isFavorite']
-                                                ? Icons.handshake
-                                                : Icons.handshake_outlined,
-                                            color: deal['isFavorite'] ? Colors.green : null,
-                                          ),
-                                          onPressed: () {
-                                            setState(() {
-                                              // Increase the count on press
-                                              deal['productlike']++;
-                                              // Change the icon color on like
-                                              deal['isFavorite'] = !deal['isFavorite'];
-                                            });
-                                          },
-                                        ),
-                                        Text('${deal['productlike']}'),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Geolocator Example'),
+        actions: [
+          IconButton(
+            icon: Icon(_isListening ? Icons.pause : Icons.play_arrow),
+            onPressed: _toggleListening,
           ),
         ],
+      ),
+      body: Center(
+        child: _currentPosition == null
+            ? const Text('Press the button to get your location.')
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Latitude: ${_currentPosition?.latitude}, Longitude: ${_currentPosition?.longitude}',
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    'Place Name: ${_placeName ?? 'Loading...'}',
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'City: ${_city ?? 'Loading...'}',
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'State: ${_state ?? 'Loading...'}',
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Country: ${_country ?? 'Loading...'}',
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Pincode: ${_pincode ?? 'Loading...'}',
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton.icon(
+                    onPressed: _launchMap,
+                    icon: const Icon(Icons.map),
+                    label: const Text('Open in Map'),
+                  ),
+                ],
+              ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _getCurrentPosition,
+        child: const Icon(Icons.my_location),
       ),
     );
   }
 }
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                      

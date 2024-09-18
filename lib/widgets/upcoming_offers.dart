@@ -68,7 +68,7 @@ class _UpcomingOffersState extends State<UpcomingOffers> {
       child: Column(
         children: [
           Namebar(
-            nametext: "Exclusive Offers",
+            nametext: "Upcoming Offers",
             text: 'View all',
             color: appColorAccent,
             icon: Icons.arrow_forward,

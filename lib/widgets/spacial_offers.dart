@@ -15,7 +15,7 @@ class _SpacialOffersState extends State<SpacialOffers> {
   List<Map<String, dynamic>> specialOffers = [
     {
       'logoUrl': 'assets/featurerd/travel.png',
-      'productUrl': 'assets/featurerd/image 15.png',
+      'productUrl': 'assets/Special0ffer/image1.png',
       'name': 'Travels',
       'productname': 'Adventure Explore the World',
       'price': "2499",
@@ -35,7 +35,7 @@ class _SpacialOffersState extends State<SpacialOffers> {
     },
     {
       'logoUrl': 'assets/featurerd/collectionfood.png',
-      'productUrl': 'assets/featurerd/image 15 (1).png',
+      'productUrl': 'assets/Special0ffer/Image2.png',
       'name': 'Food',
       'productname': 'Adventure Explore the World',
       'price': "2499",
@@ -55,7 +55,7 @@ class _SpacialOffersState extends State<SpacialOffers> {
     },
      {
       'logoUrl': 'assets/featurerd/collectionfood.png',
-      'productUrl': 'assets/featurerd/image 15 (1).png',
+      'productUrl': 'assets/Special0ffer/image3.png',
       'name': 'Food',
       'productname': 'Adventure Explore the World',
       'price': "2499",
@@ -75,7 +75,7 @@ class _SpacialOffersState extends State<SpacialOffers> {
     },
      {
       'logoUrl': 'assets/featurerd/collectionfood.png',
-      'productUrl': 'assets/featurerd/image 15 (1).png',
+      'productUrl': 'assets/Special0ffer/image4.png',
       'name': 'Food',
       'productname': 'Adventure Explore the World',
       'price': "2499",
@@ -191,7 +191,7 @@ Widget build(BuildContext context) {
                                 child: CircleAvatar(
                                   backgroundColor: appLight_purple,
                                   radius: isSmallScreen ? 28 : 38,
-                                  backgroundImage: AssetImage(deal['logoUrl']),
+                                  backgroundImage: AssetImage(deal['logoUrl'],),
                                 ),
                               ),
                             ),
@@ -246,7 +246,7 @@ Widget build(BuildContext context) {
                             borderRadius: BorderRadius.circular(8),
                             image: DecorationImage(
                               image: AssetImage(deal['productUrl']),
-                              fit: BoxFit.cover,
+                              fit: BoxFit.fill,
                             ),
                           ),
                         ),

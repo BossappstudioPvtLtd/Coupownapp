@@ -1,20 +1,16 @@
-import 'package:coupown/Const/app_colors.dart';
-import 'package:coupown/Screanes/Trading/trading_screan.dart';
-import 'package:coupown/Screanes/Trading/trading_viewall.dart';
 import 'package:coupown/components/small_sutton.dart';
 import 'package:coupown/components/text_edit.dart';
-import 'package:coupown/widgets/namebar.dart';
 import 'package:flutter/material.dart';
+import 'package:coupown/Const/app_colors.dart';
 
-class TradingDeals extends StatefulWidget {
-  const TradingDeals({super.key});
+class TradingDealsScrean extends StatefulWidget {
+  const TradingDealsScrean({super.key});
 
   @override
-  State<TradingDeals> createState() => _TradingDealsState();
+  State<TradingDealsScrean> createState() => _TradingDealsScreanState();
 }
 
-class _TradingDealsState extends State<TradingDeals> {
-  final List<Map<String, dynamic>> deals = [
+ final List<Map<String, dynamic>> tradingdeals = [
     {
       'logoUrl': 'assets/featurerd/travel.png',
       
@@ -121,144 +117,192 @@ class _TradingDealsState extends State<TradingDeals> {
     },
   ];
 
+class _TradingDealsScreanState extends State<TradingDealsScrean> {
   @override
   Widget build(BuildContext context) {
-    // Use MediaQuery to get the screen width and height
     final screenWidth = MediaQuery.of(context).size.width;
-    final isSmallScreen = screenWidth < 350; // Adjust based on a small screen threshold
+    final isSmallScreen = screenWidth < 400;
+    final isMediumScreen = screenWidth >= 400 && screenWidth <= 600;
 
-    return Container(
-      height: isSmallScreen ? 250 : 300,
-      color: const Color.fromARGB(210, 237, 247, 251),
-      child: Column(
-        children: [
-          Namebar(nametext: "Trending Deals" ,text: 'View all',color:appColorAccent,icon: Icons.arrow_forward,border: Border.all(width: 1, color: appColorAccent),iconcolor: appColorAccent,iconsize: 16,
-          onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_)=>const TradingDealsScrean()));},),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+    return Scaffold(
+      body: Container(
+        color: appColorPrimary,
+        child: Column(
+          children: [
+            SizedBox(height: 30,),
+               Padding(
+                 padding: const EdgeInsets.only(left: 15),
+                 child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(Icons.arrow_back_ios_rounded),
+                      iconSize: isSmallScreen ? 20 : 24,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: Textedit(
+                        text: 'Trading deals',
+                        fontWeight: FontWeight.bold,
+                        fontSize: isSmallScreen ? 18 : 24,
+                      ),
+                    ),
+                  ],
+                           
+                           ),
+               ),
+            Expanded(
               child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: deals.length,
+                itemCount: tradingdeals.length,
                 itemBuilder: (context, index) {
-                  final deal = deals[index];
-                  return GestureDetector(onTap: () {
-                    Navigator.push(
-  context,
-  MaterialPageRoute(
-    builder: (context) => TradingScrean(
-     deal: deal, // Pass the individual deal as before
-      deals: deals, // Pass the entire deals list
-    ),
-  ),
-);
-   },
-                    child: Container(
-                      width: isSmallScreen ? 180 : 250,
-                      margin: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Positioned(
-                            top: 30,
-                            child: Material(
-                              borderRadius: BorderRadius.circular(8),
-                              elevation: 5,
-                              child: Container(
-                                height: isSmallScreen ? 150 : 190,
-                                width: isSmallScreen ? 180 : 250,
-                                padding: const EdgeInsets.all(3),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: appColorAccent, width: 1),
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: appColorPrimary,
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      const SizedBox(height: 50),
-                                      Row(
+                  final deal = tradingdeals[index];
+                  
+                  return Container(
+                    color: appColorPrimary,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Card(
+                            child: Container(
+                              height: isSmallScreen ? 80 : 100,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              width: double.infinity,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 8 : 10),
+                                child: Row(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: isSmallScreen ? 30 : (isMediumScreen ? 37 : 40),
+                                      backgroundColor: appColorAccent,
+                                      child: CircleAvatar(
+                                        backgroundColor: appLight_purple,
+                                        radius: isSmallScreen ? 29 : (isMediumScreen ? 36 : 39),
+                                        child: CircleAvatar(
+                                          radius: isSmallScreen ? 26 : (isMediumScreen ? 33 : 36),
+                                          backgroundColor: appColorPrimary,
+                                          backgroundImage: AssetImage(deal['logoUrl']),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: isSmallScreen ? 8 : 15),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          const SmallButton(
-                                            elevationsize: 5,
-                                            text: "Exclusive Offer",
-                                            containerheight: 30,
-                                            containerwidth: 110,
-                                            fontSize: 15,
-                                            textweight: FontWeight.normal,
+                                          Text(
+                                            deal['name'],
+                                            style: TextStyle(
+                                              fontSize: isSmallScreen ? 18 : 24,
+                                              fontWeight: FontWeight.bold,
+                                              color: appTextColorSecondary,
+                                            ),
                                           ),
-                                          Flexible(
-                                            child: Textedit(
-                                              text: ' ${deal['offerDate']}',
-                                              fontSize: 10,
+                                          Text(
+                                            '18 Locations',
+                                            style: TextStyle(
+                                              fontSize: isSmallScreen ? 8 : 10,
+                                              fontWeight: FontWeight.bold,
+                                              color: appTextColorSecondary,
                                             ),
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(height: 20),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Textedit(
-                                          text: deal['offerDetails'],
-                                          fontSize: 12,
-                                        ),
+                                    ),
+                                    SizedBox(width: isSmallScreen ? 8 : 15),
+                                    Icon(Icons.share, size: isSmallScreen ? 20 : 24),
+                                    IconButton(
+                                      icon: Icon(
+                                        deal['isFavorite'] ? Icons.favorite : Icons.favorite_border,
+                                        color: deal['isFavorite'] ? Colors.red : Colors.grey,
+                                        size: isSmallScreen ? 24 : 30,
                                       ),
-                                    ],
-                                  ),
+                                      onPressed: () {
+                                        setState(() {
+                                          deal['isFavorite'] = !deal['isFavorite'];
+                                        });
+                                      },
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
                           ),
-                          Positioned(
-                            top: 2,
-                            left: 10,
-                            child: Card(
-                              color: appColorPrimary,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Material(
+                            borderRadius: BorderRadius.circular(8),
+                            elevation: 10,
+                            child: Container(
+                              height: isSmallScreen ? 200 : 250,
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(3),
                               child: Container(
                                 decoration: BoxDecoration(
+                                  border: Border.all(color: appColorAccent, width: 1),
                                   borderRadius: BorderRadius.circular(8),
+                                  color: appColorPrimary,
                                 ),
-                                height: 50,
-                                width: isSmallScreen ? 100 : 120,
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 10),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(50),
-                                        child: Image.asset(
-                                          deal['logoUrl'],
-                                          fit: BoxFit.fill,
-                                          width: 25,
-                                          height: 25,
-                                        ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(height: 50),
+                                    const SmallButton(
+                                      elevationsize: 5,
+                                      text: "Exclusive Offer",
+                                      containerheight: 30,
+                                      containerwidth: 110,
+                                      fontSize: 15,
+                                      textweight: FontWeight.normal,
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Textedit(
+                                        text: deal['offerDetails'],
+                                        fontSize: 12,
                                       ),
-                                      Expanded(
-                                        child: Textedit(
-                                          text: deal['name'],
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Textedit(
+                                            text: "8 Users Today",
+                                            fontSize: 12,
+                                          ),
+                                          TextButton(
+                                            onPressed: () {},
+                                            child: Textedit(
+                                              text: "VIEW DETAILS",
+                                              color: appColorAccent,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        SizedBox(height: 30),
+                      ],
                     ),
                   );
                 },
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

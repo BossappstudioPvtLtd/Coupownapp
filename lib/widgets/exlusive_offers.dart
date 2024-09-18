@@ -30,7 +30,7 @@ class _ExclusiveOffersState extends State<ExclusiveOffers> {
       'count': 0,
       "valid date": "15/09/2024",
       "location": "Tuticorin.",
-      "remainingTime": Duration(hours: 24),
+      "remainingTime":  const Duration(hours: 12),
     },
     {
       'logoUrl': 'assets/featurerd/collectionfood.png',
@@ -50,7 +50,7 @@ class _ExclusiveOffersState extends State<ExclusiveOffers> {
       'count': 0,
       "valid date": "15/08/2024",
       "location": "Tuticorin.",
-      "remainingTime": Duration(hours: 12),
+      "remainingTime": const Duration(hours: 12),
     },
      {
       'logoUrl': 'assets/featurerd/collectionfood.png',
@@ -70,7 +70,7 @@ class _ExclusiveOffersState extends State<ExclusiveOffers> {
       'count': 0,
       "valid date": "15/08/2024",
       "location": "Tuticorin.",
-      "remainingTime": Duration(hours: 12),
+      "remainingTime": const Duration(hours: 12),
     },
      {
       'logoUrl': 'assets/featurerd/collectionfood.png',
@@ -90,7 +90,7 @@ class _ExclusiveOffersState extends State<ExclusiveOffers> {
       'count': 0,
       "valid date": "15/08/2024",
       "location": "Tuticorin.",
-      "remainingTime": Duration(hours: 12),
+      "remainingTime": const Duration(hours: 12),
     },
   ];
 
@@ -111,7 +111,7 @@ class _ExclusiveOffersState extends State<ExclusiveOffers> {
           iconcolor: appColorAccent,
           iconsize: 16, // Adjust icon size for small screens
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         SizedBox(
           height: 250,
           width: double.infinity,
@@ -136,7 +136,7 @@ class _ExclusiveOffersState extends State<ExclusiveOffers> {
                     width: cardWidth,
                     child: Column(
                       children: [
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         Material(
                           color: appColorPrimary,
                           borderRadius: BorderRadius.circular(8),
@@ -167,7 +167,7 @@ class _ExclusiveOffersState extends State<ExclusiveOffers> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             deal['name'] ?? 'No name',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ),
                         Padding(

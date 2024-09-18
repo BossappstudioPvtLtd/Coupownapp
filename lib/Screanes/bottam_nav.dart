@@ -1,8 +1,8 @@
 import 'package:coupown/Const/app_colors.dart';
-import 'package:coupown/Screanes/coupown_screen.dart';
 import 'package:coupown/Screanes/dash_board_screen.dart';
 import 'package:coupown/Screanes/favorite_screen.dart';
 import 'package:coupown/Screanes/profile_screen.dart';
+import 'package:coupown/text1.dart';
 import 'package:flutter/material.dart';
 
 
@@ -18,7 +18,7 @@ class _BottamNavState extends State<BottamNav> {
 
   final List<Widget> _pages = [
     const DashboardScreen(),
-    const CoupownScreen(),
+    const GeolocatorWidget(),
     const FavoriteScreen(),
     const ProfileScreen(),
   ];

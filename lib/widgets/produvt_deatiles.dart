@@ -466,7 +466,8 @@ class _DealDetailPageState extends State<DealDetailPage> {
           ),
         ),
       ),
-       floatingActionButton: Container(
+       floatingActionButton: Container
+       (
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
         width: 150, 
         height: 40,// Set the desired width here

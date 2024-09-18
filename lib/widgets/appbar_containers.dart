@@ -1,3 +1,4 @@
+import 'package:coupown/Screanes/subscription/subdata_sceen.dart';
 import 'package:coupown/components/small_sutton.dart';
 import 'package:flutter/material.dart';
 
@@ -21,8 +22,9 @@ class AppbarContainers extends StatelessWidget {
               SmallButton(
                 containerheight: screenHeight * 0.05, // Adjust button height based on screen height
                 containerwidth: screenWidth * 0.25, // Adjust button width based on screen width
-                onPressed: () {
+                onTap: () {
                   // Add your subscription logic here
+                  Navigator.push(context, MaterialPageRoute(builder: (_)=>SubscriptionScreen()));
                 },
                 elevationsize: 5,
                 text: 'Subscribe',
