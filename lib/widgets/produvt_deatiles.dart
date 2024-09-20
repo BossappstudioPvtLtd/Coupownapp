@@ -1,8 +1,12 @@
 import 'dart:async';
 import 'package:coupown/Const/app_colors.dart';
+import 'package:coupown/components/lounchmap.dart';
 import 'package:coupown/components/text_edit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:map_launcher/map_launcher.dart';
 import 'package:rating_summary/rating_summary.dart';
 
 class DealDetailPage extends StatefulWidget {
@@ -15,16 +19,158 @@ class DealDetailPage extends StatefulWidget {
 }
 
 class _DealDetailPageState extends State<DealDetailPage> {
+  final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
+  Position? _currentPosition;
+  
+  StreamSubscription<Position>? _positionStreamSubscription;
   
   late Map<String, dynamic> deal; // Local mutable copy of widget.deal
   Duration remainingTime = const Duration(hours: 24); // 24-hour countdown
   late Timer _timer;
+  bool _isListening = false;
+
+  static const String _kLocationServicesDisabledMessage = 'Location services are disabled.';
+  static const String _kPermissionDeniedMessage = 'Permission denied.';
+  static const String _kPermissionDeniedForeverMessage = 'Permission denied forever.';
+  static const String _kPermissionGrantedMessage = 'Permission granted.';
+
+  String? _placeName;
+  String? _pincode;
+  String? _city;
+  String? _state;
+  String? _country;
   @override
   void initState() {
     super.initState();
+    _checkPermissionAndFetchPosition();
+    
     deal = Map.from(widget.deal); // Create a mutable copy of widget.deal
     startTimer();
   }
+
+  Future<void> _checkPermissionAndFetchPosition() async {
+    bool hasPermission = await _handlePermission();
+    if (hasPermission) {
+      _getCurrentPosition();
+    }
+  }
+
+  Future<bool> _handlePermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Check if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      _showMessage(_kLocationServicesDisabledMessage);
+      return false;
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        _showMessage(_kPermissionDeniedMessage);
+        return false;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      _showMessage(_kPermissionDeniedForeverMessage);
+      return false;
+    }
+
+    _showMessage(_kPermissionGrantedMessage);
+    return true;
+  }
+
+  Future<void> _getCurrentPosition() async {
+    final position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    setState(() {
+      _currentPosition = position;
+    });
+    _getAddressFromLatLng(position);
+  }
+
+ 
+
+
+    Future<void> _getAddressFromLatLng(Position position) async {
+    try {
+      final placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+      final place = placemarks.first;
+      setState(() {
+        _placeName = place.name;
+        _city = place.locality;
+        _state = place.administrativeArea;
+        _country = place.country;
+        _pincode = place.postalCode;
+      });
+    } catch (e) {
+      _showMessage('Failed to get address.');
+    }
+  }
+   void _toggleListening() {
+    if (_positionStreamSubscription == null) {
+      final positionStream = Geolocator.getPositionStream();
+      _positionStreamSubscription = positionStream.listen(
+        (Position position) {
+          setState(() {
+            _currentPosition = position;
+          });
+          _getAddressFromLatLng(position);
+        },
+      );
+    }
+
+    if (_isListening) {
+      _positionStreamSubscription?.pause();
+    } else {
+      _positionStreamSubscription?.resume();
+    }
+
+    setState(() {
+      _isListening = !_isListening;
+    });
+  }
+
+ Future<void> _launchMap() async {
+    if (_currentPosition != null) {
+      final availableMaps = await MapLauncher.installedMaps;
+      if (availableMaps.isNotEmpty) {
+        await availableMaps.first.showMarker(
+          coords: Coords(_currentPosition!.latitude, _currentPosition!.longitude),
+          title: '',
+        );
+      } else {
+        _showMessage('No map apps installed.');
+      }
+    } else {
+      _showMessage('Location not available yet.');
+    }
+  }
+
+  void _showMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
+  @override
+  void dispose() {
+    
+    _timer.cancel();
+    _positionStreamSubscription?.cancel();
+    super.dispose();
+  }
+
+  
+ 
 
   void startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -38,11 +184,6 @@ class _DealDetailPageState extends State<DealDetailPage> {
     });
   }
 
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
 
   String formatDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
@@ -51,7 +192,7 @@ class _DealDetailPageState extends State<DealDetailPage> {
     final seconds = twoDigits(duration.inSeconds.remainder(60));
     return "$hours:$minutes:$seconds";
   }
-
+   
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -375,7 +516,7 @@ class _DealDetailPageState extends State<DealDetailPage> {
                                 ),
                                 Padding(
                                   padding:
-                                      const EdgeInsets.only(bottom: 15),
+                                      const EdgeInsets.only(bottom: 5),
                                   child: Column(
                                     children: [
                                       IconButton(
@@ -401,21 +542,24 @@ class _DealDetailPageState extends State<DealDetailPage> {
                                           });
                                         },
                                       ),
-                                      Text(
-                                        '${widget.deal['count']}',
-                                        style: TextStyle(
-                                          fontSize: isSmallScreen
-                                              ? 16
-                                              : 18, // Adjust font size for small screens
-                                        ),
-                                      ),
+                                      Text('${widget.deal['count']}', style: TextStyle( fontSize: isSmallScreen ? 16  : 18,),),
                                     ],
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          Text(
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              MapLaunch(onPressed: _launchMap,colorsList:const [Colors.blue, Colors.purple, Colors.red], data: 'Open In Map', icon:Icons.maps_home_work,),
+                                 MapLaunch(onPressed: (){},colorsList:const [Colors.greenAccent, Colors.purple, Colors.red], data: 'Call Ma Now', icon:Icons.phone_android,),
+                            
+                            ],
+                          ),
+          
+                               Text(
                                   "${widget.deal['discretion']}",
                                   style: TextStyle(
                                     fontSize: isSmallScreen ? 14 : 16,
@@ -510,8 +654,8 @@ class _DealDetailPageState extends State<DealDetailPage> {
             //   SnackBar(content: Text('Floating Action Button Pressed!')),
             // );
           },
-          child: Textedit(text: "Save Coupown",color:appColorPrimary,),
           backgroundColor:appColorAccent,
+          child: const Textedit(text: "Save Coupown",color:appColorPrimary,),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat, // Center the button at the bottom

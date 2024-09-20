@@ -61,12 +61,9 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
           child: Column(
             children: [
               SizedBox(height: isLargeScreen ? 60 : 40),
-              FadeTransition(
-                opacity: _fadeSlideAnimation.fadeInAnimation,
-                child: SlideTransition(
-                  position: _fadeSlideAnimation.slideInAnimation,
-                  child: const AppbarContainers(),
-                ),
+              FadeTransition( opacity: _fadeSlideAnimation.fadeInAnimation,
+                child: SlideTransition( position: _fadeSlideAnimation.slideInAnimation,
+                  child: const AppbarContainers(),),
               ),
               SizedBox(height: isLargeScreen ? 25 : 15),
               const SearchWidgets(),
@@ -99,6 +96,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
               SizedBox(height: isLargeScreen ? 25 : 15),
               const InstalionServis(),
               SizedBox(height: isLargeScreen ? 25 : 15),
+              
             ],
           ),
         ),

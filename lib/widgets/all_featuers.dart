@@ -28,18 +28,56 @@ class _AvatarListViewState extends State<AvatarListView>
     {'name': 'Local Service', 'imageUrl': 'assets/featurerd/measuring.png'},
   ];
 
+  late AnimationController _controller;
+  late Animation<double> _fadeInAnimation;
+  late Animation<Offset> _slideInAnimation;
+
   bool showMyRowWidget = true;
-  Alignment alignment = Alignment.centerLeft; // Start from the left
+  Alignment alignment = Alignment.centerLeft;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    );
+
+    _fadeInAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeIn,
+      ),
+    );
+
+    _slideInAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.5),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final isSmallScreen = screenWidth < 400; // Define your breakpoint for small screens
-    final isMediumScreen = screenWidth >= 400 && screenWidth <= 600; // Define breakpoint for medium screens
-    final isWideScreen = screenWidth > 600; // Define breakpoint for wide screens
+    final isSmallScreen = screenWidth < 400;
+    final isMediumScreen = screenWidth >= 400 && screenWidth <= 600;
+    final isWideScreen = screenWidth > 600;
 
     return Container(
-      height: isWideScreen ? 220 : (isMediumScreen ? 200 : 170), // Adjust height based on screen size
+      height: isWideScreen ? 220 : (isMediumScreen ? 200 : 170),
       color: const Color.fromARGB(210, 237, 247, 251),
       child: Stack(
         children: [
@@ -53,11 +91,11 @@ class _AvatarListViewState extends State<AvatarListView>
               const SizedBox(height: 5),
               Padding(
                 padding: EdgeInsets.only(
-                  left: isWideScreen ? 300 : (isMediumScreen ? 270 : 250), // Adjust padding for different screen sizes
+                  left: isWideScreen ? 300 : (isMediumScreen ? 270 : 250),
                   right: 30,
                 ),
                 child: AnimatedAlign(
-                  alignment: alignment, // Animate alignment from left to right
+                  alignment: alignment,
                   duration: const Duration(seconds: 1),
                   curve: Curves.easeInOut,
                   child: Visibility(
@@ -86,87 +124,95 @@ class _AvatarListViewState extends State<AvatarListView>
                       final metrics = scrollNotification.metrics;
                       if (metrics.atEdge) {
                         if (metrics.pixels == 0) {
-                          // Scroll is at the start
                           setState(() {
                             showMyRowWidget = true;
-                            alignment = Alignment.centerLeft; // Reset animation
+                            alignment = Alignment.centerLeft;
                           });
                         } else {
-                          // Scroll is at the end
                           setState(() {
                             showMyRowWidget = false;
-                            alignment = Alignment.centerRight; // Trigger animation
+                            alignment = Alignment.centerRight;
                           });
                         }
-                      } else {
-                        // Scroll is neither at start nor end
-                        setState(() {
-                          showMyRowWidget = true;
-                          alignment = Alignment.centerLeft; // Reset animation
-                        });
                       }
                     }
                     return true;
                   },
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: users.length,
-                    itemBuilder: (context, index) {
-                      final user = users[index];
-                      return GestureDetector(
-                        onLongPress: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(user['name']),
-                              duration: const Duration(seconds: 2),
-                            ),
-                          );
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: isSmallScreen ? 5 : 10, // Adjust padding for small screens
-                          ),
-                          child: Column(
-                            children: [
-                              Stack(
+                  child: SlideTransition(
+                    position: _slideInAnimation,
+                    child: FadeTransition(
+                      opacity: _fadeInAnimation,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: users.length,
+                        itemBuilder: (context, index) {
+                          final user = users[index];
+                          return GestureDetector(
+                            onLongPress: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(user['name']),
+                                  duration: const Duration(seconds: 2),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: isSmallScreen ? 5 : 10,
+                              ),
+                              child: Column(
                                 children: [
-                                  CircleAvatar(
-                                    radius: isWideScreen ? 40 : (isMediumScreen ? 37 : 34), // Adjust radius based on screen size
-                                    backgroundColor: appColorAccent,
-                                    child: CircleAvatar(
-                                      backgroundColor: appLight_purple,
-                                      radius: isWideScreen ? 39 : (isMediumScreen ? 36 : 33), // Adjust radius based on screen size
-                                      child: CircleAvatar(
-                                        radius: isWideScreen ? 36 : (isMediumScreen ? 33 : 30), // Adjust radius based on screen size
-                                        backgroundColor: appColorPrimary,
-                                        backgroundImage: AssetImage(user['imageUrl']),
-                                        child: ClipOval(
-                                          child: Image.asset(
-                                            user['imageUrl'],
-                                            fit: BoxFit.fill,
-                                            width: isWideScreen ? 70 : (isMediumScreen ? 65 : 60), // Adjust width for different screen sizes
-                                            height: isWideScreen ? 70 : (isMediumScreen ? 65 : 60), // Adjust height for different screen sizes
+                                  Stack(
+                                    children: [
+                                      CircleAvatar(
+                                        radius: isWideScreen
+                                            ? 40
+                                            : (isMediumScreen ? 37 : 34),
+                                        backgroundColor: appColorAccent,
+                                        child: CircleAvatar(
+                                          backgroundColor: appLight_purple,
+                                          radius: isWideScreen
+                                              ? 39
+                                              : (isMediumScreen ? 36 : 33),
+                                          child: CircleAvatar(
+                                            radius: isWideScreen
+                                                ? 36
+                                                : (isMediumScreen ? 33 : 30),
+                                            backgroundColor: appColorPrimary,
+                                            backgroundImage: AssetImage(user['imageUrl']),
+                                            child: ClipOval(
+                                              child: Image.asset(
+                                                user['imageUrl'],
+                                                fit: BoxFit.fill,
+                                                width: isWideScreen
+                                                    ? 70
+                                                    : (isMediumScreen ? 65 : 60),
+                                                height: isWideScreen
+                                                    ? 70
+                                                    : (isMediumScreen ? 65 : 60),
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    user['name'],
+                                    style: TextStyle(
+                                      fontSize: isSmallScreen ? 14 : 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: iconColorSecondary,
                                     ),
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 8),
-                              Text(
-                                user['name'],
-                                style: TextStyle(
-                                  fontSize: isSmallScreen ? 14 : 16, // Adjust font size for small screens
-                                  fontWeight: FontWeight.bold,
-                                  color: iconColorSecondary,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ),
                 ),
               ),

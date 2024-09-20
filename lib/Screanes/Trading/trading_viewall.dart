@@ -129,7 +129,7 @@ class _TradingDealsScreanState extends State<TradingDealsScrean> {
         color: appColorPrimary,
         child: Column(
           children: [
-            SizedBox(height: 30,),
+            const SizedBox(height: 30,),
                Padding(
                  padding: const EdgeInsets.only(left: 15),
                  child: Row(
@@ -274,13 +274,13 @@ class _TradingDealsScreanState extends State<TradingDealsScrean> {
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Textedit(
+                                          const Textedit(
                                             text: "8 Users Today",
                                             fontSize: 12,
                                           ),
                                           TextButton(
                                             onPressed: () {},
-                                            child: Textedit(
+                                            child: const Textedit(
                                               text: "VIEW DETAILS",
                                               color: appColorAccent,
                                             ),
@@ -294,7 +294,7 @@ class _TradingDealsScreanState extends State<TradingDealsScrean> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                       ],
                     ),
                   );

@@ -24,7 +24,7 @@ class AppbarContainers extends StatelessWidget {
                 containerwidth: screenWidth * 0.25, // Adjust button width based on screen width
                 onTap: () {
                   // Add your subscription logic here
-                  Navigator.push(context, MaterialPageRoute(builder: (_)=>SubscriptionScreen()));
+                  Navigator.push(context, MaterialPageRoute(builder: (_)=>const SubscriptionScreen()));
                 },
                 elevationsize: 5,
                 text: 'Subscribe',

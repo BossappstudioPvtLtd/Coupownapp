@@ -18,8 +18,8 @@ class _ScrollableCardsState extends State<PlanScreen> {
       backgroundColor: appColorPrimary,
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
             child: MyAppbar(text: "Pick Your Plan"),
           ),
           const SizedBox(height: 20),
@@ -97,7 +97,7 @@ class _ScrollableCardsState extends State<PlanScreen> {
                     fontWeight: FontWeight.bold, // Optional: Make the text bold
                   ),
                 ),
-                Textedit(text: "/Month"),
+                const Textedit(text: "/Month"),
               ],
             ),
             const SizedBox(height: 30),

@@ -31,7 +31,7 @@ class _UpcomingOffersState extends State<UpcomingOffers> {
       'count': 0,
       "valid date": "15/09/2024",
       "location": "Tuticorin.",
-      "remainingTime": Duration(hours: 24),
+      "remainingTime": const Duration(hours: 24),
     },
     {
       'logoUrl': 'assets/featurerd/collectionfood.png',
@@ -51,7 +51,7 @@ class _UpcomingOffersState extends State<UpcomingOffers> {
       'count': 0,
       "valid date": "15/08/2024",
       "location": "Tuticorin.",
-      "remainingTime": Duration(hours: 12),
+      "remainingTime": const Duration(hours: 12),
     },
     // Add more offers as needed
   ];

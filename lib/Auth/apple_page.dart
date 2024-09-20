@@ -35,7 +35,7 @@ class _ApplePageState extends State<ApplePage> with SingleTickerProviderStateMix
       ),
     );
 
-    _slideInAnimation = Tween<Offset>(begin: const Offset(0, 2.0), end: Offset.zero).animate(
+    _slideInAnimation = Tween<Offset>(begin: const Offset(0, .0), end: Offset.zero).animate(
       CurvedAnimation(
         parent: _controller,
         curve: Curves.easeInOut,

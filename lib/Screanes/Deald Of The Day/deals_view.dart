@@ -1,25 +1,25 @@
 import 'dart:async';
-import 'package:coupown/Const/app_colors.dart';
-import 'package:coupown/Screanes/Deald%20Of%20The%20Day/deals_view.dart';
-import 'package:coupown/components/text_edit.dart';
-import 'package:coupown/widgets/namebar.dart';
-import 'package:coupown/widgets/produvt_deatiles.dart';
-import 'package:flutter/material.dart';
-import 'package:nb_utils/nb_utils.dart'; // Assuming you're using nb_utils for text styles and padding
 
-class DealsOfTheDay extends StatefulWidget {
-  const DealsOfTheDay({super.key});
+import 'package:coupown/Const/app_colors.dart';
+import 'package:coupown/components/my_appbar.dart';
+import 'package:coupown/components/text_edit.dart';
+import 'package:flutter/material.dart';
+import 'package:nb_utils/nb_utils.dart';
+
+class DealsView extends StatefulWidget {
+  const DealsView({super.key});
 
   @override
-  State<DealsOfTheDay> createState() => _DealsOfTheDayState();
+  State<DealsView> createState() => _DealsViewState();
 }
 
-class _DealsOfTheDayState extends State<DealsOfTheDay> {
+class _DealsViewState extends State<DealsView> {
   final List<Map<String, dynamic>> todatdeal = [
     {
       'logoUrl': 'assets/featurerd/travel.png',
       'productUrl': 'assets/featurerd/image 15.png',
       'name': 'Travels',
+      "productdetails":"Feel free to adjust any part to better match your brand or product specifics!",
       'productname': 'Travels',
       'price': "2499",
       'offerprice': "1500",
@@ -38,6 +38,8 @@ class _DealsOfTheDayState extends State<DealsOfTheDay> {
       'logoUrl': 'assets/featurerd/collectionfood.png',
       'productUrl': 'assets/featurerd/image 15 (1).png',
       'name': 'Food',
+      
+      "productdetails":"Feel free to adjust any part to better match your brand or product specifics!",
       'productname': 'Food Collection',
       'price': "2499",
       'offerprice': "1500",
@@ -59,6 +61,8 @@ class _DealsOfTheDayState extends State<DealsOfTheDay> {
       'name': 'Dinner Set',
       'productname': 'Dinner Set',
       'price': "2499",
+      
+      "productdetails":"Feel free to adjust any part to better match your brand or product specifics!",
       'offerprice': "1500",
       "percentage": "60%",
        "discretion":"Power jet cleaning of indoor unit air filter, drain tray/ tube, evaporator coil and condenser coil.\nChecking operations of the blower motor, compressor, and fan motor.\nInspection and testing of all controls \n30 days warranty on all services\nPCB Repair or any other component repair or replacement is not covered.\nCustomers need to provide a ladder to the technician.Gas charging is not covered under this service. \nAn additional cost of ₹2500 is applicable if gas charging is required.Pre-service check-up: Our technician shall inspect the AC thoroughly, including gas pressure, and recommend services or repairs as required.Indoor Unit cleaning: The technician shall do deep cleaning of filters, coil, fins, and drain trays with a power jet.\nOutdoor Unit cleaning: The outdoor unit will be opened for thorough cleaning with a power jet.\nHassle-free experience: The technician will cover the AC with jacket to prevent spillage during the service and clean the area post-serviceFinal check-up: The technician shall ensure the proper functioning of the AC at the end of service.",
@@ -78,6 +82,8 @@ class _DealsOfTheDayState extends State<DealsOfTheDay> {
       'name': 'Store',
       'productname': 'Store Items',
       'price': "2499",
+      
+      "productdetails":"Feel free to adjust any part to better match your brand or product specifics!",
       'offerprice': "1500",
       "percentage": "70%",
       "discretion":"Power jet cleaning of indoor unit air filter, drain tray/ tube, evaporator coil and condenser coil.\nChecking operations of the blower motor, compressor, and fan motor.\nInspection and testing of all controls \n30 days warranty on all services\nPCB Repair or any other component repair or replacement is not covered.\nCustomers need to provide a ladder to the technician.Gas charging is not covered under this service. \nAn additional cost of ₹2500 is applicable if gas charging is required.Pre-service check-up: Our technician shall inspect the AC thoroughly, including gas pressure, and recommend services or repairs as required.Indoor Unit cleaning: The technician shall do deep cleaning of filters, coil, fins, and drain trays with a power jet.\nOutdoor Unit cleaning: The outdoor unit will be opened for thorough cleaning with a power jet.\nHassle-free experience: The technician will cover the AC with jacket to prevent spillage during the service and clean the area post-serviceFinal check-up: The technician shall ensure the proper functioning of the AC at the end of service.",
@@ -93,6 +99,8 @@ class _DealsOfTheDayState extends State<DealsOfTheDay> {
       "location":"Tuticorin."
     },
   ];
+
+
 
   late Timer _timer;
 
@@ -129,35 +137,24 @@ class _DealsOfTheDayState extends State<DealsOfTheDay> {
     final seconds = twoDigits(duration.inSeconds.remainder(60));
     return "$hours:$minutes:$seconds";
   }
-
-@override
+  
+ @override
 Widget build(BuildContext context) {
+  
   final screenWidth = MediaQuery.of(context).size.width;
   final isSmallScreen = screenWidth < 400; // Define your breakpoint for small screens
-  final isMediumScreen = screenWidth >= 400 && screenWidth <= 600; // Define breakpoint for medium screens
-  //final isWideScreen = screenWidth > 600; // Define breakpoint for wide screens
-
-  return SizedBox(
-    width: double.infinity,
-    height: 420,
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+  final isMediumScreen = screenWidth >= 400 && screenWidth <= 600;
+  return Scaffold(
+    backgroundColor: appColorPrimary,
+    body: Column(
       children: [
-        // Header Section
-        Namebar(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (_)=>const DealsView()));
-          },
-          nametext: "Deals Of The Day",
-          text: 'View all',
-          color: appColorAccent,
-          icon: Icons.arrow_forward,
-          border: Border.all(width: 1, color: appColorAccent),
-          iconcolor: appColorAccent,
-          iconsize: isSmallScreen ? 14 : isMediumScreen ? 16 : 18, // Adjust icon size based on screen size
+        const Padding(
+          padding: EdgeInsets.only(left: 10, top: 10),
+          child: MyAppbar(text: "Deals Of The Day"),
         ),
+        const Divider(color: Colors.grey),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 8 : isMediumScreen ? 12 : 16),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           child: Row(
             children: [
               const Icon(Icons.alarm),
@@ -166,67 +163,86 @@ Widget build(BuildContext context) {
             ],
           ),
         ),
-        // Deal Cards
         Expanded(
           child: ListView.builder(
-            scrollDirection: Axis.horizontal, // Horizontal scrolling
             itemCount: todatdeal.length,
             itemBuilder: (context, index) {
               final deal = todatdeal[index];
               return Padding(
-                padding: EdgeInsets.all(isSmallScreen ? 4 : isMediumScreen ? 8 : 12),
-                child: SizedBox(
-                  width: isSmallScreen ? 200 : isMediumScreen ? 200 : 220, // Adjust width for screen size
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: isSmallScreen ? 4 : isMediumScreen ? 8 : 12),
-                              child: Material(
-                                borderRadius: BorderRadius.circular(8),
-                                elevation: 10,
-                                child: Container(
-                                  height: isSmallScreen ? 40 : isMediumScreen ? 45 : 50, // Adjust height for screen size
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: appColorPrimary,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 4 : isMediumScreen ? 8 : 12),
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(50),
-                                          child: Image.asset(
-                                            deal['logoUrl'],
-                                            width: isSmallScreen ? 20 : isMediumScreen ? 22 : 25,
-                                            height: isSmallScreen ? 20 : isMediumScreen ? 22 : 25,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          deal['name'],
-                                          style: TextStyle(
-                                            fontSize: isSmallScreen ? 12 : isMediumScreen ? 13 : 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: appTextColorSecondary,
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ],
+                padding: const EdgeInsets.all(8.0),
+                child: Material(
+                  elevation: 5,
+                  borderRadius: BorderRadius.circular(8),
+                  child: Container(
+                    height: 220,
+                    width: 330,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Material(
+                              borderRadius: BorderRadius.circular(8),
+                              elevation: 2,
+                              child: Container(
+                                height: 180,
+                                width: 180,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  image: DecorationImage(
+                                    image: AssetImage(deal['productUrl']),
+                                    fit: BoxFit.fill,
+                                    
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                          IconButton(
+                            
+                             Column(
+                               children: [
+                                 Row(
+                                   children: [
+                                     Material(
+                                        borderRadius: BorderRadius.circular(8),
+                                        elevation: 10,
+                                        child: Container(
+                                          height: isSmallScreen ? 40 : isMediumScreen ? 45 : 50, // Adjust height for screen size
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(8),
+                                            color: appColorPrimary,
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 10 : isMediumScreen ? 8 : 12),
+                                                child: ClipRRect(
+                                                  borderRadius: BorderRadius.circular(50),
+                                                  child: Image.asset(
+                                                    deal['logoUrl'],
+                                                    width: isSmallScreen ? 20 : isMediumScreen ? 22 : 25,
+                                                    height: isSmallScreen ? 20 : isMediumScreen ? 22 : 25,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                              
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                    deal['name'],
+                                                    style: TextStyle(
+                                                      fontSize: isSmallScreen ? 12 : isMediumScreen ? 13 : 14,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: appTextColorSecondary,
+                                                    ),
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                              ),
+                                              IconButton(
                             icon: Icon(
                               deal['isFavorite'] ? Icons.favorite : Icons.favorite_border,
                               color: deal['isFavorite'] ? Colors.red : Colors.grey,
@@ -238,49 +254,27 @@ Widget build(BuildContext context) {
                               });
                             },
                           ),
-                        ],
-                      ),
-                      InkWell(
-                        borderRadius: const BorderRadius.all(Radius.circular(16)),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DealDetailPage(deal: deal),
-                            ),
-                          );
-                        },
-                        child: Card(
-                        
-                            elevation: 5,
-                          child: Container(
-                           
-                            height: 280,
-                            decoration: BoxDecoration(borderRadius:BorderRadius.circular(16), color: appColorPrimary),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-                                  child: Image.asset(
-                                    deal['productUrl'],
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: MediaQuery.of(context).size.height * (isSmallScreen ? 0.2 : isMediumScreen ? 0.22 : 0.25),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: isSmallScreen ? 8.0 : isMediumScreen ? 10.0 : 12.0,
-                                    vertical: isSmallScreen ? 4.0 : isMediumScreen ? 6.0 : 8.0,
-                                  ),
-                                  child: Textedit(
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                   ],
+                                 ),
+                                 Textedit(
                                     text: deal['productname'],
                                     fontSize: isSmallScreen ? 12 : isMediumScreen ? 13 : 14,
                                     color: appTextColorPrimary,
                                   ),
-                                ),
-                                Padding(
+                                  
+                                  //  Text(
+                                  //    deal['productdetails'],
+                                  //  style: TextStyle(
+                                  //    fontSize: isSmallScreen ? 12 : isMediumScreen ? 13 : 14,
+                                  //   color: appTextColorPrimary,
+                                    
+                                  //  ),
+                                  // ),
+                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 8.0 : isMediumScreen ? 10.0 : 12.0),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -324,11 +318,7 @@ Widget build(BuildContext context) {
                                                 }),
                                               ),
                                               const SizedBox(width: 4),
-                                              Textedit(
-                                                text: "55151555",
-                                                fontSize: isSmallScreen ? 8 : isMediumScreen ? 10 : 12,
-                                                color: textSecondaryColor,
-                                              ),
+                                             
                                             ],
                                           ),
                                         ],
@@ -357,13 +347,17 @@ Widget build(BuildContext context) {
                                     ],
                                   ),
                                 ),
-                                const SizedBox(height: 8), // Adjusted for smaller screens
-                              ],
-                            ),
-                          ),
+                               ],
+                             ),
+
+                          ],
+                          
+                          
                         ),
-                      ),
-                    ],
+                       
+                        // Add more fields as needed
+                      ],
+                    ),
                   ),
                 ),
               );
@@ -374,8 +368,4 @@ Widget build(BuildContext context) {
     ),
   );
 }
-
-
-
-
 }

@@ -21,18 +21,14 @@ class _TradingDealsState extends State<TradingDeals> {
       'name': 'Travels',
       'productname': 'Travels',
       'offerDate': '2024-09-10',
-
-      
-
       'productUrl': 'assets/featurerd/image 15.png',
-    
       "valid date":"15/09/20024",
       "discretion":"Power jet cleaning of indoor unit air filter, drain tray/ tube, evaporator coil and condenser coil.\nChecking operations of the blower motor, compressor, and fan motor.\nInspection and testing of all controls \n30 days warranty on all services\nPCB Repair or any other component repair or replacement is not covered.\nCustomers need to provide a ladder to the technician.Gas charging is not covered under this service. \nAn additional cost of ₹2500 is applicable if gas charging is required.Pre-service check-up: Our technician shall inspect the AC thoroughly, including gas pressure, and recommend services or repairs as required.Indoor Unit cleaning: The technician shall do deep cleaning of filters, coil, fins, and drain trays with a power jet.\nOutdoor Unit cleaning: The outdoor unit will be opened for thorough cleaning with a power jet.\nHassle-free experience: The technician will cover the AC with jacket to prevent spillage during the service and clean the area post-serviceFinal check-up: The technician shall ensure the proper functioning of the AC at the end of service.",
       "location":"Tuticorin.",
       'price': "2499",
       'offerprice': "1500",
       "percentage": "60%",
-       'rating': "4.5",
+      'rating': "4.5",
       'productlike': 0,
       'isFavorite': false,
       'isPressed': false, // Separate pressed state for each deal
@@ -143,16 +139,10 @@ class _TradingDealsState extends State<TradingDeals> {
                 itemBuilder: (context, index) {
                   final deal = deals[index];
                   return GestureDetector(onTap: () {
-                    Navigator.push(
-  context,
-  MaterialPageRoute(
-    builder: (context) => TradingScrean(
-     deal: deal, // Pass the individual deal as before
-      deals: deals, // Pass the entire deals list
-    ),
-  ),
-);
-   },
+                    Navigator.push(context, MaterialPageRoute( builder: (context) => TradingScrean( deal: deal,  deals: deals, ),
+                     ),
+                      );
+                        },
                     child: Container(
                       width: isSmallScreen ? 180 : 250,
                       margin: const EdgeInsets.symmetric(horizontal: 8),
