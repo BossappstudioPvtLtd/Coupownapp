@@ -58,6 +58,7 @@ dependencies:
   map_launcher: ^3.5.0
   flutter_custom_clippers: ^2.1.0
   share_plus: ^10.0.2
+  animated_text_kit: ^4.2.2
   
 
 dev_dependencies:
@@ -100,6 +101,7 @@ flutter:
      - assets/Servis/
      - assets/Special0ffer/ 
      - assets/avatar/ 
+     - assets/exclusive/
      - assets/images/banner1.png
      - assets/images/Banner.png
      - assets/images/Banner3.png

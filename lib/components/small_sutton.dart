@@ -14,6 +14,9 @@ class SmallButton extends StatefulWidget {
   final String text;
   final double? fontSize;
   final FontWeight? textweight;
+  final IconData? icon;
+  final Color? iconcolor;
+  final double? size;
 
   const SmallButton({
     super.key,
@@ -27,7 +30,7 @@ class SmallButton extends StatefulWidget {
     this.textcolor,
     this.containerwidth,
     this.textweight,
-    this.onPressed,
+    this.onPressed, this.icon, this.iconcolor, this.size,
   });
 
   @override
@@ -38,17 +41,15 @@ class _SmallButtonState extends State<SmallButton> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
+   // final screenWidth = MediaQuery.of(context).size.width;
     final isSmallScreen = screenHeight < 600; // Define small screen
 
     return ScaleButton(
       duration: const Duration(milliseconds: 200),
       bound: 0.1,
       onTap: widget.onTap,
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: isSmallScreen ? screenWidth * 0.03 : screenWidth * 0.05,
-        ),
+      
+      
         child: Material(
           color: widget.meterialColor ?? appColorAccent,
           elevation: widget.elevationsize,
@@ -57,18 +58,26 @@ class _SmallButtonState extends State<SmallButton> {
             height: widget.containerheight ,
             width: widget.containerwidth ,
             child: Center(
-              child: Text(
-                widget.text,
-                style: TextStyle(
-                  fontSize: widget.fontSize ?? (isSmallScreen ? 14 : 17),
-                  fontWeight: widget.textweight ?? FontWeight.bold,
-                  color: widget.textcolor ?? appColorPrimaryLight,
-                ),
+              child: Row(
+                children: [
+                  Icon(widget.icon,color: widget.iconcolor,size: widget.size,),
+                  SizedBox(width: 5,),
+                  Center(
+                    child: Text(
+                      widget.text,
+                      style: TextStyle(
+                        fontSize: widget.fontSize ?? (isSmallScreen ? 14 : 17),
+                        fontWeight: widget.textweight ?? FontWeight.bold,
+                        color: widget.textcolor ?? appColorPrimaryLight,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
         ),
-      ),
+    
     );
   }
 }

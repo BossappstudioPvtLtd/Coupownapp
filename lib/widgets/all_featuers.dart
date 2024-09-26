@@ -1,4 +1,4 @@
-import 'package:coupown/components/text_edit.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:coupown/Const/app_colors.dart';
 import 'package:coupown/widgets/my_row_widgets.dart';
@@ -100,19 +100,22 @@ class _AvatarListViewState extends State<AvatarListView>
                   curve: Curves.easeInOut,
                   child: Visibility(
                     visible: !showMyRowWidget,
-                    child: const Material(
-                      color: appColorPrimary,
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      elevation: 5,
-                      child: Padding(
+                   
+                      child:  Padding(
                         padding: EdgeInsets.only(left: 10, top: 6, bottom: 6),
                         child: Row(
                           children: [
-                            Textedit(text: "more >>", fontSize: 12),
+                            //Textedit(text: "more >>", fontSize: 12,fontWeight:FontWeight.bold ,),
+                             AnimatedTextKit(totalRepeatCount: 100,
+                                      pause: Duration.zero,
+                                    animatedTexts: [  ColorizeAnimatedText("more >>",
+                                    textStyle: const TextStyle( fontSize: 16.0,fontWeight: FontWeight.bold, ),
+                                     colors: [ Colors.grey, Colors.grey, Colors.white, Colors.black, Colors.black,],),], isRepeatingAnimation: true,),
                           ],
+                          
                         ),
                       ),
-                    ),
+                    
                   ),
                 ),
               ),

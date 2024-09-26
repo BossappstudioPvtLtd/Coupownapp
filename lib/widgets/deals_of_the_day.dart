@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:coupown/Const/app_colors.dart';
 import 'package:coupown/Screanes/Deald%20Of%20The%20Day/deals_view.dart';
+import 'package:coupown/Screanes/Deald%20Of%20The%20Day/produvt_deatiles.dart';
 import 'package:coupown/components/text_edit.dart';
 import 'package:coupown/widgets/namebar.dart';
-import 'package:coupown/widgets/produvt_deatiles.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart'; // Assuming you're using nb_utils for text styles and padding
 

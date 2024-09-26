@@ -18,7 +18,7 @@ class _BottamNavState extends State<BottamNav> {
 
   final List<Widget> _pages = [
     const DashboardScreen(),
-    const CoupownScreen(),
+    const PaymentMethodPage(),
     const FavoriteScreen(),
     const ProfileScreen(),
   ];

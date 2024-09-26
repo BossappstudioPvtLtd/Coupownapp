@@ -20,8 +20,9 @@ class AppbarContainers extends StatelessWidget {
           Row(
             children: [
               SmallButton(
+                
                 containerheight: screenHeight * 0.05, // Adjust button height based on screen height
-                containerwidth: screenWidth * 0.25, // Adjust button width based on screen width
+                containerwidth: screenWidth * 0.35, // Adjust button width based on screen width
                 onTap: () {
                   // Add your subscription logic here
                   Navigator.push(context, MaterialPageRoute(builder: (_)=>const SubscriptionScreen()));

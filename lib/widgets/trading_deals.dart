@@ -170,13 +170,16 @@ class _TradingDealsState extends State<TradingDeals> {
                                       const SizedBox(height: 50),
                                       Row(
                                         children: [
-                                          const SmallButton(
-                                            elevationsize: 5,
-                                            text: "Exclusive Offer",
-                                            containerheight: 30,
-                                            containerwidth: 110,
-                                            fontSize: 15,
-                                            textweight: FontWeight.normal,
+                                          const Padding(
+                                            padding: EdgeInsets.only(left: 5),
+                                            child: SmallButton(
+                                              elevationsize: 5,
+                                              text: "Exclusive Offer",
+                                              containerheight: 30,
+                                              containerwidth: 150,
+                                              fontSize: 15,
+                                              textweight: FontWeight.normal,
+                                            ),
                                           ),
                                           Flexible(
                                             child: Textedit(

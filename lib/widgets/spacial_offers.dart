@@ -1,4 +1,7 @@
 import 'package:coupown/Const/app_colors.dart';
+import 'package:coupown/Screanes/Sapacial_offer_view.dart';
+import 'package:coupown/Screanes/job/job_screen.dart';
+import 'package:coupown/Screanes/spacial/spacial_screan.dart';
 import 'package:coupown/components/jobeoffer.dart';
 import 'package:coupown/components/text_edit.dart';
 import 'package:coupown/widgets/namebar.dart';
@@ -152,7 +155,11 @@ class _SpacialOffersState extends State<SpacialOffers> {
       width: double.infinity,
       color: const Color.fromARGB(210, 237, 247, 251),
       child: Column( children: [
-             Namebar( nametext: "Special Offers",text: 'View all',color: appColorAccent,
+             Namebar( 
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (_)=>const SapacialOfferView()));
+              },
+             nametext: "Special Offers",text: 'View all',color: appColorAccent,
              icon: Icons.arrow_forward,
              border: Border.all(width: 1, color: appColorAccent),
              iconcolor: appColorAccent, iconsize:isSmallScreen ? 14 : 16, // Adjust icon size for small screens
@@ -166,24 +173,33 @@ class _SpacialOffersState extends State<SpacialOffers> {
               itemBuilder: (context, index) {
                 var deal = specialOffers[index];
 
-                return Padding(
-                   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                     child: Container(width: cardWidth, height: 300,
-                decoration: BoxDecoration( color: Colors.white, borderRadius: BorderRadius.circular(8),),
-                     child: Padding(padding: const EdgeInsets.all(10.0),
-                     child: Column(children: [
-              const         SizedBox(height: 10),
-                            Row( children: [
-                            CircleAvatar( radius: isSmallScreen ? 21 : 31, backgroundColor: appColorAccent,
-                     child: CircleAvatar(radius: isSmallScreen ? 20 : 30,backgroundColor: appColorAccent,
-                     child: CircleAvatar(backgroundColor: appLight_purple, radius: isSmallScreen ? 28 : 38,
-                            backgroundImage: AssetImage( deal['logoUrl'],),
+                return InkWell(
+                  borderRadius: const BorderRadius.all(Radius.circular(16)),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SpacialScrean(deal: deal),
+                            ),
+                          );
+                        },
+                  child: Padding(
+                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                       child: Container(width: cardWidth, height: 300,
+                  decoration: BoxDecoration( color: Colors.white, borderRadius: BorderRadius.circular(8),),
+                       child: Padding(padding: const EdgeInsets.all(10.0),
+                       child: Column(children: [
+                                const         SizedBox(height: 10),
+                              Row( children: [
+                              CircleAvatar( radius: isSmallScreen ? 21 : 31, backgroundColor: appColorAccent,
+                       child: CircleAvatar(radius: isSmallScreen ? 20 : 30,backgroundColor: appColorAccent,
+                       child: CircleAvatar(backgroundColor: appLight_purple, radius: isSmallScreen ? 28 : 38,
+                              backgroundImage: AssetImage( deal['logoUrl'],),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 15),
-                              Container(
-                                child: Column( crossAxisAlignment: CrossAxisAlignment.start,
+                                const SizedBox(width: 15),
+                                Column( crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text( deal['name'], style: TextStyle(fontSize: isSmallScreen ? 14 : 18, fontWeight: FontWeight.bold,color: appTextColorSecondary,
                                       ),
@@ -193,86 +209,92 @@ class _SpacialOffersState extends State<SpacialOffers> {
                                     ),
                                   ],
                                 ),
-                              ),
-                              const SizedBox(width: 8), 
-                               // Conditional JobOffer widget display
-                              if (deal['Joboffer'] != null && deal['Joboffer'].isNotEmpty)const JobOffer(), 
-        
-                                 
-                              const SizedBox(width: 8),
-                              const Spacer(),
-                              IconButton(
-                            onPressed: () {
-                            String shareMessage = '''
-                            productUrl:${deal['productUrl']}
-                            Name: ${deal['name']}
-                            Percentage: ${deal['percentage']}
-                            Offer Percentage: ${deal['offerpercentage']}
-                            Coupon Offer: ${deal['coupownoffer']}
-                            ''';
-                            Share.share(shareMessage);},
-                            icon: const Icon(Icons.share, size: 24),),
-                            IconButton(  icon: Icon( deal['isFavorite'] ? Icons.favorite: Icons.favorite_border,
-                                        color: deal['isFavorite']? Colors.red: Colors.grey,size: 24, ),
-                                    onPressed: () { setState(() {deal['isFavorite'] = !deal['isFavorite'];});},
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10,),
-                          Container( height: isSmallScreen ? 150 : 200, width: double.infinity,
-                            decoration: BoxDecoration( borderRadius: BorderRadius.circular(8),
-                              image: DecorationImage( image: AssetImage(deal['productUrl']), fit: BoxFit.fill,),
+                                 SizedBox(width: 8), 
+                                 // Conditional JobOffer widget display
+                                if (deal['Joboffer'] != null && deal['Joboffer'].isNotEmpty)InkWell(
+                              
+                                   child: JobOffer(
+                                    onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (_)=>JobScreen(deal: deal)));
+                                    },
+                                   )), 
+                          
+                                   
+                                const SizedBox(width: 8),
+                                const Spacer(),
+                                IconButton(
+                              onPressed: () {
+                              String shareMessage = '''
+                              productUrl:${deal['productUrl']}
+                              Name: ${deal['name']}
+                              Percentage: ${deal['percentage']}
+                              Offer Percentage: ${deal['offerpercentage']}
+                              Coupon Offer: ${deal['coupownoffer']}
+                              ''';
+                              Share.share(shareMessage);},
+                              icon: const Icon(Icons.share, size: 24),),
+                              IconButton(  icon: Icon( deal['isFavorite'] ? Icons.favorite: Icons.favorite_border,
+                                          color: deal['isFavorite']? Colors.red: Colors.grey,size: 24, ),
+                                      onPressed: () { setState(() {deal['isFavorite'] = !deal['isFavorite'];});},
+                                ),
+                              ],
                             ),
-                          ),
-                          Textedit(text: deal['productname'],fontSize: isSmallScreen ? 14 : 18,fontWeight: FontWeight.bold,color: appTextColorSecondary,),
-                          Row(children: [ Material(color: appDarkRed, borderRadius: BorderRadius.circular(32),
-                                child: Padding( padding: const EdgeInsets.symmetric(horizontal: 10),
-                                  child: Row(children: [ const Icon(Icons.alarm, color: Colors.white), 
-                                  Padding( padding: const EdgeInsets.all(8.0),
-                                      child: Text( formatDuration(deal['remainingTime']),
-                                        style: const TextStyle(  color: Colors.white),
+                            const SizedBox(height: 10,),
+                            Container( height: isSmallScreen ? 150 : 200, width: double.infinity,
+                              decoration: BoxDecoration( borderRadius: BorderRadius.circular(8),
+                                image: DecorationImage( image: AssetImage(deal['productUrl']), fit: BoxFit.fill,),
+                              ),
+                            ),
+                            Textedit(text: deal['productname'],fontSize: isSmallScreen ? 14 : 18,fontWeight: FontWeight.bold,color: appTextColorSecondary,),
+                            Row(children: [ Material(color: appDarkRed, borderRadius: BorderRadius.circular(32),
+                                  child: Padding( padding: const EdgeInsets.symmetric(horizontal: 10),
+                                    child: Row(children: [ const Icon(Icons.alarm, color: Colors.white), 
+                                    Padding( padding: const EdgeInsets.all(8.0),
+                                        child: Text( formatDuration(deal['remainingTime']),
+                                          style: const TextStyle(  color: Colors.white),
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 4),
-                              Text("${deal['rating']}", style: TextStyle( fontSize: isSmallScreen ? 14 : 16,),),
-                              Icon(Icons.star, color: Colors.amber, size: isSmallScreen ? 20 : 24),
-                              Text("|",style: TextStyle( fontSize: isSmallScreen ? 14 : 16,color: Colors.grey)),
-                              Text("130", style: TextStyle(fontSize: isSmallScreen ? 14 : 16)),
-                              Text("Ratings", style: TextStyle( fontSize: isSmallScreen ? 10 : 12)),
-                            ],
-                          ),
-                          Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [Column(  mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [ Row(
-                            children: [Text( deal['percentage'], style: TextStyle(fontSize: isSmallScreen ? 20 : 24,color: appTextColorPrimary, fontWeight: FontWeight.bold),),
-                                const SizedBox(width: 10),
-                                      Text( deal['offerpercentage'], style: TextStyle( fontSize: isSmallScreen ? 16 : 20, decoration:TextDecoration.lineThrough,),),
-                                const SizedBox(width: 10),
-                                      Text( deal['coupownoffer'],style: TextStyle( fontSize: isSmallScreen ? 14 : 18,decoration:TextDecoration.lineThrough),),
-                                const SizedBox(width: 10),
-                                const Textedit(text: "OFF",color: appTextColorPrimary,fontWeight: FontWeight.bold,), ],
-                                  ),
-                                  Row(children: [const Icon(Icons.location_on_outlined),
-                                      Textedit( text: deal['location'],fontSize: isSmallScreen ? 12 : 14,color: appTextColorPrimary,)
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Column(children: [IconButton( 
-                                            icon: Icon( deal['isPressed'] ? Icons.handshake : Icons.handshake,),
-                                           color: deal['isPressed']? Colors.pink : Colors.grey,iconSize: isSmallScreen ? 24 : 30,
-                                       onPressed: () { setState(() {deal['isPressed'] = !deal['isPressed']; deal['count'] +=deal['isPressed'] ? 1 : -1;});},),
-                                  Textedit( text: '${deal['count']}', fontSize: isSmallScreen ? 16 : 18,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
+                                const SizedBox(width: 4),
+                                Text("${deal['rating']}", style: TextStyle( fontSize: isSmallScreen ? 14 : 16,),),
+                                Icon(Icons.star, color: Colors.amber, size: isSmallScreen ? 20 : 24),
+                                Text("|",style: TextStyle( fontSize: isSmallScreen ? 14 : 16,color: Colors.grey)),
+                                Text("130", style: TextStyle(fontSize: isSmallScreen ? 14 : 16)),
+                                Text("Ratings", style: TextStyle( fontSize: isSmallScreen ? 10 : 12)),
+                              ],
+                            ),
+                            Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [Column(  mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [ Row(
+                              children: [Text( deal['percentage'], style: TextStyle(fontSize: isSmallScreen ? 20 : 24,color: appTextColorPrimary, fontWeight: FontWeight.bold),),
+                                  const SizedBox(width: 10),
+                                        Text( deal['offerpercentage'], style: TextStyle( fontSize: isSmallScreen ? 16 : 20, decoration:TextDecoration.lineThrough,),),
+                                  const SizedBox(width: 10),
+                                        Text( deal['coupownoffer'],style: TextStyle( fontSize: isSmallScreen ? 14 : 18,decoration:TextDecoration.lineThrough),),
+                                  const SizedBox(width: 10),
+                                  const Textedit(text: "OFF",color: appTextColorPrimary,fontWeight: FontWeight.bold,), ],
+                                    ),
+                                    Row(children: [const Icon(Icons.location_on_outlined),
+                                        Textedit( text: deal['location'],fontSize: isSmallScreen ? 12 : 14,color: appTextColorPrimary,)
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Column(children: [IconButton( 
+                                              icon: Icon( deal['isPressed'] ? Icons.handshake : Icons.handshake,),
+                                             color: deal['isPressed']? Colors.pink : Colors.grey,iconSize: isSmallScreen ? 24 : 30,
+                                         onPressed: () { setState(() {deal['isPressed'] = !deal['isPressed']; deal['count'] +=deal['isPressed'] ? 1 : -1;});},),
+                                    Textedit( text: '${deal['count']}', fontSize: isSmallScreen ? 16 : 18,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

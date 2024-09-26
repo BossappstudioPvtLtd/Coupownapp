@@ -1,4 +1,5 @@
 import 'package:coupown/Const/app_colors.dart';
+import 'package:coupown/Screanes/local%20Service/lacaltab.dart';
 import 'package:coupown/components/text_edit.dart';
 import 'package:coupown/widgets/namebar.dart';
 import 'package:flutter/material.dart';
@@ -151,6 +152,9 @@ class _InstalionServisState extends State<InstalionServis> {
       child: Column(
         children: [
           Namebar(
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (_)=>const TabBarExample()));
+            },
             nametext: "Instalion Servis",
             text: 'View all',
             color: appColorAccent,

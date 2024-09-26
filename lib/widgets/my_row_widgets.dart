@@ -21,12 +21,12 @@ class _MyRowWidgetState extends State<MyRowWidget> with SingleTickerProviderStat
 
     // Initialize the animation controller with a duration of 2 seconds
     _controller = AnimationController(
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 0),
       vsync: this,
     );
 
     // Define the fade-in animation from opacity 0.2 to 1.0
-    _fadeInAnimation = Tween<double>(begin: 0.2, end: 1.0).animate(
+    _fadeInAnimation = Tween<double>(begin: 0.5, end: 5.0).animate(
       CurvedAnimation(
         parent: _controller,
         curve: Curves.easeIn,

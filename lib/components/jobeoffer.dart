@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math; // Import dart:math
 
 class JobOffer extends StatefulWidget {
-  const JobOffer({super.key});
+   final void Function()? onTap;
+  const JobOffer({super.key, this.onTap});
 
   @override
   State<JobOffer> createState() => _JobOfferState();
@@ -44,9 +45,11 @@ class _JobOfferState extends State<JobOffer>
     return AnimatedBuilder( animation: _animationController, builder: (context, child) {
                 return Transform.rotate( angle: _rotationAnimation.value,
                   child: ClipPath(clipper: StarClipper(8), // Banner type star with 8 points
-                    child: Container( height: 50, width: 50,color: _colorAnimation.value, // Apply animated color
-                      child: const Center( 
-                        child: Text( "Job",style: TextStyle(color: appColorPrimary, fontSize: 10, fontWeight: FontWeight.bold,
+                    child: InkWell(onTap:widget.onTap ,
+                      child: Container( height: 50, width: 50,color: _colorAnimation.value, // Apply animated color
+                        child: const Center( 
+                          child: Text( "Job",style: TextStyle(color: appColorPrimary, fontSize: 10, fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),

@@ -1,4 +1,6 @@
 import 'package:coupown/Const/app_colors.dart';
+import 'package:coupown/Screanes/Exclusive/Exclusive_Screan.dart';
+import 'package:coupown/Screanes/Exclusive/exclusive_view.dart';
 import 'package:coupown/components/small_sutton.dart';
 import 'package:coupown/widgets/namebar.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +15,7 @@ class ExclusiveOffers extends StatefulWidget {
 class _ExclusiveOffersState extends State<ExclusiveOffers> {
   List<Map<String, dynamic>> exclusiveOffers = [
     {
-      'logoUrl': 'assets/featurerd/travel.png',
+      'logoUrl': 'assets/exclusive/WhatsApp.jpeg',
       'productUrl': 'assets/featurerd/image 15.png',
       'name': 'Travels',
       'productname': 'Adventure Explore the World',
@@ -33,7 +35,7 @@ class _ExclusiveOffersState extends State<ExclusiveOffers> {
       "remainingTime":  const Duration(hours: 12),
     },
     {
-      'logoUrl': 'assets/featurerd/collectionfood.png',
+      'logoUrl': 'assets/exclusive/WhatsApp4.jpeg',
       'productUrl': 'assets/featurerd/image 15 (1).png',
       'name': 'Food',
       'productname': 'Adventure Explore the World',
@@ -53,8 +55,8 @@ class _ExclusiveOffersState extends State<ExclusiveOffers> {
       "remainingTime": const Duration(hours: 12),
     },
      {
-      'logoUrl': 'assets/featurerd/collectionfood.png',
-      'productUrl': 'assets/featurerd/image 15 (1).png',
+      'logoUrl': 'assets/exclusive/WhatsApp1.jpeg',
+      'productUrl': 'assets/featurerd/image 15 (2).png',
       'name': 'Food',
       'productname': 'Adventure Explore the World',
       'price': "2499",
@@ -73,8 +75,8 @@ class _ExclusiveOffersState extends State<ExclusiveOffers> {
       "remainingTime": const Duration(hours: 12),
     },
      {
-      'logoUrl': 'assets/featurerd/collectionfood.png',
-      'productUrl': 'assets/featurerd/image 15 (1).png',
+      'logoUrl': 'assets/exclusive/WhatsApp1.jpeg',
+      'productUrl': 'assets/featurerd/image 15.png',
       'name': 'Food',
       'productname': 'Adventure Explore the World',
       'price': "2499",
@@ -103,6 +105,7 @@ class _ExclusiveOffersState extends State<ExclusiveOffers> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Namebar(
+          onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_)=>const ExclusiveView()));},
           nametext: "Exclusive Offers",
           text: 'View all',
           color: appColorAccent,
@@ -123,63 +126,74 @@ class _ExclusiveOffersState extends State<ExclusiveOffers> {
               final cardWidth = screenWidth * 0.5; // Adjust card width based on screen size
               final imageWidth = cardWidth * 0.8; // Adjust image width based on card width
 
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                  elevation: 10,
-                  child: Container(
-                    
-                    decoration: BoxDecoration(
-                      color: appColorPrimary,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    width: cardWidth,
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 30),
-                        Material(
-                          color: appColorPrimary,
-                          borderRadius: BorderRadius.circular(8),
-                          elevation: 5,
-                          child: Container(
-                            height: 100,
-                            width: imageWidth,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
+              return InkWell(
+                 borderRadius: const BorderRadius.all(Radius.circular(16)),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ExclusiveScrean(deal: deal),
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                height: 60, // Adjust image height
-                                width: imageWidth * 0.3,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  image: DecorationImage(
-                                    image: AssetImage(deal['productUrl'] ?? deal['logoUrl']),
-                                    fit: BoxFit.cover,
+                          );
+                        },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                    elevation: 10,
+                    child: Container(
+                      
+                      decoration: BoxDecoration(
+                        color: appColorPrimary,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      width: cardWidth,
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 30),
+                          Material(
+                            color: appColorPrimary,
+                            borderRadius: BorderRadius.circular(8),
+                            elevation: 5,
+                            child: Container(
+                              height: 100,
+                              width: imageWidth,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  height: 60, // Adjust image height
+                                  width: imageWidth * 0.3,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    image: DecorationImage(
+                                      image: AssetImage(deal['logoUrl'] ),
+                                      fit: BoxFit.fill,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            deal['name'] ?? 'No name',
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              deal['name'] ?? 'No name',
+                              style: const TextStyle(fontWeight: FontWeight.bold),
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SmallButton(
-                            borderRadius: BorderRadius.circular(8),
-                            containerheight: 30,
-                            elevationsize: 10,
-                            text: 'Upto ${deal['percentage']} Offers',
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SmallButton(
+                              borderRadius: BorderRadius.circular(8),
+                              containerheight: 30,
+                              elevationsize: 10,
+                              text: 'Upto ${deal['percentage']} Offers',
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
