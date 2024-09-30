@@ -280,6 +280,7 @@ class _DealDetailPageState extends State<DealDetailPage> {
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
                                   deal['name'],

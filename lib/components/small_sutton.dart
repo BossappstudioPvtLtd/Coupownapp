@@ -61,7 +61,7 @@ class _SmallButtonState extends State<SmallButton> {
               child: Row(
                 children: [
                   Icon(widget.icon,color: widget.iconcolor,size: widget.size,),
-                  SizedBox(width: 5,),
+                  const SizedBox(width: 5,),
                   Center(
                     child: Text(
                       widget.text,

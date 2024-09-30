@@ -279,6 +279,7 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
                                   deal['name'],

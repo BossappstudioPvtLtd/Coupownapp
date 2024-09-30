@@ -1,4 +1,5 @@
 import 'package:coupown/Const/app_colors.dart';
+import 'package:coupown/Screanes/subscription/payment_methord.dart';
 import 'package:coupown/components/my_appbar.dart';
 import 'package:coupown/components/my_button_ani.dart';
 import 'package:coupown/components/text_edit.dart';
@@ -112,10 +113,12 @@ class _ScrollableCardsState extends State<PlanScreen> {
             ),
             const Spacer(),
             MyButtonAni(
+            
               elevationsize: 20,
               text: "Add to cart",
               fontSize: 16,
-              onTap: onAddToCart, // Pass the function to handle button tap
+             // onTap: onAddToCart, // Pass the function to handle button tap
+             onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_)=>const PaymentMethodPage()));},
             ),
           ],
         ),

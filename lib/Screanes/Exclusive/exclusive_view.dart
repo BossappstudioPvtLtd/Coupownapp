@@ -1,6 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:coupown/Const/app_colors.dart';
-import 'package:coupown/Screanes/Exclusive/exclusive_Screan.dart';
+import 'package:coupown/Screanes/Exclusive/exclusive_screan.dart';
 import 'package:coupown/components/my_appbar.dart';
 import 'package:flutter/material.dart';
 

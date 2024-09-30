@@ -81,6 +81,7 @@ class _JobScreenState extends State<JobScreen> {
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
                                     widget.deal['name'],

@@ -280,6 +280,7 @@ class _SpacialScreanState extends State<SpacialScrean> {
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
                                   deal['name'],

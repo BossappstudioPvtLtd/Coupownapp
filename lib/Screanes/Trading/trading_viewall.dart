@@ -194,6 +194,8 @@ class _TradingDealsScreanState extends State<TradingDealsScrean> {
                                     Expanded(
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        
                                         children: [
                                           Text(
                                             deal['name'],
@@ -253,13 +255,16 @@ class _TradingDealsScreanState extends State<TradingDealsScrean> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const SizedBox(height: 50),
-                                    const SmallButton(
-                                      elevationsize: 5,
-                                      text: "Exclusive Offer",
-                                      containerheight: 30,
-                                      containerwidth: 110,
-                                      fontSize: 15,
-                                      textweight: FontWeight.normal,
+                                    const Padding(
+                                      padding: EdgeInsets.only(left: 10),
+                                      child: SmallButton(
+                                        elevationsize: 5,
+                                        text: "Exclusive Offer",
+                                        containerheight: 30,
+                                        containerwidth: 140,
+                                        fontSize: 15,
+                                        textweight: FontWeight.normal,
+                                      ),
                                     ),
                                     const SizedBox(height: 20),
                                     Padding(
