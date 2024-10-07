@@ -4,7 +4,6 @@ import 'package:coupown/Const/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_quill/flutter_quill.dart';
-// ignore: depend_on_referenced_packages
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TextEditorQuill extends StatefulWidget {
@@ -49,8 +48,21 @@ class _TextEditorQuillState extends State<TextEditorQuill> {
     }
   }
 
+  // Validate if the document is empty
+  bool _validateDocument() {
+    final documentText = _controller.document.toPlainText();
+    if (documentText.trim().isEmpty) { // Check for empty or whitespace-only content
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Document cannot be empty!')),
+      );
+      return false;
+    }
+    return true;
+  }
+
   // Save document to shared preferences
   Future<void> _saveDocument() async {
+    if (!_validateDocument()) return; // Only save if valid
     final prefs = await SharedPreferences.getInstance();
     final jsonDocument = _controller.document.toDelta().toJson();
     await prefs.setString(_documentKey, jsonDocument.toString());
@@ -77,68 +89,65 @@ class _TextEditorQuillState extends State<TextEditorQuill> {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-          Card(
-          
-                color: Colors.white,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(  'Description',),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Material( elevation: 2,
-                   borderRadius: BorderRadius.circular(8),
+        Card(
+          color: Colors.white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text('Description'),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Material(
+                  elevation: 2,
+                  borderRadius: BorderRadius.circular(8),
                   child: QuillSimpleToolbar(
-                              controller: _controller,
-                              configurations:  QuillSimpleToolbarConfigurations(
-                              decoration: BoxDecoration(  color:Colors.white, borderRadius: BorderRadius.circular(8)),
-                              sectionDividerColor:appColorAccent,
-                              toolbarIconAlignment: WrapAlignment.start,
-                              toolbarSectionSpacing: sqrt2,
-                              multiRowsDisplay: false,
-                              toolbarSize: 30,
-                              showFontSize: true,
-                              showJustifyAlignment: true,
-                              showListCheck: true,
-                              showCodeBlock: true,
-                              showInlineCode: true,
-                              showQuote: true,
-                              showStrikeThrough: true,
-                              showUnderLineButton: true,
-                              showBoldButton: true,
-                              showItalicButton: true,
-                            ),
-                          ),),
-                ),
-                    
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Material(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                            child: Padding(
-                            
-                              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 20),
-                              child: quill.QuillEditor(
-                                scrollController: ScrollController(),
-                                focusNode: _focusNode,
-                                controller: _controller,
-                              ),
-                            ),
-                          ),
+                    controller: _controller,
+                    configurations: QuillSimpleToolbarConfigurations(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      sectionDividerColor: appColorAccent,
+                      toolbarIconAlignment: WrapAlignment.start,
+                      toolbarSectionSpacing: sqrt2,
+                      multiRowsDisplay: false,
+                      toolbarSize: 30,
+                      showFontSize: true,
+                      showJustifyAlignment: true,
+                      showListCheck: true,
+                      showCodeBlock: true,
+                      showInlineCode: true,
+                      showQuote: true,
+                      showStrikeThrough: true,
+                      showUnderLineButton: true,
+                      showBoldButton: true,
+                      showItalicButton: true,
                     ),
-                      
-                    const SizedBox(height: 20,)
-                  ],
+                  ),
                 ),
-              
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Material(
+                  color: const Color.fromARGB(235, 247, 247, 250),
+                  borderRadius: BorderRadius.circular(8),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    child: quill.QuillEditor(
+                      scrollController: ScrollController(),
+                      focusNode: _focusNode,
+                      controller: _controller,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+            ],
           ),
-          
-        
-        // Smaller toolbar
+        ),
       ],
     );
   }

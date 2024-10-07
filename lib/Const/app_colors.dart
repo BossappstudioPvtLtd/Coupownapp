@@ -8,6 +8,7 @@ const appColorAccent = Color(0xFFFF7F00);
 const appTextColorPrimary = Color(0xFF212121);
 const iconColorPrimary = Color(0xFFFFFFFF);
 
+
 const appTextColorSecondary = Color(0xFF5A5C5E);
 const iconColorSecondary = Color(0xFFA8ABAD);
 const appLayout_background = Color(0xFFf8f8f8);

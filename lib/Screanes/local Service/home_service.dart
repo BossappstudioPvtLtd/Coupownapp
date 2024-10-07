@@ -1,4 +1,5 @@
 import 'package:coupown/Const/app_colors.dart';
+import 'package:coupown/Screanes/local%20Service/details%20_screan.dart';
 import 'package:coupown/components/jobeoffer.dart';
 import 'package:coupown/components/text_edit.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class _HomeServiceState extends State<HomeService> {
   List<Map<String, dynamic>> specialOffers = [
     {
       'logoUrl': 'assets/avatar/avatar.png',
-      'productUrl': 'assets/Special0ffer/Image14.jpg',
+      'productUrl': 'assets/Special0ffer/image14.jpg',
       'name': 'Travels',
       'productname': 'Adventure Explore the World',
       'price': "2499",
@@ -38,7 +39,7 @@ class _HomeServiceState extends State<HomeService> {
     },
     {
       'logoUrl': 'assets/avatar/avatar.png',
-      'productUrl': 'assets/Special0ffer/Image15.jpg',
+      'productUrl': 'assets/Special0ffer/image15.jpg',
       'name': 'Food',
       'productname': 'Adventure Explore the World',
       'price': "2499",
@@ -59,7 +60,7 @@ class _HomeServiceState extends State<HomeService> {
     },
     {
       'logoUrl': 'assets/avatar/avatar.png',
-      'productUrl': 'assets/Special0ffer/Image16.jpg',
+      'productUrl': 'assets/Special0ffer/image16.jpg',
       'name': 'Food',
       'productname': 'Adventure Explore the World',
       'price': "2499",
@@ -164,17 +165,17 @@ class _HomeServiceState extends State<HomeService> {
             
                         return InkWell(  borderRadius: const BorderRadius.all(Radius.circular(16)),
                         onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => SpacialScrean(deal: deal),
-                          //   ),
-                          // );
+                           Navigator.push(
+                             context,
+                             MaterialPageRoute(
+                               builder: (context) => DetailsScrean(deal: deal),
+                             ),
+                           );
                         },
                           child: Padding(
                              padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 10),
                                child: Material(elevation: 10,borderRadius: BorderRadius.circular(8),
-                                 child: Container(width: cardWidth, height: 360,
+                                 child: Container(width: cardWidth, height: 370,
                                                    decoration: BoxDecoration( color: Colors.white, borderRadius: BorderRadius.circular(8),),
                                  child: Padding(padding: const EdgeInsets.all(10.0),
                                  child: Column(children: [

@@ -1,3 +1,4 @@
+import 'package:coupown/Screanes/my_location.dart';
 import 'package:coupown/Screanes/subscription/subdata_sceen.dart';
 import 'package:coupown/components/small_sutton.dart';
 import 'package:flutter/material.dart';
@@ -7,38 +8,57 @@ class AppbarContainers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Use MediaQuery to get the screen width and height
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.03), // Dynamically adjust horizontal padding
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween, // Align the container in the center horizontally
+    // Check if the screen width is considered small (e.g., less than 360 pixels)
+    final bool isSmallScreen = screenWidth > 10;
+
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(Icons.menu, size: screenWidth * 0.07), // Adjust icon size based on screen width
+          Icon(
+            Icons.menu,
+            size: isSmallScreen ? screenWidth * 0.08 : screenWidth * 0.07, // Adjust icon size for small screens
+          ),
           Row(
             children: [
               SmallButton(
-                
-                containerheight: screenHeight * 0.05, // Adjust button height based on screen height
-                containerwidth: screenWidth * 0.35, // Adjust button width based on screen width
+                containerheight: isSmallScreen ? screenHeight * 0.04 : screenHeight * 0.05, // Adjust height
+                containerwidth: isSmallScreen ? screenWidth * 0.3 : screenWidth * 0.35, // Adjust width
                 onTap: () {
-                  // Add your subscription logic here
-                  Navigator.push(context, MaterialPageRoute(builder: (_)=>const SubscriptionScreen()));
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const SubscriptionScreen()));
                 },
                 elevationsize: 5,
                 text: 'Subscribe',
               ),
-              Icon(Icons.notifications_none, size: screenWidth * 0.065), // Adjust icon size
-              SizedBox(width: screenWidth * 0.03), // Dynamically adjust spacing
-              Icon(Icons.favorite_border, size: screenWidth * 0.065), // Adjust icon size
-              SizedBox(width: screenWidth * 0.03), // Dynamically adjust spacing
-              Icon(Icons.location_on_outlined, size: screenWidth * 0.065), // Adjust icon size
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.notifications_none,
+                  size: isSmallScreen ? screenWidth * 0.06 : screenWidth * 0.065, // Adjust icon size
+                ),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.favorite_border,
+                  size: isSmallScreen ? screenWidth * 0.06 : screenWidth * 0.065, // Adjust icon size
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const GoogleMapExample()));
+                },
+                icon: Icon(
+                  Icons.location_on_outlined,
+                  size: isSmallScreen ? screenWidth * 0.06 : screenWidth * 0.065, // Adjust icon size
+                ),
+              ),
             ],
           ),
         ],
-      ),
+      
     );
   }
 }

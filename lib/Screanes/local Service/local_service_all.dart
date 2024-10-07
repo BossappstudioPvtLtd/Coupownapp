@@ -1,4 +1,5 @@
 import 'package:coupown/Const/app_colors.dart';
+import 'package:coupown/Screanes/local%20Service/details%20_screan.dart';
 import 'package:coupown/components/jobeoffer.dart';
 import 'package:coupown/components/text_edit.dart';
 import 'package:flutter/material.dart';
@@ -144,7 +145,7 @@ class _LocalServiceState extends State<LocalService> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    bool isSmallScreen = screenWidth < 600;
+    bool isSmallScreen = screenWidth > 100;
     double cardWidth = screenWidth > 600 ? 400 : screenWidth * 0.95;
 
     return Scaffold(
@@ -164,17 +165,17 @@ class _LocalServiceState extends State<LocalService> {
             
                         return InkWell(  borderRadius: const BorderRadius.all(Radius.circular(16)),
                         onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => SpacialScrean(deal: deal),
-                          //   ),
-                          // );
+                         Navigator.push(
+                            context,
+                           MaterialPageRoute(
+                              builder: (context) => DetailsScrean(deal: deal),
+                         ),
+                         );
                         },
                           child: Padding(
                              padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 10),
                                child: Material(elevation: 10,borderRadius: BorderRadius.circular(8),
-                                 child: Container(width: cardWidth, height: 360,
+                                 child: Container(width: cardWidth, height: 370,
                                                    decoration: BoxDecoration( color: Colors.white, borderRadius: BorderRadius.circular(8),),
                                  child: Padding(padding: const EdgeInsets.all(10.0),
                                  child: Column(children: [
@@ -304,9 +305,9 @@ class _LocalServiceState extends State<LocalService> {
                                         ),
                                         Column(children: [IconButton( 
                                                       icon: Icon( deal['isPressed'] ? Icons.handshake : Icons.handshake,),
-                                                     color: deal['isPressed']? Colors.pink : Colors.grey,iconSize: isSmallScreen ? 24 : 30,
+                                                     color: deal['isPressed']? Colors.pink : Colors.grey,iconSize: isSmallScreen ? 20 : 30,
                                                  onPressed: () { setState(() {deal['isPressed'] = !deal['isPressed']; deal['count'] +=deal['isPressed'] ? 1 : -1;});},),
-                                            Textedit( text: '${deal['count']}', fontSize: isSmallScreen ? 16 : 18,
+                                            Textedit( text: '${deal['count']}', fontSize: isSmallScreen ? 14: 18,
                                             ),
                                           ],
                                         ),
@@ -319,6 +320,7 @@ class _LocalServiceState extends State<LocalService> {
                                     ],
                                   ),
                                                        ),
+                                                      
                                                      ),
                                ),
                           ),

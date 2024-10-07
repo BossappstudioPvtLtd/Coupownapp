@@ -53,17 +53,24 @@ class _MyButtonAniState extends State<MyButtonAni> {
           color: widget.meterialColor ?? appColorAccent,
           elevation: widget.elevationsize,
           borderRadius: widget.borderRadius ?? const BorderRadius.all(Radius.circular(32)),
-          child: SizedBox(
-            height: widget.containerheight ??
-                (isSmallScreen ? screenHeight * 0.05 : screenHeight * 0.06),
-            width: widget.containerwidth ?? (isSmallScreen ? screenWidth * 0.8 : 400),
-            child: Center(
-              child: Text(
-                widget.text,
-                style: TextStyle(
-                  fontSize: widget.fontSize ?? (isSmallScreen ? 14 : 17),
-                  fontWeight: widget.textweight ?? FontWeight.bold,
-                  color: widget.textcolor ?? appColorPrimaryLight,
+          child: InkWell(
+            borderRadius: (widget.borderRadius is BorderRadius) 
+                ? widget.borderRadius as BorderRadius 
+                : const BorderRadius.all(Radius.circular(32)), // For splash shape
+            splashColor: Colors.white.withOpacity(0.5), // Customize splash color
+            onTap: widget.onTap, // Handle tap
+            child: SizedBox(
+              height: widget.containerheight ?? 
+                  (isSmallScreen ? screenHeight * 0.05 : screenHeight * 0.06),
+              width: widget.containerwidth ?? (isSmallScreen ? screenWidth * 0.8 : 400),
+              child: Center(
+                child: Text(
+                  widget.text,
+                  style: TextStyle(
+                    fontSize: widget.fontSize ?? (isSmallScreen ? 14 : 17),
+                    fontWeight: widget.textweight ?? FontWeight.bold,
+                    color: widget.textcolor ?? appColorPrimaryLight,
+                  ),
                 ),
               ),
             ),

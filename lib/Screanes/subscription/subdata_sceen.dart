@@ -4,6 +4,7 @@ import 'package:coupown/Const/app_colors.dart';
 import 'package:coupown/Screanes/subscription/verify_details.dart';
 import 'package:coupown/components/my_button_ani.dart';
 import 'package:coupown/components/text_edit.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
@@ -32,8 +33,40 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> with SingleTick
   final _landmarkController = TextEditingController();
 
   String? _selectedCategory;
-  final _categories = ['Restaurant', 'Hotel', 'Shop', 'Office'];
+  String? _selectedSubCategory; // Change to a single string
 
+  final _categories = ['Restaurant', 'Hotel','Shop','Office','Fashions', 'Food & Dining','Home & Living','Furnitures','Electrical Appliances', 'Mobiles & Electronics','Books & Stationery', 'Grocery', 'Beauty & Health', 'Entertainment', 'Sports Products','Gifts & Jewels', 'Automobiles', 'Local Home Services', 'Transportation Services', 'Travel & Hospitality','Others'];
+   final Map<String, List<String>> _subCategories = {
+    'Fashions': [
+      'Clothing',
+      'Footwear',
+      'Watch & Sunglass',
+      'Travel & Accessories',
+      'All',
+    ],
+    'Food & Dining': [
+      'Restaurants',
+      'Drinks and Beverages',
+      'Street Food',
+      'Fast Food',
+      'All',
+    ],
+    'Home & Living': [
+      'Furniture & Decor',
+      'Kitchen & Dining',
+      'Bed & Bath',
+      'All',
+    ],
+    'Electrical Appliances': [
+      'Cooling Appliances',
+      'Refrigerator',
+      'Television',
+      'Washing Machine',
+      'Kitchen Accessories',
+      'All',
+    ],
+    // Add more subcategories as needed
+  };
   late AnimationController _controller;
   late Animation<double> _fadeInAnimation;
   late Animation<Offset> _slideInAnimation;
@@ -45,6 +78,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> with SingleTick
 
   final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
   Position? _currentPosition;
+  bool _isLoading = false; // Step 1: Create a loading state
+
 
   @override
   void initState() {
@@ -86,13 +121,38 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> with SingleTick
   }
 
   Future<void> _getCurrentPosition() async {
-    final position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
+    // Step 1: Show loading dialog
+    final loadingDialog = showCupertinoDialog(
+      context: context,
+      barrierDismissible: false, // Prevent dismissal by tapping outside
+      builder: (BuildContext context) {
+        return const CupertinoAlertDialog(
+          content: Row(
+            children: [
+              CupertinoActivityIndicator(), // Cupertino loader
+              SizedBox(width: 20), // Space between loader and text
+              Text("Fetching location..."),
+            ],
+          ),
+        );
+      },
     );
-    setState(() {
-      _currentPosition = position;
-    });
-    _getAddressFromLatLng(position);
+
+    try {
+      final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      setState(() {
+        _currentPosition = position;
+      });
+      _getAddressFromLatLng(position);
+    } catch (e) {
+      // Handle error (e.g., show a message)
+      print('Error fetching location: $e');
+    } finally {
+      // Step 2: Dismiss the loading dialog
+      Navigator.of(context).pop(); // Close the loading dialog
+    }
   }
 
   Future<void> _getAddressFromLatLng(Position position) async {
@@ -221,29 +281,103 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> with SingleTick
                     _buildTextField(_nameController, 'Name', isRequired: true),
                     _buildTextField(_mobileController, 'Mobile Number', type: TextInputType.phone, isRequired: true),
                     _buildTextField(_websiteController, 'Website Link'),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 15, top: 15),
-                      child: Material(
+                   Padding(
+      padding: const EdgeInsets.only(bottom: 15, top: 5),
+      child: Column(
+        children: [
+           Material(
                         color: appColorPrimary,
                         borderRadius: BorderRadius.circular(8),
                         elevation: 5,
                         child: Container(
+                          height: 52,
                           padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: DropdownButtonFormField<String>(
-                            decoration: const InputDecoration(
-                              labelText: 'Category',
-                              contentPadding: EdgeInsets.zero,
-                              border: InputBorder.none,
+                          child: Center(
+                            child: DropdownButtonFormField<String>(
+                              menuMaxHeight: 300,
+                              borderRadius: BorderRadius.circular(8),
+                              dropdownColor: appColorPrimary,
+                              decoration: const InputDecoration(
+                                labelText: 'Category',
+                                labelStyle:TextStyle(color: appTextColorPrimary) ,
+                                contentPadding: EdgeInsets.zero,
+                                border: InputBorder.none,
+                              ),
+                              value: _selectedCategory,
+                              items: _categories.map((category) {
+                                return DropdownMenuItem(value: category, child: Text(category));
+                              }).toList(),
+                              onChanged: (value) => setState(() => _selectedCategory = value),
                             ),
-                            value: _selectedCategory,
-                            items: _categories.map((category) {
-                              return DropdownMenuItem(value: category, child: Text(category));
-                            }).toList(),
-                            onChanged: (value) => setState(() => _selectedCategory = value),
                           ),
                         ),
                       ),
-                    ),
+          if (_selectedCategory != null && _subCategories.containsKey(_selectedCategory))
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Material(
+                
+                  color: Colors.transparent,
+                child: Container(
+                  width: 400,
+                  color: Colors.transparent,
+                  child: Column(
+                    children: [
+                      Wrap(
+                        spacing: 1, // Adjust spacing between items
+                        runSpacing: 1, // Adjust spacing between rows
+                        children: _subCategories[_selectedCategory!]!.map((subCategory) {
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _selectedSubCategory = subCategory; // Set the selected subcategory
+                              });
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                padding: const EdgeInsets.all(8.0), // Add some padding
+                                decoration: BoxDecoration(
+                                  color: _selectedSubCategory == subCategory
+                                      ? Colors.green // Highlight selected item
+                                      : Colors.white , // Default color
+                                  border: Border.all(color:appColorAccent), // Optional border
+                                  borderRadius: BorderRadius.circular(12.0), // Optional rounded corners
+                                ),
+                                child: Text(
+                                  subCategory,
+                                  style: TextStyle(
+                                    color: _selectedSubCategory == subCategory
+                                        ? appColorPrimary // Change text color for selected item
+                                        : appTextColorPrimary, // Default text color
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+              //          if (_selectedSubCategory != null) // Update condition to check for single selection
+              // Card(
+              //   color: appColorPrimary,
+              //   child: Padding(
+              //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              //     child: Text(
+              //       'Selected Subcategory: $_selectedSubCategory', // Show only the selected subcategory
+              //       style: TextStyle(fontWeight: FontWeight.bold),
+              //     ),
+              //   ),
+              // ),
+                    ],
+                  ),
+              
+                ),
+              ),
+            ),
+         
+        ],
+      ),
+    ),
                     Row(
                       children: [
                         Expanded(child: _buildTextField(_pincodeController, 'Pincode', type: TextInputType.number)),

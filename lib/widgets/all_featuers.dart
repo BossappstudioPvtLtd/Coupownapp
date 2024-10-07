@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:coupown/Screanes/Deald%20Of%20The%20Day/features_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:coupown/Const/app_colors.dart';
 import 'package:coupown/widgets/my_row_widgets.dart';
@@ -12,7 +13,7 @@ class AvatarListView extends StatefulWidget {
 
 class _AvatarListViewState extends State<AvatarListView>
     with SingleTickerProviderStateMixin {
-  final List<Map<String, dynamic>> users = [
+  final List<Map<String, dynamic>> features = [
     {'name': 'Travels', 'imageUrl': 'assets/featurerd/travel.png'},
     {'name': 'Groceries', 'imageUrl': 'assets/featurerd/collectionfood.png'},
     {'name': 'Food & Dining', 'imageUrl': 'assets/featurerd/dinnerset.png'},
@@ -91,8 +92,8 @@ class _AvatarListViewState extends State<AvatarListView>
               const SizedBox(height: 5),
               Padding(
                 padding: EdgeInsets.only(
-                  left: isWideScreen ? 300 : (isMediumScreen ? 270 : 250),
-                  right: 30,
+                  left: isWideScreen ? 310 : (isMediumScreen ? 270 : 250),
+                  right: 10,
                 ),
                 child: AnimatedAlign(
                   alignment: alignment,
@@ -102,7 +103,7 @@ class _AvatarListViewState extends State<AvatarListView>
                     visible: !showMyRowWidget,
                    
                       child:  Padding(
-                        padding: EdgeInsets.only(left: 10, top: 6, bottom: 6),
+                        padding: const EdgeInsets.only(left: 40, top: 6, bottom: 6),
                         child: Row(
                           children: [
                             //Textedit(text: "more >>", fontSize: 12,fontWeight:FontWeight.bold ,),
@@ -147,14 +148,14 @@ class _AvatarListViewState extends State<AvatarListView>
                       opacity: _fadeInAnimation,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: users.length,
+                        itemCount: features.length,
                         itemBuilder: (context, index) {
-                          final user = users[index];
+                        final deal = features[index];
                           return GestureDetector(
                             onLongPress: () {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text(user['name']),
+                                  content: Text(deal['name']),
                                   duration: const Duration(seconds: 2),
                                 ),
                               );
@@ -167,32 +168,43 @@ class _AvatarListViewState extends State<AvatarListView>
                                 children: [
                                   Stack(
                                     children: [
-                                      CircleAvatar(
-                                        radius: isWideScreen
-                                            ? 40
-                                            : (isMediumScreen ? 37 : 34),
-                                        backgroundColor: appColorAccent,
+                                      InkWell(
+                                        borderRadius: const BorderRadius.all(Radius.circular(16)),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FeaturesTab(deal: deal),
+                            ),
+                          );
+                        },
                                         child: CircleAvatar(
-                                          backgroundColor: appLight_purple,
                                           radius: isWideScreen
-                                              ? 39
-                                              : (isMediumScreen ? 36 : 33),
+                                              ? 40
+                                              : (isMediumScreen ? 37 : 34),
+                                          backgroundColor: appColorAccent,
                                           child: CircleAvatar(
+                                            backgroundColor: appLight_purple,
                                             radius: isWideScreen
-                                                ? 36
-                                                : (isMediumScreen ? 33 : 30),
-                                            backgroundColor: appColorPrimary,
-                                            backgroundImage: AssetImage(user['imageUrl']),
-                                            child: ClipOval(
-                                              child: Image.asset(
-                                                user['imageUrl'],
-                                                fit: BoxFit.fill,
-                                                width: isWideScreen
-                                                    ? 70
-                                                    : (isMediumScreen ? 65 : 60),
-                                                height: isWideScreen
-                                                    ? 70
-                                                    : (isMediumScreen ? 65 : 60),
+                                                ? 39
+                                                : (isMediumScreen ? 36 : 33),
+                                            child: CircleAvatar(
+                                              radius: isWideScreen
+                                                  ? 36
+                                                  : (isMediumScreen ? 33 : 30),
+                                              backgroundColor: appColorPrimary,
+                                              backgroundImage: AssetImage(deal['imageUrl']),
+                                              child: ClipOval(
+                                                child: Image.asset(
+                                                  deal['imageUrl'],
+                                                  fit: BoxFit.fill,
+                                                  width: isWideScreen
+                                                      ? 70
+                                                      : (isMediumScreen ? 65 : 60),
+                                                  height: isWideScreen
+                                                      ? 70
+                                                      : (isMediumScreen ? 65 : 60),
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -202,7 +214,7 @@ class _AvatarListViewState extends State<AvatarListView>
                                   ),
                                   const SizedBox(height: 8),
                                   Text(
-                                    user['name'],
+                                    deal['name'],
                                     style: TextStyle(
                                       fontSize: isSmallScreen ? 14 : 16,
                                       fontWeight: FontWeight.bold,

@@ -1,5 +1,6 @@
 import 'package:coupown/Const/app_colors.dart';
 import 'package:coupown/components/my_appbar.dart';
+import 'package:coupown/components/my_button_ani.dart';
 import 'package:coupown/components/small_sutton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:easy_stepper/easy_stepper.dart';
 import 'package:intl/intl.dart';
 
 class BookingStepper extends StatefulWidget {
+  
   const BookingStepper({Key? key}) : super(key: key);
 
   @override
@@ -115,42 +117,72 @@ class _BookingStepperState extends State<BookingStepper> {
   }
 
   // Bottom navigation buttons (Back)
-  Widget bottomNavigationBar() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5 ),
-          child: SmallButton(
-            containerheight: 40,
-            containerwidth: 320,
-            elevationsize: 20,
-            text: activeStep == 0
-                ? 'Select Timeslot'
-                : activeStep == 1
-                    ? 'Confirm Booking'
-                    : 'Book Offer',
-            onTap: () {
-              if (activeStep < 2) {
-                setState(() {
-                  activeStep++;
-                  _pageController.nextPage(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
+ Widget bottomNavigationBar() {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      
+        
+
+           Padding(
+             padding: const EdgeInsets.only(left: 25,bottom: 10),
+             child: MyButtonAni(
+              containerheight: 40,
+              containerwidth: 300,
+              elevationsize: 20,
+              text: activeStep == 0
+                  ? 'Select Timeslot'
+                  : activeStep == 1
+                      ? 'Confirm Booking'
+                      : 'Book Offer',
+              onTap: () async {
+                if (activeStep < 2) {
+                  setState(() {
+                    activeStep++;
+                    _pageController.nextPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut,
+                    );
+                  });
+                } else {
+                  // Show loader when booking is being processed
+                 
+                  showCupertinoDialog(
+                    context: context,
+                    barrierDismissible: false, 
+                    builder: (BuildContext context) {
+                      return const CupertinoAlertDialog(
+                        content: Row(
+                          children: [
+                            CupertinoActivityIndicator(), 
+                            SizedBox(width: 20), 
+                            Text("Booking in Progress..."),
+                          ],
+                        ),
+                      );
+                    },
                   );
-                });
-              } else {
-                // Final submission or confirmation
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Booking Confirmed!')),
-                );
-              }
-            },
-          ),
-        ),
-      ],
-    );
-  }
+                       
+                  // Simulate a delay for booking confirmation (e.g., API call)
+                  await Future.delayed(const Duration(seconds: 2));
+                       
+                  // Hide the loader
+                  Navigator.of(context).pop();
+                       
+                  // Final submission or confirmation
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Booking Confirmed!')),
+                  );
+                }
+              },
+                       
+                  ),
+           ),
+        
+    ],
+  );
+}
+
 }
 
 
@@ -628,8 +660,8 @@ class _BookingSummaryState extends State<BookingSummary> {
               Text('₹${totalAmount.toStringAsFixed(0)}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             ],
           ),
-          const SizedBox(height: 60),
-         
+          const SizedBox(height: 40),
+
           // Coupon input and Save button
           Center(
             child: SmallButton(

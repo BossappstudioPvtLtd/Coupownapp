@@ -1,5 +1,5 @@
 import 'package:coupown/Const/app_colors.dart';
-import 'package:coupown/Screanes/upcoming%20offers/upcoming_screen.dart';
+import 'package:coupown/Screanes/Upcoming%20offers/upcoming_screen.dart';
 import 'package:coupown/components/my_appbar.dart';
 import 'package:coupown/components/small_sutton.dart';
 import 'package:coupown/components/text_edit.dart';

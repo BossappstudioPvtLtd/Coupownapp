@@ -1,4 +1,5 @@
 import 'package:coupown/Const/app_colors.dart';
+import 'package:coupown/Screanes/local%20Service/details%20_screan.dart';
 import 'package:coupown/components/jobeoffer.dart';
 import 'package:coupown/components/text_edit.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +81,7 @@ class _InstallationState extends State<Installation> {
     },
     {
       'logoUrl': 'assets/avatar/avatar.png',
-      'productUrl': 'assets/Special0ffer/images13.jpg',
+      'productUrl': 'assets/Special0ffer/image13.jpg',
       'name': 'Food',
       'productname': 'Adventure Explore the World',
       'price': "2499",
@@ -164,17 +165,17 @@ class _InstallationState extends State<Installation> {
             
                         return InkWell(  borderRadius: const BorderRadius.all(Radius.circular(16)),
                         onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => SpacialScrean(deal: deal),
-                          //   ),
-                          // );
+                           Navigator.push(
+                             context,
+                             MaterialPageRoute(
+                               builder: (context) => DetailsScrean(deal: deal),
+                             ),
+                           );
                         },
                           child: Padding(
                              padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 10),
                                child: Material(elevation: 10,borderRadius: BorderRadius.circular(8),
-                                 child: Container(width: cardWidth, height: 360,
+                                 child: Container(width: cardWidth, height: 370,
                                                    decoration: BoxDecoration( color: Colors.white, borderRadius: BorderRadius.circular(8),),
                                  child: Padding(padding: const EdgeInsets.all(10.0),
                                  child: Column(children: [

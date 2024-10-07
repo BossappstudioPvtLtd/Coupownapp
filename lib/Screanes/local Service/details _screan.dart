@@ -1,24 +1,24 @@
 import 'dart:async';
 import 'package:coupown/Const/app_colors.dart';
+import 'package:coupown/Screanes/local%20Service/booking_progress.dart';
 import 'package:coupown/components/lounchmap.dart';
 import 'package:coupown/components/text_edit.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:rating_summary/rating_summary.dart';
 
-class UpcomingScreen extends StatefulWidget {
+class DetailsScrean extends StatefulWidget {
   final Map<String, dynamic> deal;
 
-  const UpcomingScreen({super.key, required this.deal});
+  const DetailsScrean({super.key, required this.deal});
 
   @override
-  _UpcomingScreenState createState() => _UpcomingScreenState();
+  _DetailsScreanState createState() => _DetailsScreanState();
 }
 
-class _UpcomingScreenState extends State<UpcomingScreen> {
+class _DetailsScreanState extends State<DetailsScrean> {
   final GeolocatorPlatform _geolocatorPlatform = GeolocatorPlatform.instance;
   Position? _currentPosition;
   
@@ -198,7 +198,7 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     final isSmallScreen = screenWidth < 400;
     final isMediumScreen = screenWidth >= 400 && screenWidth <= 600;
-   // final isWideScreen = screenWidth > 600;
+    final isWideScreen = screenWidth > 600;
 
     return Scaffold(
       backgroundColor: appColorPrimary,
@@ -225,7 +225,7 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                       Padding(
                         padding: const EdgeInsets.only(left: 20),
                         child: Textedit(
-                          text: 'Spacial',
+                          text: '',
                           fontWeight: FontWeight.bold,
                           fontSize: isSmallScreen ? 18 : 24,
                         ),
@@ -336,7 +336,7 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
                               Center(
                                 child: SizedBox(
                                   height: isSmallScreen ? 150 : 200,
-                                  width: isSmallScreen ? 240 : 200,
+                                  width: isSmallScreen ? 250 : 200,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(16),
                                     child: Image.asset(
@@ -632,32 +632,18 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
        floatingActionButton: Container
        (
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
-        width: 150, 
+        width: 300, 
         height: 40,// Set the desired width here
         child: FloatingActionButton(
-          onPressed: () {
-            // Add your action here
-            showCupertinoModalPopup(context: context, builder: (BuildContext context){
-              return Center(child: Padding(padding: const EdgeInsets.all(25),
-                  child: Stack(children: [
-                  Container(decoration: BoxDecoration(color: appColorPrimary,
-                  borderRadius: BorderRadius.circular(8),),height: 300, width: 400,),
-                  Positioned(top: 10,  right: 10,  // Adjust as needed
-                  child: IconButton(icon: const Icon(Icons.close), color: Colors.black,  // Icon color
-                  onPressed: () {  },
-            ),
-           ),
-         ],
-       )
-
-
-                ),
-              );
-            });
-          
-          },
+          onPressed: () { Navigator.push(
+                            context,
+                           MaterialPageRoute(
+                              builder: (context) => const BookingStepper(),
+                         ),
+                         );},
           backgroundColor:appColorAccent,
-          child: const Textedit(text: "Save Coupown",color:appColorPrimary,),
+          
+          child: const Textedit(text: "Book Offer",color:appColorPrimary,),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat, // Center the button at the bottom
