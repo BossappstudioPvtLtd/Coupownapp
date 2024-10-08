@@ -128,7 +128,7 @@ class _BookingStepperState extends State<BookingStepper> {
              padding: const EdgeInsets.only(left: 25,bottom: 10),
              child: MyButtonAni(
               containerheight: 40,
-              containerwidth: 300,
+              containerwidth: 270,
               elevationsize: 20,
               text: activeStep == 0
                   ? 'Select Timeslot'

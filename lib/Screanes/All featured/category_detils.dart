@@ -1,25 +1,26 @@
 import 'package:coupown/Const/app_colors.dart';
 import 'package:coupown/Screanes/Job/job_screen.dart';
-import 'package:coupown/Screanes/local%20Service/details%20_screan.dart';
+import 'package:coupown/Screanes/spacial/spacial_screan.dart';
 import 'package:coupown/components/jobeoffer.dart';
+import 'package:coupown/components/my_appbar.dart';
 import 'package:coupown/components/text_edit.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-
 import 'package:share_plus/share_plus.dart';
 
-class Installation extends StatefulWidget {
-  const Installation({super.key});
+class CategoryDetils extends StatefulWidget {
+  
+  final String categoryName;
+  const CategoryDetils({super.key, required this.categoryName});
 
   @override
-  State<Installation> createState() => _InstallationState();
+  State<CategoryDetils> createState() => _CategoryDetilsState();
 }
 
-class _InstallationState extends State<Installation> {
+class _CategoryDetilsState extends State<CategoryDetils> {
   List<Map<String, dynamic>> specialOffers = [
     {
       'logoUrl': 'assets/avatar/avatar.png',
-      'productUrl': 'assets/Special0ffer/image10.png',
+      'productUrl': 'assets/Special0ffer/image14.jpg',
       'name': 'Travels',
       'productname': 'Adventure Explore the World',
       'price': "2499",
@@ -40,7 +41,7 @@ class _InstallationState extends State<Installation> {
     },
     {
       'logoUrl': 'assets/avatar/avatar.png',
-      'productUrl': 'assets/Special0ffer/image11.png',
+      'productUrl': 'assets/Special0ffer/image15.jpg',
       'name': 'Food',
       'productname': 'Adventure Explore the World',
       'price': "2499",
@@ -61,7 +62,7 @@ class _InstallationState extends State<Installation> {
     },
     {
       'logoUrl': 'assets/avatar/avatar.png',
-      'productUrl': 'assets/Special0ffer/image12.webp',
+      'productUrl': 'assets/Special0ffer/image16.jpg',
       'name': 'Food',
       'productname': 'Adventure Explore the World',
       'price': "2499",
@@ -82,7 +83,7 @@ class _InstallationState extends State<Installation> {
     },
     {
       'logoUrl': 'assets/avatar/avatar.png',
-      'productUrl': 'assets/Special0ffer/image13.jpg',
+      'productUrl': 'assets/Special0ffer/Image17.jpg',
       'name': 'Food',
       'productname': 'Adventure Explore the World',
       'price': "2499",
@@ -103,60 +104,21 @@ class _InstallationState extends State<Installation> {
     },
     // Add more offers here
   ];
-
-  List<Timer?> timers = [];
-
-  @override
-  void initState() {
-    super.initState();
-    startTimers();
-  }
-
-  void startTimers() {
-    for (int i = 0; i < specialOffers.length; i++) {
-      timers.add(Timer.periodic(const Duration(seconds: 1), (timer) {
-        setState(() {
-          if (specialOffers[i]['remainingTime'].inSeconds > 0) {
-            specialOffers[i]['remainingTime'] =
-                specialOffers[i]['remainingTime'] - const Duration(seconds: 1);
-          } else {
-            timer.cancel();
-          }
-        });
-      }));
-    }
-  }
-
-  @override
-  void dispose() {
-    for (var timer in timers) {
-      timer?.cancel();
-    }
-    super.dispose();
-  }
-
-  String formatDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, '0');
-    final hours = twoDigits(duration.inHours);
-    final minutes = twoDigits(duration.inMinutes.remainder(60));
-    final seconds = twoDigits(duration.inSeconds.remainder(60));
-    return "$hours:$minutes:$seconds";
-  }
-
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+     final screenWidth = MediaQuery.of(context).size.width;
     bool isSmallScreen = screenWidth < 600;
     double cardWidth = screenWidth > 600 ? 400 : screenWidth * 0.95;
 
-    return Scaffold(
-      backgroundColor: appColorPrimary,
-      body: Column(
+    return  Scaffold(
+    backgroundColor: appColorPrimary,
+     
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
           children: [
-            const Padding(
-              padding: EdgeInsets.only(left: 20,top: 10),
-              ),
-            Expanded( 
+            MyAppbar(text: widget.categoryName),
+             Expanded( 
                  
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
@@ -169,7 +131,7 @@ class _InstallationState extends State<Installation> {
                            Navigator.push(
                              context,
                              MaterialPageRoute(
-                               builder: (context) => DetailsScrean(deal: deal),
+                               builder: (context) => SpacialScrean(deal: deal),
                              ),
                            );
                         },
@@ -200,7 +162,8 @@ class _InstallationState extends State<Installation> {
                                               ),
                                             ],
                                           ),
-                                        if (deal['Joboffer'] != null && deal['Joboffer'].isNotEmpty)InkWell(
+                                           // Conditional JobOffer widget display
+                                if (deal['Joboffer'] != null && deal['Joboffer'].isNotEmpty)InkWell(
                               
                                    child: JobOffer(
                                     onTap: () {
@@ -333,10 +296,7 @@ class _InstallationState extends State<Installation> {
                   ),
           ],
         ),
-      
-          
-        
-      
+      )
     );
   }
 }

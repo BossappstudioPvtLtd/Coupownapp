@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:coupown/Const/app_colors.dart';
 import 'package:coupown/components/lounchmap.dart';
+import 'package:coupown/components/my_appbar.dart';
 import 'package:coupown/components/text_edit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -206,32 +207,18 @@ class _SpacialScreanState extends State<SpacialScrean> {
          Padding(
           padding: EdgeInsets.symmetric(
             horizontal: isSmallScreen ? 10 : 20,
-            vertical: isSmallScreen ? 15 : 35,
+            vertical: isSmallScreen ? 1 : 35,
           ),
          
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(Icons.arrow_back_ios_rounded),
-                        iconSize: isSmallScreen ? 20 : 24,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Textedit(
-                          text: 'Spacial',
-                          fontWeight: FontWeight.bold,
-                          fontSize: isSmallScreen ? 18 : 24,
-                        ),
-                      ),
-                    ],
-                  ),
+                const Padding(
+                  padding: EdgeInsets.only(),
+                  
+                  child:    MyAppbar(text: "")
+                     
+                  
+                  
                 ),
                 Card(
                   child: Container(

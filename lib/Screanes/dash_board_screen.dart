@@ -12,6 +12,7 @@ import 'package:coupown/widgets/trading_deals.dart';
 import 'package:coupown/widgets/upcoming_offers.dart';
 import 'package:coupown/components/fade_slideani.dart'; // Import animations
 import 'package:flutter/material.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -43,9 +44,12 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
     _controller.dispose();
     super.dispose();
   }
+  
 
   @override
   Widget build(BuildContext context) {
+    
+    changeStatusColor(appColorPrimary);
     // Get screen size
     final mediaQuery = MediaQuery.of(context);
     final screenWidth = mediaQuery.size.width;
@@ -104,3 +108,6 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
     );
   }
 }
+void changeStatusColor(Color color) async {
+    setStatusBarColor(color);
+  }

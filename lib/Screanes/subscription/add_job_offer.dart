@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:coupown/Const/app_colors.dart';
+import 'package:coupown/Screanes/subscription/dealer_screan.dart';
 import 'package:coupown/components/my_button_ani.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:dotted_border/dotted_border.dart';
@@ -406,7 +407,11 @@ Widget build(BuildContext context) {
           const SizedBox(height: 16),
           _buildTextField('Email', controllers['email']!, fontSize: baseFontSize),
           const SizedBox(height: 40),
-          MyButtonAni(elevationsize: 10, text: "Post ", onTap:() { _postOffer();_validateDocument();}),
+          MyButtonAni(elevationsize: 10, text: "Post ", onTap:() { _postOffer();_validateDocument();
+          
+           Navigator.pushReplacement(context, MaterialPageRoute(builder: (c) => const DealerHomescrean()));}),
+         
+    
           const SizedBox(height: 40),
         ],
       ),

@@ -1,5 +1,6 @@
 import 'package:coupown/Const/app_colors.dart';
-import 'package:coupown/Screanes/local%20Service/details%20_screan.dart';
+import 'package:coupown/Screanes/Job/job_screen.dart';
+import 'package:coupown/Screanes/Local%20Service/details%20_screan.dart';
 import 'package:coupown/components/jobeoffer.dart';
 import 'package:coupown/components/text_edit.dart';
 import 'package:flutter/material.dart';
@@ -199,10 +200,14 @@ class _LocalServiceState extends State<LocalService> {
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(width: 8), 
                                            // Conditional JobOffer widget display
-                                          if (deal['Joboffer'] != null && deal['Joboffer'].isNotEmpty)const JobOffer(), 
-                                           
+                                if (deal['Joboffer'] != null && deal['Joboffer'].isNotEmpty)InkWell(
+                              
+                                   child: JobOffer(
+                                    onTap: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (_)=>JobScreen(deal: deal)));
+                                    },
+                                   )), 
                                              
                                           const SizedBox(width: 8),
                                           const Spacer(),

@@ -155,7 +155,7 @@ class _InstalionServisState extends State<InstalionServis> {
             onTap: (){
               Navigator.push(context, MaterialPageRoute(builder: (_)=>const TabBarExample()));
             },
-            nametext: "Instalion Servis",
+            nametext: "Instalion Service",
             text: 'View all',
             color: appColorAccent,
             icon: Icons.arrow_forward,

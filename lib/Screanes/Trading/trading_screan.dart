@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:coupown/Const/app_colors.dart';
 import 'package:coupown/components/lounchmap.dart';
+import 'package:coupown/components/my_appbar.dart';
 import 'package:coupown/components/my_button_ani.dart';
 import 'package:coupown/components/text_edit.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +15,11 @@ import 'package:share_plus/share_plus.dart';
 class TradingScrean extends StatefulWidget {
   final List<Map<String, dynamic>> deals;
   
+  final Map<String, dynamic> deal;
+  
 
   const TradingScrean({
-    super.key, required this.deals, 
-  required Map<String, dynamic> deal,
+    super.key, required this.deals, required this.deal, 
   
   });
 
@@ -197,20 +199,90 @@ late AnimationController _controller;
 Widget build(BuildContext context) {
   final screenWidth = MediaQuery.of(context).size.width;
   final isSmallScreen = screenWidth < 400;
+    final isMediumScreen = screenWidth >= 400 && screenWidth <= 600;
    return Scaffold(
     backgroundColor: appColorPrimary,
     body:  Column( children: [
-             Padding(padding: const EdgeInsets.only(top: 30),
-                child: Row( children: [
-                    IconButton(onPressed: () { Navigator.pop(context); },
-                    icon: const Icon(Icons.arrow_back_ios_rounded), iconSize: isSmallScreen ? 20 : 24,),
-                    Padding( padding: const EdgeInsets.only(left: 20), child: Textedit( text: 'Trading Details', 
-                    fontWeight: FontWeight.bold, fontSize: isSmallScreen ? 18 : 24, ),
-                    ),
-                  ],
-                ),
+            
+              const Padding(
+                padding: EdgeInsets.only(left: 10,top: 20),
+                child: MyAppbar(text:"Trading Details" ),
               ),
               
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Card(
+                    child: Container(
+                      height: isSmallScreen ? 80 : 100,
+                      
+                      decoration: BoxDecoration(
+                        color:appColorPrimary,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      width: double.infinity,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: isSmallScreen ? 8 : 10),
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              radius:
+                                  isSmallScreen ? 30 : (isMediumScreen ? 37 : 40),
+                              backgroundColor: appColorAccent,
+                              child: CircleAvatar(
+                                backgroundColor: appLight_purple,
+                                radius:
+                                    isSmallScreen ? 29 : (isMediumScreen ? 36 : 39),
+                                child: CircleAvatar(
+                                  radius: isSmallScreen
+                                      ? 26
+                                      : (isMediumScreen ? 33 : 36),
+                                  backgroundColor: appColorPrimary,
+                                  backgroundImage: AssetImage(widget.deal['logoUrl']),
+                                  child: ClipOval(
+                                    child: Image.asset(
+                                    widget. deal['logoUrl'],
+                                      fit: BoxFit.cover,
+                                      width: isSmallScreen
+                                          ? 50
+                                          : (isMediumScreen ? 60 : 70),
+                                      height: isSmallScreen
+                                          ? 50
+                                          : (isMediumScreen ? 60 : 70),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: isSmallScreen ? 8 : 15),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text( widget.deal['name'],style: TextStyle(fontSize: isSmallScreen ? 18 : 24,fontWeight: FontWeight.bold,color: appTextColorSecondary,),),
+                                  Text('18 Locations', style: TextStyle( fontSize: isSmallScreen ? 8 : 10,fontWeight: FontWeight.bold, color: appTextColorSecondary,),),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: isSmallScreen ? 8 : 15),
+                            Icon(Icons.share, size: isSmallScreen ? 20 : 24),
+                            IconButton( icon: Icon( widget. deal['isFavorite']  ? Icons.favorite: Icons.favorite_border,
+                                color: widget. deal['isFavorite'] ? Colors.red : Colors.grey, size: isSmallScreen ? 24 : 30,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                widget. deal['isFavorite'] = !widget.deal['isFavorite'];
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
                
                 Expanded(
                   child: ListView.builder(

@@ -196,7 +196,7 @@ class _DataEditingState extends State<DataEditing> with SingleTickerProviderStat
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: DropdownButtonFormField<String>(
                             decoration: const InputDecoration(
-                              labelText: 'Category',
+                              labelText: '',
                               contentPadding: EdgeInsets.zero,
                               border: InputBorder.none,
                             ),

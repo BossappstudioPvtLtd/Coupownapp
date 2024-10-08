@@ -1,139 +1,47 @@
+import 'dart:async';
+
 import 'package:coupown/Const/app_colors.dart';
 import 'package:coupown/Screanes/Job/job_screen.dart';
-import 'package:coupown/Screanes/local%20Service/details%20_screan.dart';
+import 'package:coupown/Screanes/spacial/spacial_screan.dart';
 import 'package:coupown/components/jobeoffer.dart';
 import 'package:coupown/components/text_edit.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-
 import 'package:share_plus/share_plus.dart';
 
-class Installation extends StatefulWidget {
-  const Installation({super.key});
+class FeaturesTab extends StatefulWidget {
+  final Map<String, dynamic> deal;
+
+  const FeaturesTab({super.key, required this.deal});
 
   @override
-  State<Installation> createState() => _InstallationState();
+  State<FeaturesTab> createState() => _FeaturesTabState();
 }
 
-class _InstallationState extends State<Installation> {
-  List<Map<String, dynamic>> specialOffers = [
-    {
-      'logoUrl': 'assets/avatar/avatar.png',
-      'productUrl': 'assets/Special0ffer/image10.png',
-      'name': 'Travels',
-      'productname': 'Adventure Explore the World',
-      'price': "2499",
-      'offerprice': "1500",
-      "percentage": "50%",
-      "offerpercentage": "20%",
-      "coupownoffer": "10",
-      "discretion": "Power jet cleaning of indoor unit air filter...",
-      'rating': "4.5",
-      'productlike': 0,
-      'isFavorite': false,
-      'isPressed': false,
-      "Joboffer": "sales executive",
-      'count': 0,
-      "valid date": "15/09/2024",
-      "location": "Tuticorin.",
-      "remainingTime": const Duration(hours: 24),
-    },
-    {
-      'logoUrl': 'assets/avatar/avatar.png',
-      'productUrl': 'assets/Special0ffer/image11.png',
-      'name': 'Food',
-      'productname': 'Adventure Explore the World',
-      'price': "2499",
-      'offerprice': "1500",
-      "Joboffer": "",
-      "percentage": "30%",
-      "offerpercentage": "10%",
-      "coupownoffer": "5",
-      "discretion": "Power jet cleaning of indoor unit air filter...",
-      'rating': "4.5",
-      'productlike': 0,
-      'isFavorite': false,
-      'isPressed': false,
-      'count': 0,
-      "valid date": "15/08/2024",
-      "location": "Tuticorin.",
-      "remainingTime": const Duration(hours: 12),
-    },
-    {
-      'logoUrl': 'assets/avatar/avatar.png',
-      'productUrl': 'assets/Special0ffer/image12.webp',
-      'name': 'Food',
-      'productname': 'Adventure Explore the World',
-      'price': "2499",
-      'offerprice': "1500",
-      "Joboffer": "sales executive",
-      "percentage": "30%",
-      "offerpercentage": "10%",
-      "coupownoffer": "5",
-      "discretion": "Power jet cleaning of indoor unit air filter...",
-      'rating': "4.5",
-      'productlike': 0,
-      'isFavorite': false,
-      'isPressed': false,
-      'count': 0,
-      "valid date": "15/08/2024",
-      "location": "Tuticorin.",
-      "remainingTime": const Duration(hours: 12),
-    },
-    {
-      'logoUrl': 'assets/avatar/avatar.png',
-      'productUrl': 'assets/Special0ffer/image13.jpg',
-      'name': 'Food',
-      'productname': 'Adventure Explore the World',
-      'price': "2499",
-      'offerprice': "1500",
-      "Joboffer": "",
-      "percentage": "30%",
-      "offerpercentage": "10%",
-      "coupownoffer": "5",
-      "discretion": "Power jet cleaning of indoor unit air filter...",
-      'rating': "4.5",
-      'productlike': 0,
-      'isFavorite': false,
-      'isPressed': false,
-      'count': 0,
-      "valid date": "15/08/2024",
-      "location": "Tuticorin.",
-      "remainingTime": const Duration(hours: 12),
-    },
-    // Add more offers here
-  ];
-
-  List<Timer?> timers = [];
+class _FeaturesTabState extends State<FeaturesTab> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    startTimers();
-  }
-
-  void startTimers() {
-    for (int i = 0; i < specialOffers.length; i++) {
-      timers.add(Timer.periodic(const Duration(seconds: 1), (timer) {
-        setState(() {
-          if (specialOffers[i]['remainingTime'].inSeconds > 0) {
-            specialOffers[i]['remainingTime'] =
-                specialOffers[i]['remainingTime'] - const Duration(seconds: 1);
-          } else {
-            timer.cancel();
-          }
-        });
-      }));
-    }
+    _tabController = TabController(length: 6, vsync: this);
+    
+   // startTimers();
   }
 
   @override
   void dispose() {
-    for (var timer in timers) {
+    _tabController.dispose();
+      for (var timer in timers) {
       timer?.cancel();
     }
     super.dispose();
   }
+  
+  List<Timer?> timers = [];
+
+
+
+  
 
   String formatDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
@@ -145,33 +53,65 @@ class _InstallationState extends State<Installation> {
 
   @override
   Widget build(BuildContext context) {
+    
     final screenWidth = MediaQuery.of(context).size.width;
     bool isSmallScreen = screenWidth < 600;
     double cardWidth = screenWidth > 600 ? 400 : screenWidth * 0.95;
-
     return Scaffold(
-      backgroundColor: appColorPrimary,
-      body: Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(left: 20,top: 10),
-              ),
-            Expanded( 
-                 
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: specialOffers.length,
-                      itemBuilder: (context, index) {
-                        var deal = specialOffers[index];
-            
-                        return InkWell(  borderRadius: const BorderRadius.all(Radius.circular(16)),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor:appColorPrimary,
+        title: Text(widget.deal['name'] ,),
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: const [
+            Tab(text: 'All'),
+            Tab(text: 'Flight'),
+            Tab(text: 'Hotel'),
+            Tab(text: 'Bus'),
+            Tab(text: 'Train'),
+            Tab(text: 'Cab'),
+          ],
+        ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          buildListView('All'),
+          buildListView('Flight'),
+          buildListView('Hotel'),
+          buildListView('Bus'),
+          buildListView('Train'),
+          buildListView('Cab'),
+        ],
+      ),
+    );
+  }
+
+  // Helper method to build ListView based on the type of deal
+  Widget buildListView(String type) {
+    
+    final screenWidth = MediaQuery.of(context).size.width;
+    bool isSmallScreen = screenWidth > 100;
+    double cardWidth = screenWidth > 600 ? 400 : screenWidth * 0.95;
+    List<dynamic> items = widget.deal[type] ?? [];
+
+    if (items.isEmpty) {
+      return const Center(child: Text('No deals available'));
+    }
+
+    return ListView.builder(
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        final deal = items[index];
+        return InkWell(  borderRadius: const BorderRadius.all(Radius.circular(16)),
                         onTap: () {
-                           Navigator.push(
-                             context,
-                             MaterialPageRoute(
-                               builder: (context) => DetailsScrean(deal: deal),
-                             ),
-                           );
+                         Navigator.push(
+                            context,
+                           MaterialPageRoute(
+                              builder: (context) => SpacialScrean(deal: deal),
+                         ),
+                         );
                         },
                           child: Padding(
                              padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 10),
@@ -200,7 +140,7 @@ class _InstallationState extends State<Installation> {
                                               ),
                                             ],
                                           ),
-                                        if (deal['Joboffer'] != null && deal['Joboffer'].isNotEmpty)InkWell(
+                                           if (deal['Joboffer'] != null && deal['Joboffer'].isNotEmpty)InkWell(
                               
                                    child: JobOffer(
                                     onTap: () {
@@ -309,9 +249,9 @@ class _InstallationState extends State<Installation> {
                                         ),
                                         Column(children: [IconButton( 
                                                       icon: Icon( deal['isPressed'] ? Icons.handshake : Icons.handshake,),
-                                                     color: deal['isPressed']? Colors.pink : Colors.grey,iconSize: isSmallScreen ? 24 : 30,
+                                                     color: deal['isPressed']? Colors.pink : Colors.grey,iconSize: isSmallScreen ? 20 : 30,
                                                  onPressed: () { setState(() {deal['isPressed'] = !deal['isPressed']; deal['count'] +=deal['isPressed'] ? 1 : -1;});},),
-                                            Textedit( text: '${deal['count']}', fontSize: isSmallScreen ? 16 : 18,
+                                            Textedit( text: '${deal['count']}', fontSize: isSmallScreen ? 14: 18,
                                             ),
                                           ],
                                         ),
@@ -324,19 +264,13 @@ class _InstallationState extends State<Installation> {
                                     ],
                                   ),
                                                        ),
+                                                      
                                                      ),
                                ),
                           ),
                         );
-                      },
-                    ),
-                  ),
-          ],
-        ),
-      
-          
-        
-      
+                
+      },
     );
   }
 }

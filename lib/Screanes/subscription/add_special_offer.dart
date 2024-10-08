@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:coupown/Const/app_colors.dart';
+import 'package:coupown/Screanes/subscription/dealer_screan.dart';
 import 'package:coupown/components/my_button_ani.dart';
 import 'package:coupown/components/text_edit.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -466,9 +467,12 @@ class _PostOfferPageState extends State<PostOfferPage> {
           ),
 
           const SizedBox(height: 40),
-                MyButtonAni(elevationsize: 10, text: "Post Offer", onTap:(){  _postOffer();_validateDocument();}),
+                MyButtonAni(elevationsize: 10, text: "Post Offer", onTap:(){ 
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (c) => const DealerHomescrean()));
+                 _postOffer();
+                _validateDocument();}),
                
-         
+               
                
               ],
             

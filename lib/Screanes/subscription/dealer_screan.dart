@@ -9,14 +9,15 @@ import 'package:coupown/components/text_edit.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
-class CoupownScreen extends StatefulWidget {
-  const CoupownScreen({super.key});
+class DealerHomescrean extends StatefulWidget {
+  const DealerHomescrean({super.key});
+
 
   @override
-  State<CoupownScreen> createState() => _CoupownScreenState();
+  State<DealerHomescrean> createState() => _DealerHomescreanState();
 }
 
-class _CoupownScreenState extends State<CoupownScreen> with SingleTickerProviderStateMixin {
+class _DealerHomescreanState extends State<DealerHomescrean> with SingleTickerProviderStateMixin {
   String? selectedBranch; // Selected branch variable
   final List<String> branches = ['Branch A', 'Branch B', 'Branch C', 'Branch D'];
 
@@ -284,7 +285,7 @@ Widget build(BuildContext context) {
               children: [
                 
                 const MyProduct(),
-const ServiceSrean(),
+                const ServiceSrean(),
                 Center( child: Text("No services available", style: TextStyle(fontSize: titleFontSize, color: Colors.black),),),
                 ],
               ),

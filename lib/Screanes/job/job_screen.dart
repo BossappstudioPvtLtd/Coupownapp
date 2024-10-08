@@ -34,7 +34,7 @@ class _JobScreenState extends State<JobScreen> {
                 children: [
                   Card(
                     child: Container(
-                      height: isSmallScreen ? 80 : 100,
+                      height: isSmallScreen ? 70 : 100,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8),
@@ -126,7 +126,7 @@ class _JobScreenState extends State<JobScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   Material(
                     elevation: 5,
                     borderRadius: BorderRadius.circular(8),
@@ -135,7 +135,7 @@ class _JobScreenState extends State<JobScreen> {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      height: 350,
+                      height: 310,
                       width: 400,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -171,13 +171,9 @@ class _JobScreenState extends State<JobScreen> {
                                     : null,
                               ),
                             ),
-                            const SizedBox(height: 5),
                             _buildJobOfferHeader(),
-                            const SizedBox(height: 5),
                             _buildLocationRow(),
-                            const SizedBox(height: 5),
                             _buildJobTypeButtons(),
-                            const SizedBox(height: 5),
                             _buildContactRow(),
                             
                             const SizedBox(height: 10),
@@ -302,7 +298,7 @@ class _JobScreenState extends State<JobScreen> {
           text: "+91 98847 xxxxx ",
           containerheight: 40,
           borderRadius: BorderRadius.circular(8),
-          containerwidth: 160
+          containerwidth: 170
         ),
         const Text("2 days ago", style: TextStyle(color: Colors.black)),
       ],
