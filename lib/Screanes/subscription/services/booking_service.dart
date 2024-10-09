@@ -137,7 +137,7 @@ class _BookingServiceState extends State<BookingService> {
                   final item = booking[index];
                   return Card(
                     
-                          color: Colors.white,
+                          color: appColorPrimary,
                     margin: const EdgeInsets.symmetric(vertical: 10),
                     shape: RoundedRectangleBorder(
     side: const BorderSide(color: Colors.grey, width: 1.0, style: BorderStyle.solid),

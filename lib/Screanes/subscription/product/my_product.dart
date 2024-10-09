@@ -66,9 +66,6 @@ class _MyProductState extends State<MyProduct> {
     
     final screenWidth = MediaQuery.of(context).size.width;
     final isSmallScreen = screenWidth > 100;
-
-    // Adjust font sizes and layout for different screen sizes
-    
     double cardWidth = screenWidth > 600 ? 400 : screenWidth * 0.95;
     return SingleChildScrollView(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start,
@@ -256,7 +253,7 @@ class _MyProductState extends State<MyProduct> {
                   ],
                 ),
       
-      
+          const SizedBox(height: 20,)
         ],
       ),
     );

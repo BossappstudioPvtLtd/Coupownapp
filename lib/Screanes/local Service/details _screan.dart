@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:coupown/Const/app_colors.dart';
-import 'package:coupown/Screanes/local%20Service/booking_progress.dart';
 import 'package:coupown/components/lounchmap.dart';
 import 'package:coupown/components/text_edit.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +7,8 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:rating_summary/rating_summary.dart';
+
+import 'booking_progress.dart';
 
 class DetailsScrean extends StatefulWidget {
   final Map<String, dynamic> deal;

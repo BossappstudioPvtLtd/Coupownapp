@@ -1,6 +1,6 @@
 import 'package:coupown/Const/app_colors.dart';
-import 'package:coupown/Screanes/Sapacial_offer_view.dart';
 import 'package:coupown/Screanes/Job/job_screen.dart';
+import 'package:coupown/Screanes/Sapacial_offer_view.dart';
 import 'package:coupown/Screanes/spacial/spacial_screan.dart';
 import 'package:coupown/components/jobeoffer.dart';
 import 'package:coupown/components/text_edit.dart';

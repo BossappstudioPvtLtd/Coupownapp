@@ -1,4 +1,5 @@
 import 'package:coupown/Const/app_colors.dart';
+import 'package:coupown/Screanes/notification_screen.dart';
 import 'package:coupown/Screanes/subscription/data_editing.dart';
 import 'package:coupown/Screanes/subscription/product/my_product.dart';
 import 'package:coupown/Screanes/subscription/reviews.dart';
@@ -125,7 +126,7 @@ Widget build(BuildContext context) {
                   ),
                 ),
               MyIcons(onTap: () { Navigator.push(context, MaterialPageRoute(builder: (_) => const QRViewExample()));}, icon: Icons.qr_code_scanner_sharp,),
-              MyIcons(onTap: () {},icon: Icons.notifications_none,),
+              MyIcons(onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_) =>  NotificationScreen()));},icon: Icons.notifications_none,),
               MyIcons(onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_) => const DataEditing()));},icon: Icons.movie_edit,),
             ],
           ),
@@ -282,12 +283,11 @@ Widget build(BuildContext context) {
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: [
+              children: const [
                 
-                const MyProduct(),
-                const ServiceSrean(),
-                Center( child: Text("No services available", style: TextStyle(fontSize: titleFontSize, color: Colors.black),),),
-                ],
+                MyProduct(),
+                ServiceSrean(),
+   ],
               ),
             ),
           ],

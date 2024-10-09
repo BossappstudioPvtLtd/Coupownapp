@@ -1,12 +1,13 @@
 import 'package:coupown/Const/app_colors.dart';
 import 'package:coupown/Screanes/Job/job_screen.dart';
-import 'package:coupown/Screanes/local%20Service/details%20_screan.dart';
 import 'package:coupown/components/jobeoffer.dart';
 import 'package:coupown/components/text_edit.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:share_plus/share_plus.dart';
+
+import 'details _screan.dart';
 
 class Installation extends StatefulWidget {
   const Installation({super.key});

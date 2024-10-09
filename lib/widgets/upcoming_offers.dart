@@ -7,6 +7,7 @@ import 'package:coupown/widgets/namebar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
 class UpcomingOffers extends StatefulWidget {
   const UpcomingOffers({super.key});
 

@@ -1,8 +1,9 @@
 import 'package:coupown/Const/app_colors.dart';
-import 'package:coupown/Screanes/local%20Service/home_service.dart';
-import 'package:coupown/Screanes/local%20Service/installation.dart';
-import 'package:coupown/Screanes/local%20Service/local_service_all.dart';
 import 'package:flutter/material.dart';
+
+import 'home_service.dart';
+import 'installation.dart';
+import 'local_service_all.dart';
 
 class TabBarExample extends StatefulWidget {
   const TabBarExample({super.key});

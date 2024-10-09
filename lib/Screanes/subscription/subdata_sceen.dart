@@ -406,6 +406,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> with SingleTick
                     _buildTextField(_buildingController, 'Building Number'),
                     _buildTextField(_roadController, 'Area Road Name'),
                     _buildTextField(_landmarkController, 'Nearby Landmark'),
+                    
+                    const SizedBox(height: 30),
                     MyButtonAni(
                       elevationsize: 20,
                       text: "Submit",
@@ -414,7 +416,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> with SingleTick
                         Navigator.push(context, MaterialPageRoute(builder: (_) => const VerifyDetails()));
                       },
                     ),
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 30),
                   ],
                 ),
               ),

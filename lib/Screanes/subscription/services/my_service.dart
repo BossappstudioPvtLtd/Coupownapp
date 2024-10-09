@@ -144,141 +144,219 @@ class _MyServiceState extends State<MyService> {
     bool isSmallScreen = screenWidth < 600;
     double cardWidth = screenWidth > 600 ? 400 : screenWidth * 0.95;
 
-    return 
-     SizedBox(
-      height: 320,width: 400,
-       child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Textedit(text: "Populer Offers this weekes",fontWeight: FontWeight.bold,color: appTextColorPrimary,),
-               Expanded( 
-                   
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: specialOffers.length,
-                        itemBuilder: (context, index) {
-                          var deal = specialOffers[index];
-              
-                          return InkWell(  borderRadius: const BorderRadius.all(Radius.circular(16)),
-                         
-                            child: Padding(
-                               padding: const EdgeInsets.symmetric(horizontal: 10.0,),
-                                 child: Material(elevation: 10,borderRadius: BorderRadius.circular(8),
-                                   child: Container(width: cardWidth, height: 360,
-                                                     decoration: BoxDecoration( color: Colors.white, borderRadius: BorderRadius.circular(8),),
-                                   child: Padding(padding: const EdgeInsets.all(10.0),
-                                   child: Column(children: [
-                                         
-                                        Container( height: isSmallScreen ? 150 : 200, width: double.infinity,
-                                          decoration: BoxDecoration( borderRadius: BorderRadius.circular(8),
-                                            image: DecorationImage( image: AssetImage(deal['productUrl']), fit: BoxFit.fill,),
-                                          ),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+    return SizedBox(
+      height: 370,
+      width: 400,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Textedit(
+            text: "Populer Offers this weekes",
+            fontWeight: FontWeight.bold,
+            color: appTextColorPrimary,
+          ),
+          Expanded(
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: specialOffers.length,
+              itemBuilder: (context, index) {
+                var deal = specialOffers[index];
+
+                return InkWell(
+                  borderRadius: const BorderRadius.all(Radius.circular(16)),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0,
+                    ),
+                    child: Material(
+                      elevation: 10,
+                      borderRadius: BorderRadius.circular(8),
+                      child: Container(
+                        width: cardWidth,
+                        height: 360,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              Container(
+                                height: isSmallScreen ? 200 : 200,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  image: DecorationImage(
+                                    image: AssetImage(deal['productUrl']),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Textedit(
+                                    text: deal['productname'],
+                                    fontSize: isSmallScreen ? 14 : 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: appTextColorSecondary,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Icon(Icons.calendar_month,
+                                          size: isSmallScreen ? 16 : 20),
+                                      const SizedBox(width: 4),
+                                      Text.rich(
+                                        TextSpan(
                                           children: [
-                                            Textedit(text: deal['productname'],fontSize: isSmallScreen ? 14 : 18,fontWeight: FontWeight.bold,color: appTextColorSecondary,),
-                                                                                 
-                                              Row(
-                                                children: [
-                                                  Icon(Icons.calendar_month,
-                                                      size: isSmallScreen ? 16 : 20),
-                                                  const SizedBox(width: 4),
-                                                  Text.rich(
-                                                    TextSpan(
-                                                      children: [
-                                                        TextSpan(
-                                                          text: "Offer Valid to ",
-                                                          style: TextStyle(
-                                                            fontSize: isSmallScreen ? 12 : 14,
-                                                            color: appTextColorPrimary,
-                                                          ),
-                                                        ),
-                                                        TextSpan(
-                                                          text: "${deal['valid date']}",
-                                                          style: TextStyle(
-                                                            fontSize: isSmallScreen ? 14 : 16,
-                                                            color: appDarkRed,
-                                                            fontWeight: FontWeight.bold,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                               Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [Column(  mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(right: 8),
-                                              child: Text.rich(
-                                                TextSpan(children: [ TextSpan(text: "starts at ",style: TextStyle( fontSize:isSmallScreen ? 12 : 14,
-                                                        color: appTextColorPrimary,
-                                                      ),
-                                                    ),
-                                                    TextSpan( text: "₹${deal['offerprice']}",
-                                                      style: TextStyle(fontSize:isSmallScreen ? 16 : 20,
-                                                        color: appTextColorPrimary,
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
+                                            TextSpan(
+                                              text: "Offer Valid to ",
+                                              style: TextStyle(
+                                                fontSize:
+                                                    isSmallScreen ? 12 : 14,
+                                                color: appTextColorPrimary,
                                               ),
                                             ),
-                                            const SizedBox(height: 10),
-                                            Text(  "₹2099",style: TextStyle(fontSize: isSmallScreen ? 14 : 18,
-                                                color: appTextColorPrimary,decoration: TextDecoration.lineThrough,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 8),
-                                            Text("₹${deal['price']}", style: TextStyle(fontSize: isSmallScreen ? 12 : 14,color: appTextColorPrimary,   decoration: TextDecoration.lineThrough,
+                                            TextSpan(
+                                              text: "${deal['valid date']}",
+                                              style: TextStyle(
+                                                fontSize:
+                                                    isSmallScreen ? 14 : 16,
+                                                color: appDarkRed,
+                                                fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                           ],
                                         ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 8),
+                                                child: Text.rich(
+                                                  TextSpan(
+                                                    children: [
+                                                      TextSpan(
+                                                        text: "starts at ",
+                                                        style: TextStyle(
+                                                          fontSize:
+                                                              isSmallScreen
+                                                                  ? 12
+                                                                  : 14,
+                                                          color:
+                                                              appTextColorPrimary,
+                                                        ),
+                                                      ),
+                                                      TextSpan(
+                                                        text:
+                                                            "₹${deal['offerprice']}",
+                                                        style: TextStyle(
+                                                          fontSize:
+                                                              isSmallScreen
+                                                                  ? 16
+                                                                  : 20,
+                                                          color:
+                                                              appTextColorPrimary,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 10),
+                                              Text(
+                                                "₹2099",
+                                                style: TextStyle(
+                                                  fontSize:
+                                                      isSmallScreen ? 14 : 18,
+                                                  color: appTextColorPrimary,
+                                                  decoration: TextDecoration
+                                                      .lineThrough,
+                                                ),
+                                              ),
+                                              const SizedBox(width: 8),
+                                              Text(
+                                                "₹${deal['price']}",
+                                                style: TextStyle(
+                                                  fontSize:
+                                                      isSmallScreen ? 12 : 14,
+                                                  color: appTextColorPrimary,
+                                                  decoration: TextDecoration
+                                                      .lineThrough,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                           const Row(
                                             children: [
                                               Icon(Icons.location_on_outlined),
                                               Text("location"),
                                             ],
                                           )
-                                            ],
+                                        ],
+                                      ),
+                                      Column(
+                                        children: [
+                                          IconButton(
+                                            icon: Icon(
+                                              deal['isPressed']
+                                                  ? Icons.handshake
+                                                  : Icons.handshake,
+                                            ),
+                                            color: deal['isPressed']
+                                                ? Colors.pink
+                                                : Colors.grey,
+                                            iconSize: isSmallScreen ? 24 : 30,
+                                            onPressed: () {
+                                              setState(() {
+                                                deal['isPressed'] =
+                                                    !deal['isPressed'];
+                                                deal['count'] +=
+                                                    deal['isPressed'] ? 1 : -1;
+                                              });
+                                            },
                                           ),
-                                          Column(children: [IconButton( 
-                                                        icon: Icon( deal['isPressed'] ? Icons.handshake : Icons.handshake,),
-                                                       color: deal['isPressed']? Colors.pink : Colors.grey,iconSize: isSmallScreen ? 24 : 30,
-                                                   onPressed: () { setState(() {deal['isPressed'] = !deal['isPressed']; deal['count'] +=deal['isPressed'] ? 1 : -1;});},),
-                                              Textedit( text: '${deal['count']}', fontSize: isSmallScreen ? 16 : 18,
-                                              ),
-                                            ],
+                                          Textedit(
+                                            text: '${deal['count']}',
+                                            fontSize: isSmallScreen ? 16 : 18,
                                           ),
                                         ],
-                                                                              ),
-                                          ],
-                                        ),
-                                          
-                                       
-                                      ],
-                                    ),
-                                                         ),
-                                                       ),
-                                 ),
-                            ),
-                          );
-                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              
+                            ],
+                          ),
+                        ),
                       ),
                     ),
-            ],
-          
-        
+                  ),
+                );
+              },
+              
+            ),
             
-          
-        
-           ),
-     );
+          ),
+        ],
+      ),
+    );
   }
 }

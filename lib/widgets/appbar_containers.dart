@@ -1,4 +1,6 @@
+import 'package:coupown/Screanes/love_screen.dart';
 import 'package:coupown/Screanes/my_location.dart';
+import 'package:coupown/Screanes/notification_screen.dart';
 import 'package:coupown/Screanes/subscription/subdata_sceen.dart';
 import 'package:coupown/components/small_sutton.dart';
 import 'package:flutter/material.dart';
@@ -33,14 +35,14 @@ class AppbarContainers extends StatelessWidget {
                 text: 'Subscribe',
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (_)=>NotificationScreen()));},
                 icon: Icon(
                   Icons.notifications_none,
                   size: isSmallScreen ? screenWidth * 0.06 : screenWidth * 0.065, // Adjust icon size
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (_)=>const LoveScreen()));},
                 icon: Icon(
                   Icons.favorite_border,
                   size: isSmallScreen ? screenWidth * 0.06 : screenWidth * 0.065, // Adjust icon size

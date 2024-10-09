@@ -1,5 +1,6 @@
 import 'package:coupown/Const/app_colors.dart';
 import 'package:coupown/Screanes/subscription/add_product.dart';
+import 'package:coupown/components/my_appbar.dart';
 import 'package:coupown/components/my_button_ani.dart';
 import 'package:coupown/components/text_edit.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,21 +38,25 @@ class _PaymentMethodPageState extends State<PaymentMethodPage> {
 
     return Scaffold(
       backgroundColor: appColorPrimary,
-      appBar: AppBar(
-        leading: const Icon(Icons.arrow_back_ios),
-        title: const Text('Select Payment Method'),
-        backgroundColor: appColorPrimary,
-      ),
+     
+      
       body: Padding(
-        padding: const EdgeInsets.all(5.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: MyAppbar(text: "Select Method"),
+            ),
+            
+            const SizedBox(height: 20,),
             const Textedit(
               text: "Payment Method",
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
             ),
+            const SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
               child: Card(

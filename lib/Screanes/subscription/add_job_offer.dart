@@ -58,7 +58,7 @@ class _AddJobOfferState extends State<AddJobOffer> {
     'endDate': TextEditingController(),
     'position': TextEditingController(),
     'experience': TextEditingController(),
-    "mobailenumber":TextEditingController(),
+    "mobilenumber":TextEditingController(),
     "email": TextEditingController(),
   };
 
@@ -403,7 +403,7 @@ Widget build(BuildContext context) {
               
           ),
           const SizedBox(height: 16),
-          _buildTextField('Mobaile Number', controllers['mobailenumber']!, isNumber: true, fontSize: baseFontSize),
+          _buildTextField('Mobile Number', controllers['mobilenumber']!, isNumber: true, fontSize: baseFontSize),
           const SizedBox(height: 16),
           _buildTextField('Email', controllers['email']!, fontSize: baseFontSize),
           const SizedBox(height: 40),

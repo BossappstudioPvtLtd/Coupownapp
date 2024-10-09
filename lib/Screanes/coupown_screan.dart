@@ -3,7 +3,6 @@ import 'package:coupown/components/small_sutton.dart';
 import 'package:coupown/components/text_edit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nb_utils/nb_utils.dart';
 import 'package:ticket_clippers/ticket_clippers.dart';
 
 class CoupownScreen extends StatefulWidget {
@@ -34,7 +33,7 @@ class _CoupownScreenState extends State<CoupownScreen> {
       'count': 0,
       "valid date": "15/09/2024",
       "location": "Tuticorin.",
-      "remainingTime": Duration(hours: 12),
+      "remainingTime": const Duration(hours: 12),
     },
     {
       'logoUrl': 'assets/exclusive/WhatsApp4.jpeg',
@@ -54,7 +53,7 @@ class _CoupownScreenState extends State<CoupownScreen> {
       'count': 0,
       "valid date": "15/08/2024",
       "location": "Tuticorin.",
-      "remainingTime": Duration(hours: 12),
+      "remainingTime": const Duration(hours: 12),
     },
    
     // Add other offers...
@@ -70,7 +69,7 @@ class _CoupownScreenState extends State<CoupownScreen> {
       backgroundColor:const Color.fromARGB(255, 243, 244, 252),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Container(
+        child: SizedBox(
           height: double.infinity,
           child: SingleChildScrollView(
             child: Column(
@@ -103,7 +102,7 @@ class _CoupownScreenState extends State<CoupownScreen> {
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.black, backgroundColor: Colors.white, // Text color for white button
                   ),
-                  child: Text("        Past        "),
+                  child: const Text("        Past        "),
                 ),
               ),
             ],
@@ -340,12 +339,10 @@ class DottedLinePainter extends CustomPainter {
 
           
           content: SizedBox(
-            height: 400,
-            width: 600,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(children: [ Spacer(),IconButton( onPressed: () {  Navigator.of(context).pop(); }, icon:Icon(Icons.close,) )],),
+                Row(children: [ const Spacer(),IconButton( onPressed: () {  Navigator.of(context).pop(); }, icon:Icon(Icons.close,) )],),
                 const Textedit( text: 'Tarce fashions',),
                 
                 const Row(
@@ -360,7 +357,8 @@ class DottedLinePainter extends CustomPainter {
                 const SizedBox(height: 10),
                 Image.asset(
                   'assets/featurerd/qrcode.png', // Replace with your image URL
-                  height: 100,
+                  height: 200,
+                  width: 400,
                   fit: BoxFit.cover,
                 ),
                 
@@ -370,27 +368,28 @@ class DottedLinePainter extends CustomPainter {
                 
               
                 const Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
 
                 Column(crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("User Name"), Textedit(text: "sankaran"),
+                    Text("User Name",style: TextStyle(color: appTextColorSecondary),), Textedit(text: "sankaran"),
                     SizedBox(height: 5,),
-                    Text("Offer Start"), Textedit(text: "apr 01.2024"),
+                    Text("Offer Start",style: TextStyle(color: appTextColorSecondary),), Textedit(text: "apr 01.2024"),
                     
                     SizedBox(height: 5,),
-                    Text("Actual Price"), Textedit(text: "₹4999 ")
+                    Text("Actual Price",style: TextStyle(color: appTextColorSecondary),), Textedit(text: "₹4999 ")
 
                   ],),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Phone Number "), Textedit(text: "91 98413 xxxxx"),
+                    Text("Phone Number ",style: TextStyle(color: appTextColorSecondary),), Textedit(text: "91 98413 xxxxx"),
                        SizedBox(height: 5,),
-                    Text("Offer End"), Textedit(text: "apr 25.2024") ,
+                    Text("Offer End",style: TextStyle(color: appTextColorSecondary),), Textedit(text: "apr 25.2024") ,
                     
                        SizedBox(height: 5,),
-                    Text("Offer Price"), Textedit(text: "₹3999"),
+                    Text("Offer Price",style: TextStyle(color: appTextColorSecondary),), Textedit(text: "₹3999"),
                   ],
                 )
                 ],),

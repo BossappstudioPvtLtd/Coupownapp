@@ -1,8 +1,9 @@
 import 'package:coupown/Const/app_colors.dart';
-import 'package:coupown/Screanes/local%20Service/lacaltab.dart';
+import 'package:coupown/Screanes/Local%20Service/lacaltab.dart';
 import 'package:coupown/components/text_edit.dart';
 import 'package:coupown/widgets/namebar.dart';
 import 'package:flutter/material.dart';
+
 
 class InstalionServis extends StatefulWidget {
   const InstalionServis({super.key});

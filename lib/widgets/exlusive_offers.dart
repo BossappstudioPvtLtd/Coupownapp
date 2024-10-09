@@ -1,5 +1,5 @@
 import 'package:coupown/Const/app_colors.dart';
-import 'package:coupown/Screanes/Exclusive/Exclusive_Screan.dart';
+import 'package:coupown/Screanes/Exclusive/exclusive_screan.dart';
 import 'package:coupown/Screanes/Exclusive/exclusive_view.dart';
 import 'package:coupown/components/small_sutton.dart';
 import 'package:coupown/widgets/namebar.dart';
