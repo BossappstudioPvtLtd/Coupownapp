@@ -1,25 +1,48 @@
 
 import 'package:coupown/Screanes/bottam_nav.dart';
 import 'package:coupown/components/my_button_ani.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:coupown/Const/app_colors.dart';
 import 'package:coupown/components/text_edit.dart';
 
 
 class VerifyOtp extends StatefulWidget {
-  const VerifyOtp({super.key});
-
+  
+  final String? verificationId;
+  const VerifyOtp({super.key,  this.verificationId});
+  
   @override
   State<VerifyOtp> createState() => _VerifyOtpState();
 }
 
 class _VerifyOtpState extends State<VerifyOtp> with SingleTickerProviderStateMixin {
+
+String verificationId = "";
+void verifyOtp(BuildContext context) async {
+    final String otp = otpController.text.trim();
+
+    if (otp.isNotEmpty) {
+      try {
+        final AuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: otp);
+        await FirebaseAuth.instance.signInWithCredential(credential);
+        // Navigate to the next screen
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SuccessScreen()));
+      } catch (e) {
+        print('Error verifying OTP: $e');
+      }
+    } else {
+      print('Please enter the OTP.');
+    }
+  }
+
   // Controllers for each OTP digit input
   final List<TextEditingController> _controllers = List.generate(
     5,
     (index) => TextEditingController(),
   );
-
+   
+  final TextEditingController otpController = TextEditingController();
   // Focus nodes to manage focus between text fields
   final List<FocusNode> _focusNodes = List.generate(
     5,
@@ -83,6 +106,9 @@ class _VerifyOtpState extends State<VerifyOtp> with SingleTickerProviderStateMix
     _controller.dispose();
     super.dispose();
   }
+
+  
+
 
   @override
   Widget build(BuildContext context) {
@@ -188,6 +214,19 @@ class _VerifyOtpState extends State<VerifyOtp> with SingleTickerProviderStateMix
           ],
         ),
       ),
+    );
+  }
+}
+
+
+class SuccessScreen extends StatelessWidget {
+  const SuccessScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Success')),
+      body: const Center(child: Text('OTP Verification Successful!')),
     );
   }
 }

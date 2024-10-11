@@ -3,6 +3,7 @@ import 'package:coupown/Const/app_colors.dart';
 import 'package:coupown/components/my_button_ani.dart';
 import 'package:coupown/components/my_text_field.dart';
 import 'package:coupown/components/text_edit.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class ApplePage extends StatefulWidget {
   const ApplePage({super.key});
@@ -14,7 +15,7 @@ class ApplePage extends StatefulWidget {
 class _ApplePageState extends State<ApplePage> with SingleTickerProviderStateMixin {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  
+
   late AnimationController _controller;
   late Animation<double> _fadeInAnimation;
   late Animation<Offset> _slideInAnimation;
@@ -53,13 +54,35 @@ class _ApplePageState extends State<ApplePage> with SingleTickerProviderStateMix
     super.dispose();
   }
 
+  Future<void> _signInWithApple() async {
+    try {
+      final appleIDCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        webAuthenticationOptions: WebAuthenticationOptions(
+          clientId: 'your.client.id',
+          redirectUri: Uri.parse('https://your.redirect.uri'),
+        ),
+      );
+
+      print('User ID: ${appleIDCredential.userIdentifier}');
+      print('Email: ${appleIDCredential.email}');
+      print('Full Name: ${appleIDCredential.givenName} ${appleIDCredential.familyName}');
+      
+    } catch (error) {
+      print('Error signing in with Apple: $error');
+      // 
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: appColorPrimary,
       body: Stack(
         children: [
-          // Image positioned at the top left
           Positioned(
             top: 50,
             left: 20,
@@ -87,7 +110,6 @@ class _ApplePageState extends State<ApplePage> with SingleTickerProviderStateMix
               ),
             ),
           ),
-          // Centered content
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -97,7 +119,6 @@ class _ApplePageState extends State<ApplePage> with SingleTickerProviderStateMix
                   child: Column(
                     children: [
                       const SizedBox(height: 20),
-                      // Text title for the sign-in
                       FadeTransition(
                         opacity: _fadeInAnimation,
                         child: SlideTransition(
@@ -110,7 +131,6 @@ class _ApplePageState extends State<ApplePage> with SingleTickerProviderStateMix
                         ),
                       ),
                       const SizedBox(height: 20),
-                      // Username TextField
                       FadeTransition(
                         opacity: _fadeInAnimation,
                         child: SlideTransition(
@@ -122,9 +142,7 @@ class _ApplePageState extends State<ApplePage> with SingleTickerProviderStateMix
                           ),
                         ),
                       ),
-                      // Password TextField (you can add it if needed)
                       const SizedBox(height: 30),
-                      // Sign in Button
                       FadeTransition(
                         opacity: _fadeInAnimation,
                         child: SlideTransition(
@@ -132,9 +150,7 @@ class _ApplePageState extends State<ApplePage> with SingleTickerProviderStateMix
                           child: MyButtonAni(
                             elevationsize: 20,
                             text: "Continue",
-                            onTap: () {
-                              // Your action here
-                            },
+                            onTap: _signInWithApple,
                           ),
                         ),
                       ),

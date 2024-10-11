@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "565852755125",
+    "project_id": "coupown-b4b84",
+    "storage_bucket": "coupown-b4b84.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:565852755125:android:0fe8ac3ed1feccc1a8dafc",
+        "android_client_info": {
+          "package_name": "com.example.coupown"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCn5kwYLdbw6oZZyK2mQmVbw5vXLw0i4oY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

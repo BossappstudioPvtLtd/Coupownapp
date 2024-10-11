@@ -1,3 +1,4 @@
+import 'package:coupown/Auth/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:coupown/Const/app_colors.dart';
 import 'package:coupown/components/my_button_ani.dart';
@@ -12,14 +13,11 @@ class Facebook extends StatefulWidget {
 }
 
 class _FacebookState extends State<Facebook> with SingleTickerProviderStateMixin {
-  // Controllers to handle user input for username and password
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   
-  // Boolean to manage password visibility
   bool _obscurePassword = false;
 
-  // Animation variables
   late AnimationController _controller;
   late Animation<double> fadeInAnimation;
   late Animation<Offset> slideInAnimation;
@@ -63,14 +61,12 @@ class _FacebookState extends State<Facebook> with SingleTickerProviderStateMixin
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
-    // Adjust text size based on screen width
     double titleFontSize = screenWidth * 0.05;
 
     return Scaffold(
       backgroundColor: appColorPrimary,
       body: Stack(
         children: [
-          // Image positioned at the top left
           Positioned(
             top: screenHeight * 0.05,
             left: screenWidth * 0.05,
@@ -86,7 +82,6 @@ class _FacebookState extends State<Facebook> with SingleTickerProviderStateMixin
               ),
             ),
           ),
-          // Centered content
           Center(
             child: SingleChildScrollView(
               child: Column(
@@ -97,7 +92,6 @@ class _FacebookState extends State<Facebook> with SingleTickerProviderStateMixin
                     child: Column(
                       children: [
                         SizedBox(height: screenHeight * 0.02),
-                        // Text title for the sign-in
                         FadeTransition(
                           opacity: fadeInAnimation,
                           child: SlideTransition(
@@ -111,7 +105,6 @@ class _FacebookState extends State<Facebook> with SingleTickerProviderStateMixin
                           ),
                         ),
                         SizedBox(height: screenHeight * 0.02),
-                        // Username TextField
                         FadeTransition(
                           opacity: fadeInAnimation,
                           child: SlideTransition(
@@ -125,7 +118,6 @@ class _FacebookState extends State<Facebook> with SingleTickerProviderStateMixin
                           ),
                         ),
                         SizedBox(height: screenHeight * 0.015),
-                        // Password TextField
                         FadeTransition(
                           opacity: fadeInAnimation,
                           child: SlideTransition(
@@ -147,9 +139,7 @@ class _FacebookState extends State<Facebook> with SingleTickerProviderStateMixin
                                   prefixIcon: const Icon(Icons.lock, color: Colors.grey),
                                   suffixIcon: IconButton(
                                     icon: Icon(
-                                      _obscurePassword
-                                          ? Icons.visibility_off
-                                          : Icons.visibility,
+                                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
                                       color: Colors.grey,
                                     ),
                                     onPressed: () {
@@ -176,8 +166,8 @@ class _FacebookState extends State<Facebook> with SingleTickerProviderStateMixin
                         elevationsize: 20,
                         text: "Continue",
                         onTap: () {
-                          // Your action here
-                        },
+                           SignInMethods.signInWithFacebook();
+                        }
                       ),
                     ),
                   ),

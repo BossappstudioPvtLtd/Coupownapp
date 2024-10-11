@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:coupown/Auth/ragister_page.dart';
+import 'package:coupown/Auth/authgate.dart';
 import 'package:flutter/material.dart';
 import 'package:coupown/Const/app_colors.dart';
 import 'package:coupown/components/text_edit.dart';
@@ -28,7 +28,7 @@ class _OnBoardingState extends State<OnBoarding> {
           _progress = 1.0; // Ensure progress doesn't exceed 100%
           _timer?.cancel(); // Cancel the timer when progress is 100%
           // Navigate to the Register page
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Ragisterpage()),);
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Authgate()),);
         }
       });
     });
