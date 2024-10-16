@@ -1,10 +1,15 @@
+import 'package:coupown/Advertisement/deals_of_the_day.dart';
+import 'package:coupown/Advertisement/header_list.dart';
+import 'package:coupown/Advertisement/instaation_services.dart';
+import 'package:coupown/Advertisement/special_offers.dart';
+import 'package:coupown/Advertisement/trending_deal.dart';
+import 'package:coupown/Advertisement/upcoming.dart';
 import 'package:coupown/Const/app_colors.dart';
 import 'package:coupown/widgets/adds.dart';
 import 'package:coupown/widgets/all_featuers.dart';
 import 'package:coupown/widgets/appbar_containers.dart';
 import 'package:coupown/widgets/deals_of_the_day.dart';
 import 'package:coupown/widgets/exlusive_offers.dart';
-import 'package:coupown/widgets/image_slider_widgets.dart';
 import 'package:coupown/widgets/instalion_servis.dart';
 import 'package:coupown/widgets/search_widgets.dart';
 import 'package:coupown/widgets/spacial_offers.dart';
@@ -71,32 +76,37 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
               ),
               SizedBox(height: isLargeScreen ? 25 : 15),
               const SearchWidgets(),
+              
               SizedBox(height: isLargeScreen ? 25 : 15),
-              const ImageSlider(),
+             const HeaderList(),
               SizedBox(height: isLargeScreen ? 25 : 15),
+             //const ImageSlider(),
+            
               const AvatarListView(),
               SizedBox(height: isLargeScreen ? 25 : 15),
-              ImageSliderPage(),
+              const TrendingDeal(),
+             
               SizedBox(height: isLargeScreen ? 25 : 15),
               const TradingDeals(),
               SizedBox(height: isLargeScreen ? 25 : 15),
-              ImageSliderPage(),
+              const DealsAdd(),
               SizedBox(height: isLargeScreen ? 25 : 15),
               const DealsOfTheDay(),
               SizedBox(height: isLargeScreen ? 25 : 15),
-              ImageSliderPage(),
+             
+              const SpecialAdd(),
               SizedBox(height: isLargeScreen ? 25 : 15),
               const SpacialOffers(),
               SizedBox(height: isLargeScreen ? 25 : 15),
-              ImageSliderPage(),
+               ImageSliderPage(),
               SizedBox(height: isLargeScreen ? 25 : 15),
               const ExclusiveOffers(),
               SizedBox(height: isLargeScreen ? 25 : 15),
-              ImageSliderPage(),
+              const Upcoming(),
               SizedBox(height: isLargeScreen ? 25 : 15),
               const UpcomingOffers(),
               SizedBox(height: isLargeScreen ? 25 : 15),
-              ImageSliderPage(),
+              const InstaationAdd(),
               SizedBox(height: isLargeScreen ? 25 : 15),
               const InstalionServis(),
               SizedBox(height: isLargeScreen ? 25 : 15),

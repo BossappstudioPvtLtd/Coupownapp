@@ -88,7 +88,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                       );
                     },
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey),
                         borderRadius: BorderRadius.circular(8),
@@ -97,13 +97,13 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                     ),
                   ),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Expanded(
                   flex: 2,
                   child: TextField(
                     controller: phoneController,
                     keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Enter phone number',
                       border: OutlineInputBorder(),
                     ),
@@ -144,7 +144,7 @@ class VerifyOtpScreen extends StatelessWidget {
         final AuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId!, smsCode: otp);
         await FirebaseAuth.instance.signInWithCredential(credential);
         // Navigate to the next screen
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => SuccessScreen()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SuccessScreen()));
       } catch (e) {
         print('Error verifying OTP: $e');
       }
@@ -156,7 +156,7 @@ class VerifyOtpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Verify OTP')),
+      appBar: AppBar(title: const Text('Verify OTP')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

@@ -66,7 +66,8 @@ class _CoupownScreenState extends State<CoupownScreen> {
     final isMediumScreen = screenWidth >= 400 && screenWidth <= 600;
     
     return Scaffold(
-      backgroundColor:const Color.fromARGB(255, 243, 244, 252),
+      //backgroundColor:const Color.fromARGB(255, 243, 244, 252),
+      backgroundColor: appColorPrimary,
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: SizedBox(
@@ -119,96 +120,169 @@ SizedBox(
         itemBuilder: (context, index) {
           final deal = exclusiveOffers[index];
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Column(
-                children: [
-                  Align(
-                    child: TicketClipper(
-                      clipper: TicketRoundedEdgeClipper(
-                        edge: Edge.horizontal,
-                        position: 70,
-                        radius: 40,
+            padding: const EdgeInsets.symmetric(horizontal: 8 ,vertical: 10),
+            child: Material(
+              color: const Color.fromARGB(255, 206, 207, 213),
+              borderRadius: BorderRadius.circular(8),
+             shadowColor: appColorPrimary,
+              
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  children: [
+                    Align(
+                      child: TicketClipper(
+                        clipper: TicketRoundedEdgeClipper(
+                          edge: Edge.horizontal,
+                          position: 70,
+                          radius: 40,
+                        ),
+                        shadowRadius: ShadowRadius.circular(8),
+                        shadow: const BoxShadow(color: Colors.transparent),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Card(
+                            elevation: 5,
+                            child: Container(
+                              height: 140,
+                              width: 400,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: appColorPrimary,
+                              ),
+                              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: CircleAvatar(
+                                      radius: isSmallScreen ? 32 : (isMediumScreen ? 37 : 40),
+                                      backgroundColor: appColorAccent,
+                                      child: CircleAvatar(
+                                        backgroundColor: appLight_purple,
+                                        radius: isSmallScreen ? 30 : (isMediumScreen ? 36 : 39),
+                                        child: CircleAvatar(
+                                          radius: isSmallScreen ? 28 : (isMediumScreen ? 33 : 36),
+                                          backgroundColor: appColorPrimary,
+                                          backgroundImage: AssetImage(deal['logoUrl']!),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 1),
+                                    child: SizedBox(
+                                      width: 2,
+                                      child: CustomPaint(
+                                        painter: DottedLinePainter(),
+                                        child: const SizedBox(height: double.infinity),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 10),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            deal['name']!,
+                                            style: TextStyle(
+                                              fontSize: isSmallScreen ? 18 : 24,
+                                              fontWeight: FontWeight.bold,
+                                              color: appTextColorSecondary,
+                                            ),
+                                          ),
+                                          Text(
+                                            deal['location']!,
+                                            style: TextStyle(
+                                              fontSize: isSmallScreen ? 12 : 10,
+                                              fontWeight: FontWeight.bold,
+                                              color: appTextColorSecondary,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 20),
+                                          Text(
+                                            'Valid Until: ${deal["valid date"]}',
+                                            style: TextStyle(
+                                              fontSize: isSmallScreen ? 12 : 10,
+                                              fontWeight: FontWeight.bold,
+                                              color: appTextColorSecondary,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                      shadowRadius: ShadowRadius.circular(8),
-                      shadow: const BoxShadow(color: Colors.transparent),
-                      child: ClipRRect(
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 2),
+                      child: Material(
                         borderRadius: BorderRadius.circular(8),
-                        child: Card(
-                          elevation: 5,
+                        elevation: 10,
+                        color: appColorPrimary,
+                        shadowColor: appColorPrimary,
+                        child: Container(
+                          height: isSmallScreen ? 150 : 250,
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(3),
                           child: Container(
-                            height: 140,
-                            width: 400,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
                               color: appColorPrimary,
                             ),
-                            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
-                            child: Row(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                const SizedBox(height: 20),
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 10),
+                                  child: SmallButton(
+                                    elevationsize: 5,
+                                    text: "Exclusive Offer",
+                                    containerheight: 30,
+                                    containerwidth: 140,
+                                    fontSize: 15,
+                                    textweight: FontWeight.normal,
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Textedit(
+                                    text: "deal['offerDetails'],",
+                                    fontSize: 12,
+                                  ),
+                                ),
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: CircleAvatar(
-                                    radius: isSmallScreen ? 32 : (isMediumScreen ? 37 : 40),
-                                    backgroundColor: appColorAccent,
-                                    child: CircleAvatar(
-                                      backgroundColor: appLight_purple,
-                                      radius: isSmallScreen ? 30 : (isMediumScreen ? 36 : 39),
-                                      child: CircleAvatar(
-                                        radius: isSmallScreen ? 28 : (isMediumScreen ? 33 : 36),
-                                        backgroundColor: appColorPrimary,
-                                        backgroundImage: AssetImage(deal['logoUrl']!),
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Textedit(
+                                        text: "8 Users Today",
+                                        fontSize: 12,
                                       ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 1),
-                                  child: SizedBox(
-                                    width: 2,
-                                    child: CustomPaint(
-                                      painter: DottedLinePainter(),
-                                      child: const SizedBox(height: double.infinity),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 10),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          deal['name']!,
+                                      TextButton(
+                                        onPressed: () => _showCupertinoDialog(context),
+                                        child: const Text(
+                                          "VIEW CoupOwn",
                                           style: TextStyle(
-                                            fontSize: isSmallScreen ? 18 : 24,
-                                            fontWeight: FontWeight.bold,
-                                            color: appTextColorSecondary,
+                                            color: appColorAccent,
+                                            decoration: TextDecoration.underline,
+                                            decorationColor: appColorAccent,
                                           ),
                                         ),
-                                        Text(
-                                          deal['location']!,
-                                          style: TextStyle(
-                                            fontSize: isSmallScreen ? 12 : 10,
-                                            fontWeight: FontWeight.bold,
-                                            color: appTextColorSecondary,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 20),
-                                        Text(
-                                          'Valid Until: ${deal["valid date"]}',
-                                          style: TextStyle(
-                                            fontSize: isSmallScreen ? 12 : 10,
-                                            fontWeight: FontWeight.bold,
-                                            color: appTextColorSecondary,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
@@ -217,76 +291,9 @@ SizedBox(
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 2),
-                    child: Material(
-                      borderRadius: BorderRadius.circular(8),
-                      elevation: 10,
-                      color: appColorPrimary,
-                      shadowColor: appColorPrimary,
-                      child: Container(
-                        height: isSmallScreen ? 150 : 250,
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(3),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: appColorPrimary,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 20),
-                              const Padding(
-                                padding: EdgeInsets.only(left: 10),
-                                child: SmallButton(
-                                  elevationsize: 5,
-                                  text: "Exclusive Offer",
-                                  containerheight: 30,
-                                  containerwidth: 140,
-                                  fontSize: 15,
-                                  textweight: FontWeight.normal,
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Textedit(
-                                  text: "deal['offerDetails'],",
-                                  fontSize: 12,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Textedit(
-                                      text: "8 Users Today",
-                                      fontSize: 12,
-                                    ),
-                                    TextButton(
-                                      onPressed: () => _showCupertinoDialog(context),
-                                      child: const Text(
-                                        "VIEW CoupOwn",
-                                        style: TextStyle(
-                                          color: appColorAccent,
-                                          decoration: TextDecoration.underline,
-                                          decorationColor: appColorAccent,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                ],
+                    const SizedBox(height: 10),
+                  ],
+                ),
               ),
             ),
           );

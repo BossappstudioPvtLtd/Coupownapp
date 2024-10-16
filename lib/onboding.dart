@@ -3,6 +3,7 @@ import 'package:coupown/Auth/authgate.dart';
 import 'package:flutter/material.dart';
 import 'package:coupown/Const/app_colors.dart';
 import 'package:coupown/components/text_edit.dart';
+import 'package:nb_utils/nb_utils.dart';
 
 class OnBoarding extends StatefulWidget {
   const OnBoarding({super.key});
@@ -44,6 +45,7 @@ class _OnBoardingState extends State<OnBoarding> {
 
   @override
   Widget build(BuildContext context) {
+    setStatusBarColor(Colors.transparent);
     return Scaffold(
       backgroundColor: appColorPrimary,
       body: Padding(

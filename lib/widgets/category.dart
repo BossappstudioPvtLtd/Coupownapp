@@ -94,7 +94,6 @@ class _CategoryState extends State<Category> {
     });
   }
 
-  @override
  @override
 Widget build(BuildContext context) {
   final double screenWidth = MediaQuery.of(context).size.width;

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:coupown/Const/app_colors.dart';
+import 'package:coupown/Const/latlang.dart';
 import 'package:coupown/Screanes/Deald%20Of%20The%20Day/produvt_deatiles.dart';
 import 'package:coupown/components/text_edit.dart';
 import 'package:flutter/cupertino.dart';
@@ -391,6 +392,8 @@ Widget build(BuildContext context) {
             },
           ),
         ),
+        const LocationTracker(),
+        
       ],
     ),
   );

@@ -9,11 +9,16 @@
 # packages, and plugins designed to encourage good coding practices.
 analyzer:
   errors:
+    avoid_function_literals_in_foreach_calls: ignore
     avoid_print: ignore
     constant_identifier_names: ignore
     deprecated_member_use: ignore
+    file_names: ignore
     library_private_types_in_public_api: ignore
+    prefer_const_constructors: ignore
     prefer_final_fields: ignore
+    unnecessary_import: ignore
+    unnecessary_to_list_in_spreads: ignore
     unused_element: ignore
     unused_field: ignore
     unused_local_variable: ignore

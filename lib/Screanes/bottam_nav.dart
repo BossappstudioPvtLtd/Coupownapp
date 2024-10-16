@@ -4,7 +4,7 @@ import 'package:coupown/Screanes/favorite_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'dash_board_screen.dart';
-import 'profile_screen.dart';
+import 'Profile/profile_screen.dart';
 
 
 class BottamNav extends StatefulWidget {

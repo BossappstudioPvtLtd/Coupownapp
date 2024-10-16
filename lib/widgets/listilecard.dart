@@ -16,8 +16,8 @@ class _ListilecardState extends State<Listilecard> {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       title:  Padding(
-        padding: EdgeInsets.only(left: 10),
-        child: Text(widget.text, style: TextStyle(fontWeight: FontWeight.bold)),
+        padding: const EdgeInsets.only(left: 10),
+        child: Text(widget.text, style: const TextStyle(fontWeight: FontWeight.bold)),
       ),
       trailing: const Row(
         mainAxisSize: MainAxisSize.min,

@@ -13,6 +13,7 @@ import 'package:coupown/components/my_button_ani.dart';
 import 'package:coupown/components/text_edit.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class Ragisterpage extends StatefulWidget {
@@ -219,6 +220,8 @@ class _RagisterpageState extends State<Ragisterpage> with SingleTickerProviderSt
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final isSmallScreen = screenHeight < 1000;
+    setStatusBarColor(appColorPrimary);
+
 
     return Scaffold(
       resizeToAvoidBottomInset: false,

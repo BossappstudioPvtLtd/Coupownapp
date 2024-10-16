@@ -11,7 +11,7 @@ class SelectedItemsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: appColorPrimary,
       appBar: AppBar(
-        title: Text('Selected Subcategories'),
+        title: const Text('Selected Subcategories'),
         backgroundColor:appColorPrimary
       ),
       body: ListView.builder(
@@ -29,7 +29,7 @@ class SelectedItemsScreen extends StatelessWidget {
                 children: [
                   Text(
                     category,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   ...items.map((item) => Padding(
                     padding: const EdgeInsets.only(left: 16.0, top: 4.0),
