@@ -1,6 +1,8 @@
 import 'package:coupown/Const/app_colors.dart';
 import 'package:coupown/Screanes/coupown_screan.dart';
 import 'package:coupown/Screanes/favorite_screen.dart';
+import 'package:coupown/newone.dart';
+import 'package:coupown/text1.dart';
 import 'package:flutter/material.dart';
 
 import 'dash_board_screen.dart';
@@ -20,7 +22,7 @@ class _BottamNavState extends State<BottamNav> {
   final List<Widget> _pages = [
     const DashboardScreen(),
     const CoupownScreen(),
-   const FavoriteScreen(),
+    CircleAvatarRadiusControl(),
     const ProfileScreen(),
   ];
 

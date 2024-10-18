@@ -1,195 +1,246 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:coupown/Const/web_view.dart';
+import 'package:coupown/widgets/image_slider_widgets.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:country_picker/country_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 
-
-
-class PhoneAuthScreen extends StatefulWidget {
-  const PhoneAuthScreen({super.key});
+class CarouselExample extends StatefulWidget {
+  const CarouselExample({super.key});
 
   @override
-  _PhoneAuthScreenState createState() => _PhoneAuthScreenState();
+  _CarouselExampleState createState() => _CarouselExampleState();
 }
 
-class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final TextEditingController phoneController = TextEditingController();
-  String selectedCountryCode = "+91"; // Default country code for India
-  String verificationId = "";
-  bool isVerifying = false;
+class _CarouselExampleState extends State<CarouselExample> {
+  final DatabaseReference _adsRef = FirebaseDatabase.instance.ref('advertisements/header_ad');
 
-  void sendOTP() async {
+  List<Map<String, dynamic>> _header = [];
+  bool _isLoading = true;
+  int _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchAdvertisements();
+  }
+
+  Future<void> _fetchAdvertisements() async {
     setState(() {
-      isVerifying = true;
+      _isLoading = true;
     });
 
-    // Format phone number
-    final String phoneNumber = '$selectedCountryCode${phoneController.text.trim()}';
-
     try {
-      await _auth.verifyPhoneNumber(
-        phoneNumber: phoneNumber,
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          // Auto-retrieval or instant verification
-          await _auth.signInWithCredential(credential);
-          Navigator.push(context, MaterialPageRoute(builder: (_) => VerifyOtpScreen()));
-        },
-        verificationFailed: (FirebaseAuthException e) {
-          setState(() {
-            isVerifying = false;
+      final snapshot = await _adsRef.get();
+      if (snapshot.exists) {
+        var data = snapshot.value as Map<dynamic, dynamic>;
+        List<Map<String, dynamic>> ads = [];
+        data.forEach((key, value) {
+          ads.add({
+            'id': key,
+            'companyName': value['companyname'] ?? '',
+            'fromDate': value['fromDate'] ?? '',
+            'toDate': value['toDate'] ?? '',
+            'phone': value['phone'] ?? '',
+            'selectedImage': value['selectedImage'] ?? '',
+            'selectedOption': value['selectedOption'] ?? '',
+            'webLink': value['webLink'] ?? '',
           });
-          // Handle error here
-          print('Verification failed: ${e.message}');
-        },
-        codeSent: (String verificationId, int? resendToken) {
-          setState(() {
-            this.verificationId = verificationId;
-            isVerifying = false;
-          });
-          // Navigate to OTP verification screen
-          Navigator.push(context, MaterialPageRoute(builder: (_) => VerifyOtpScreen(verificationId: verificationId)));
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {
-          setState(() {
-            this.verificationId = verificationId;
-            isVerifying = false;
-          });
-        },
-      );
-    } catch (e) {
+        });
+
+        List<String> expiredAds = [];
+        ads.forEach((ad) {
+          if (_isExpired(ad['toDate'])) {
+            expiredAds.add(ad['id']);
+          }
+        });
+
+        // Remove expired ads if found
+        if (expiredAds.isNotEmpty) {
+          for (var adId in expiredAds) {
+            try {
+              await _adsRef.child(adId).remove();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Expired advertisement deleted')),
+              );
+            } catch (error) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Failed to delete expired ad: $error')),
+              );
+            }
+          }
+        }
+
+        // Update the header list with non-expired ads
+        setState(() {
+          _header = ads.where((ad) => !_isExpired(ad['toDate'])).toList();
+          _isLoading = false;
+        });
+      } else {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    } catch (error) {
       setState(() {
-        isVerifying = false;
+        _isLoading = false;
       });
-      print('Error sending OTP: $e');
+      print('Error fetching advertisements: $error');
+    }
+  }
+
+  bool _isExpired(String toDate) {
+    if (toDate == null || toDate.isEmpty) return false;
+
+    String cleanedDate = toDate.split('>')[0].trim(); // Clean unwanted characters
+    try {
+      final currentDate = DateTime.now();
+      final expiryDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(cleanedDate);
+      return currentDate.isAfter(expiryDate) || currentDate.isAtSameMomentAs(expiryDate);
+    } catch (e) {
+      print('Error parsing date: $e');
+      return false;
+    }
+  }
+
+  void _openWebView(String url, String phoneNumber) {
+    if (url.isNotEmpty) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => WebViewScreen(url: url, phoneNumber: phoneNumber),
+        ),
+      );
+    } else {
+      print("No web link available for this ad.");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("No web link available."),
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Phone OTP Authentication')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      showCountryPicker(
-                        context: context,
-                        onSelect: (country) {
-                          setState(() {
-                            selectedCountryCode = '+${country.phoneCode}';
-                          });
-                        },
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    return _isLoading
+        ? _buildShimmerEffect(screenWidth, screenHeight) // Show shimmer while loading
+        : _header.isEmpty
+            ? const Center(child: CircularProgressIndicator())
+            : Column(
+                children: [
+                  CarouselSlider.builder(
+                    itemCount: _header.length,
+                    itemBuilder: (BuildContext context, int index, int realIndex) {
+                      final ad = _header[index];
+                      double imageSize = _currentIndex == index
+                          ? screenWidth * 0.9
+                          : screenWidth * 0.7;
+
+                      return Container(
+                        width: double.infinity,
+                        height: 200,
+                        margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.01),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(screenWidth * 0.03),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            _openWebView(ad["webLink"]!, ad["phone"]!);
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(screenWidth * 0.03),
+                            child: ad['selectedImage'] != null
+                                ? CachedNetworkImage(
+                                    imageUrl: ad['selectedImage']!,
+                                    fit: BoxFit.fill,
+                                    width: imageSize,
+                                    height: screenHeight * 0.1,
+                                    placeholder: (context, url) => Shimmer.fromColors(
+                                      baseColor: Colors.grey[300]!,
+                                      highlightColor: Colors.grey[100]!,
+                                      child: Container(
+                                        width: imageSize,
+                                        height: screenHeight * 0.1,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                                  )
+                                : const SizedBox.shrink(),
+                          ),
+                        ),
                       );
                     },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(selectedCountryCode),
+                    options: CarouselOptions(
+                      height: screenHeight * 0.2,
+                      autoPlay: true,
+                      enlargeCenterPage: true,
+                      autoPlayInterval: const Duration(seconds: 3),
+                      autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                      enableInfiniteScroll: true,
+                      initialPage: 0,
+                      viewportFraction: 0.8,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          _currentIndex = index;
+                        });
+                        debugPrint('Current index: $index');
+                      },
                     ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  flex: 2,
-                  child: TextField(
-                    controller: phoneController,
-                    keyboardType: TextInputType.phone,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter phone number',
-                      border: OutlineInputBorder(),
-                    ),
+                  SizedBox(height: screenHeight * 0.02),
+                  CarouselIndicator(
+                    itemCount: _header.length,
+                    currentIndex: _currentIndex,
+                    screenWidth: screenWidth,
                   ),
+                ],
+              );
+  }
+
+  // Shimmer Effect while loading
+  Widget _buildShimmerEffect(double screenWidth, double screenHeight) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Column(
+        children: List.generate(
+          3, // Flexible based on the number of ads
+          (index) => Container(
+            margin: EdgeInsets.symmetric(vertical: screenHeight * 0.01, horizontal: screenWidth * 0.05),
+            width: double.infinity,
+            height: 200,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(screenWidth * 0.03),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: const Offset(0, 3),
                 ),
               ],
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                if (phoneController.text.length == 10) {
-                  sendOTP();
-                } else {
-                  print('Please enter a valid 10-digit mobile number.');
-                }
-              },
-              child: isVerifying ? const CircularProgressIndicator() : const Text('Send OTP'),
-            ),
-          ],
+            child: const SizedBox.shrink(),
+          ),
         ),
       ),
     );
   }
 }
 
-class VerifyOtpScreen extends StatelessWidget {
-  final String? verificationId;
-
-  VerifyOtpScreen({super.key, this.verificationId});
-
-  final TextEditingController otpController = TextEditingController();
-
-  void verifyOtp(BuildContext context) async {
-    final String otp = otpController.text.trim();
-
-    if (otp.isNotEmpty) {
-      try {
-        final AuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId!, smsCode: otp);
-        await FirebaseAuth.instance.signInWithCredential(credential);
-        // Navigate to the next screen
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const SuccessScreen()));
-      } catch (e) {
-        print('Error verifying OTP: $e');
-      }
-    } else {
-      print('Please enter the OTP.');
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Verify OTP')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: otpController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                hintText: 'Enter OTP',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => verifyOtp(context),
-              child: const Text('Verify OTP'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class SuccessScreen extends StatelessWidget {
-  const SuccessScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Success')),
-      body: const Center(child: Text('OTP Verification Successful!')),
-    );
-  }
-}

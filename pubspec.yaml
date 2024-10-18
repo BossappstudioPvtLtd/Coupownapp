@@ -87,6 +87,7 @@ dependencies:
   getwidget: ^4.0.0
   whatsapp_unilink: ^2.1.0
   font_awesome_flutter: ^10.7.0
+  flutter_animate: ^4.5.0
   
 
 dev_dependencies:

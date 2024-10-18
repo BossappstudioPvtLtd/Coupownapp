@@ -1,17 +1,17 @@
 import 'package:coupown/Advertisement/deals_of_the_day.dart';
+import 'package:coupown/Advertisement/exclusive.dart';
 import 'package:coupown/Advertisement/header_list.dart';
 import 'package:coupown/Advertisement/instaation_services.dart';
 import 'package:coupown/Advertisement/special_offers.dart';
 import 'package:coupown/Advertisement/trending_deal.dart';
 import 'package:coupown/Advertisement/upcoming.dart';
 import 'package:coupown/Const/app_colors.dart';
-import 'package:coupown/widgets/adds.dart';
+import 'package:coupown/text1.dart';
 import 'package:coupown/widgets/all_featuers.dart';
 import 'package:coupown/widgets/appbar_containers.dart';
 import 'package:coupown/widgets/deals_of_the_day.dart';
 import 'package:coupown/widgets/exlusive_offers.dart';
 import 'package:coupown/widgets/instalion_servis.dart';
-import 'package:coupown/widgets/search_widgets.dart';
 import 'package:coupown/widgets/spacial_offers.dart';
 import 'package:coupown/widgets/trading_deals.dart';
 import 'package:coupown/widgets/upcoming_offers.dart';
@@ -75,8 +75,7 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                   child: const AppbarContainers(),),
               ),
               SizedBox(height: isLargeScreen ? 25 : 15),
-              const SearchWidgets(),
-              
+              PinnedSearchBarApp(),
               SizedBox(height: isLargeScreen ? 25 : 15),
              const HeaderList(),
               SizedBox(height: isLargeScreen ? 25 : 15),
@@ -98,7 +97,8 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
               SizedBox(height: isLargeScreen ? 25 : 15),
               const SpacialOffers(),
               SizedBox(height: isLargeScreen ? 25 : 15),
-               ImageSliderPage(),
+              // ImageSliderPage(),
+              Exclusive(),
               SizedBox(height: isLargeScreen ? 25 : 15),
               const ExclusiveOffers(),
               SizedBox(height: isLargeScreen ? 25 : 15),

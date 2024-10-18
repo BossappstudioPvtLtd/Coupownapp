@@ -1,6 +1,6 @@
 import 'package:coupown/Const/app_colors.dart';
+import 'package:coupown/Screanes/Profile/help.dart';
 import 'package:coupown/Screanes/Profile/edit_profile.dart';
-import 'package:coupown/Screanes/Profile/help_suport.dart';
 import 'package:coupown/Screanes/Profile/setting.dart';
 import 'package:coupown/Screanes/Profile/terms_conditions.dart';
 import 'package:coupown/components/text_edit.dart';
@@ -8,6 +8,7 @@ import 'package:coupown/loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -80,6 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: Column(
         children: [
           const SizedBox(height: 50),
+           
           const Textedit(text: "Profile", fontSize: 20, fontWeight: FontWeight.bold, color: appTextColorPrimary),
           const SizedBox(height: 20),
           // Center( child: Stack(children: [ Shimmer.fromColors(

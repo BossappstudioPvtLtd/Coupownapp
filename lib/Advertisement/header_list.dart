@@ -21,7 +21,7 @@ class _HeaderListListState extends State<HeaderList> {
 
   late DatabaseReference _databaseReference;
   List<Map<String, dynamic>> _header = [];
-  bool _isLoading = false;
+  bool _isLoading = true;
   int _currentIndex = 0;
 
   @override
@@ -171,12 +171,11 @@ class _HeaderListListState extends State<HeaderList> {
                         ),
                         child: GestureDetector(
                             onTap: ()  {_openWebView(ad["webLink"],ad["phone"]); },
-  child:ClipRRect(
-  borderRadius: BorderRadius.circular(screenWidth * 0.03),
-  child: ad['selectedImage'] != null
-      ? CachedNetworkImage(
-          imageUrl: ad['selectedImage'],
-          fit: BoxFit.fill,
+                child:ClipRRect(borderRadius: BorderRadius.circular(screenWidth * 0.03),
+              child: ad['selectedImage'] != null
+                  ? CachedNetworkImage(
+                   imageUrl: ad['selectedImage'],
+                  fit: BoxFit.fill,
           width: imageSize,
           height: screenHeight * 0.1,
           placeholder: (context, url) => Shimmer.fromColors(
@@ -191,8 +190,8 @@ class _HeaderListListState extends State<HeaderList> {
           errorWidget: (context, url, error) => const Icon(Icons.error), // Show on error
         )
       : const SizedBox.shrink(),
-),
-),
+          ),
+        ),
                       );
                     },
                     options: CarouselOptions(
@@ -215,6 +214,7 @@ class _HeaderListListState extends State<HeaderList> {
                     currentIndex: _currentIndex,
                     screenWidth: screenWidth,
                   ),
+                  
                 ],
               );
   }
@@ -250,3 +250,4 @@ class _HeaderListListState extends State<HeaderList> {
     );
   }
 }
+
