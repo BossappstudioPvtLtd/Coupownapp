@@ -102,108 +102,46 @@ Widget build(BuildContext context) {
 
   return Container(
     color: const Color.fromARGB(255, 242, 243, 255),
-    width: screenWidth * 0.9, // 90% of screen width
-    height: screenHeight * 0.75, // 75% of screen height
-    child: Column(
-      children: [
-        SizedBox(height: screenHeight * 0.03), // 3% of screen height
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text(
-              'Categories',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const Spacer(),
-            IconButton(
-              icon: const Icon(Icons.close), 
-              onPressed: () {
-                Navigator.of(context).pop(); 
-              },
-            ),
+      width: screenWidth * 0.9,height: screenHeight * 0.75, 
+        child: Column( children: [SizedBox(height: screenHeight * 0.03), 
+          Row( mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
+            children: [const Text('Categories',style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+              const Spacer(),
+                IconButton(icon: const Icon(Icons.close),  onPressed: () { Navigator.of(context).pop();}, ),
           ],
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04), // 4% of screen width
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: 'Search Help About...',
-              prefixIcon: const Icon(Icons.search), 
-              hintStyle: const TextStyle(color: Colors.grey),
-              filled: true, 
-              fillColor: Colors.white, 
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide.none,
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide.none,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding: const EdgeInsets.all(16),
-            ),
-            onChanged: _searchCategories,
-          ),
-        ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: _filteredCategories.length,
-            itemBuilder: (context, index) {
-              String category = _filteredCategories[index];
-              List<String>? subCategories = _subCategories[category];
-
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      category,
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        Padding( padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04), // 4% of screen width
+          child: TextField( decoration: InputDecoration(hintText: 'Search Help About...',prefixIcon: const Icon(Icons.search), 
+            hintStyle: const TextStyle(color: Colors.grey), filled: true,  fillColor: Colors.white, 
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none, ),
+                focusedBorder: OutlineInputBorder( borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none,),
+                  enabledBorder: OutlineInputBorder( borderRadius: BorderRadius.circular(8), borderSide: BorderSide.none,),
+                    contentPadding: const EdgeInsets.all(16),),
+                      onChanged: _searchCategories,
                     ),
                   ),
-                  if (subCategories != null && subCategories.isNotEmpty)
-                    ...subCategories.asMap().entries.map((entry) {
-                      int subIndex = entry.key;
-                      String subCategory = entry.value;
-                      return Container(
-                        color: appColorPrimary,
-                        child: CheckboxListTile(
-                          title: Text(
-                            subCategory,
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
+        Expanded(child: ListView.builder(itemCount: _filteredCategories.length,
+            itemBuilder: (context, index) {String category = _filteredCategories[index];
+              List<String>? subCategories = _subCategories[category];
+              return Column( crossAxisAlignment: CrossAxisAlignment.start,
+                children: [ Padding( padding: const EdgeInsets.all(8.0),
+                  child: Text( category, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),), ),
+                    if (subCategories != null && subCategories.isNotEmpty)...subCategories.asMap().entries.map((entry) {
+                      int subIndex = entry.key; String subCategory = entry.value;
+                      return Container(color: appColorPrimary,child: CheckboxListTile(
+                        title: Text(subCategory, style: const TextStyle(fontWeight: FontWeight.bold), ),
                           value: _selectedSubCategories[category]![subIndex],
-                          onChanged: (value) => _onCheckboxChanged(category, subIndex, value),
-                        ),
-                      );
-                    }),
-                ],
-              );
-            },
-          ),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: EdgeInsets.only(
-              left: screenWidth * 0.1, // 10% of screen width
-              right: screenWidth * 0.1, // 10% of screen width
-              bottom: screenHeight * 0.03, // 3% of screen height
-            ),
-            child: SmallButton(
-              meterialColor: const Color.fromARGB(255, 15, 130, 19),
-              containerheight: 40,
-              containerwidth: 400,
-              onTap: _applySelection,
-              elevationsize: 20,
-              text: 'Apply',
-            ),
+                            onChanged: (value) => _onCheckboxChanged(category, subIndex, value),
+                          ),
+                        );
+                      }),
+                    ],
+                 );
+               },
+             ),
+           ),
+        Align(alignment: Alignment.bottomCenter, child: Padding(padding: EdgeInsets.only( left: screenWidth * 0.1,   right: screenWidth * 0.1, bottom: screenHeight * 0.03,),
+            child: SmallButton( meterialColor: const Color.fromARGB(255, 15, 130, 19), containerheight: 40,containerwidth: 400, onTap: _applySelection,elevationsize: 20, text: 'Apply',),
           ),
         ),
       ],

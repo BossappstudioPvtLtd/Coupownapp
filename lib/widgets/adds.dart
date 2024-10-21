@@ -66,14 +66,9 @@ class _ImageSliderPageState extends State<ImageSliderPage> {
                 physics: const NeverScrollableScrollPhysics(), // Disable manual scrolling
                 itemCount: widget.imageUrls.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.02), // Adjust margin based on screen width
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(screenWidth * 0.04), // Adjust border radius based on screen width
-                      child: Image.asset(
-                        widget.imageUrls[index],
-                        fit: BoxFit.fill,
-                      ),
+                  return Container( margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.02), // Adjust margin based on screen width
+                    child: ClipRRect(borderRadius: BorderRadius.circular(screenWidth * 0.04), // Adjust border radius based on screen width
+                      child: Image.asset( widget.imageUrls[index], fit: BoxFit.fill,),
                     ),
                   );
                 },

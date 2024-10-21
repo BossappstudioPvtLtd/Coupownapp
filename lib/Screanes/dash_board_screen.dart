@@ -6,7 +6,7 @@ import 'package:coupown/Advertisement/special_offers.dart';
 import 'package:coupown/Advertisement/trending_deal.dart';
 import 'package:coupown/Advertisement/upcoming.dart';
 import 'package:coupown/Const/app_colors.dart';
-import 'package:coupown/text1.dart';
+import 'package:coupown/Screanes/Srarching/my_searching.dart';
 import 'package:coupown/widgets/all_featuers.dart';
 import 'package:coupown/widgets/appbar_containers.dart';
 import 'package:coupown/widgets/deals_of_the_day.dart';
@@ -75,7 +75,8 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                   child: const AppbarContainers(),),
               ),
               SizedBox(height: isLargeScreen ? 25 : 15),
-              PinnedSearchBarApp(),
+             
+              MySearching(),
               SizedBox(height: isLargeScreen ? 25 : 15),
              const HeaderList(),
               SizedBox(height: isLargeScreen ? 25 : 15),

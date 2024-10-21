@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coupown/Const/web_view.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:http/http.dart' as http;
 
 class Exclusive extends StatefulWidget {
   const Exclusive({super.key});
@@ -148,23 +150,65 @@ class _ExclusiveState extends State<Exclusive> {
     });
   }
 
-  void _openWebView(String url, String phoneNumber) {
-    if (url.isNotEmpty) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => WebViewScreen(url: url, phoneNumber: phoneNumber,),
-        ),
-      );
-    } else {
-      print("No web link available for this ad.");
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("No web link available."),
-        ),
-      );
+  // void _openWebView(String url, String phoneNumber) {
+  //   if (url.isNotEmpty) {
+  //     Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => WebViewScreen(url: url, phoneNumber: phoneNumber,),
+  //       ),
+  //     );
+  //   } else {
+  //     print("No web link available for this ad.");
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content: Text("No web link available."),
+  //       ),
+  //     );
+  //   }
+  // }
+
+  void _openWebView(String url, String phoneNumber) async {
+  Uri? parsedUrl = Uri.tryParse(url);  // Check if the URL is well-formed
+  
+  if (parsedUrl != null && parsedUrl.hasScheme && parsedUrl.hasAuthority) {
+    // Optionally: Check if the link is accessible by performing a head request
+    try {
+      final response = await http.head(parsedUrl);
+
+      if (response.statusCode == 200) {
+        // URL is valid and reachable, open the WebView
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => WebViewScreen(url: url, phoneNumber: phoneNumber),
+          ),
+        );
+      } else {
+        // URL is not reachable
+        _showErrorMessage("Web link is not accessible.");
+      }
+    } catch (e) {
+      if (e is SocketException) {
+        _showErrorMessage("Unable to connect to the internet.");
+      } else {
+        _showErrorMessage("Error accessing the web link.");
+      }
     }
+  } else {
+    // URL is invalid
+    _showErrorMessage("Invalid web link format.");
   }
+}
+
+void _showErrorMessage(String message) {
+  print(message);
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message),
+    ),
+  );
+}
 
   @override
   void dispose() {
@@ -217,36 +261,20 @@ Widget build(BuildContext context) {
       _openWebView(ad['webLink'],ad["phone"]); // Access the webLink from the ad map
     },
     child: Container(
-      margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.02), // Adjust margin
-      child: ClipRRect(
-  borderRadius: BorderRadius.circular(screenWidth * 0.04), // Adjust border radius
-  child: CachedNetworkImage(
-    imageUrl: imageUrl,
-    fit: BoxFit.fill,
-    width: screenWidth * 0.8, // Adjust width as needed
-    height: screenHeight * 0.1, // Adjust height as needed
-    placeholder: (context, url) => Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
-      child: Container(
-        width: screenWidth * 0.8,
-        height: screenHeight * 0.1,
-        color: Colors.white, // Shimmer effect background
-      ),
-    ),
-    errorWidget: (context, url, error) => Container(
-      width: screenWidth * 0.8,
-      height: screenHeight * 0.1,
-      color: Colors.grey[300], // Optional background color for error widget
-      child: const Center(
-        child: Icon(Icons.error, color: Colors.red), // Show error icon
-      ),
-    ),
-  ),
-),
-    ),
-  );
-}
+      margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+        child: ClipRRect(borderRadius: BorderRadius.circular(screenWidth * 0.04),
+          child: CachedNetworkImage(imageUrl: imageUrl,fit: BoxFit.fill, width: screenWidth * 0.8, height: screenHeight * 0.1, 
+            placeholder: (context, url) => Shimmer.fromColors(baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,child: Container( width: screenWidth * 0.8,height: screenHeight * 0.1, color: Colors.white,),),
+                errorWidget: (context, url, error) => Container( width: screenWidth * 0.8,height: screenHeight * 0.1,color: Colors.grey[300], 
+                  child: const Center( child: Icon(Icons.error, color: Colors.red), // Show error icon
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
 
                   ),
                 ),

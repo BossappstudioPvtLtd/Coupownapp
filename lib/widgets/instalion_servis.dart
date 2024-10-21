@@ -147,15 +147,8 @@ class _InstalionServisState extends State<InstalionServis> {
     final isMediumScreen = screenWidth >= 360 && screenWidth < 600;
     //final isLargeScreen = screenWidth >= 600;
 
-    return Container(
-      height: 250, // Set an appropriate height for the ListView
-      color: appColorPrimary,
-      child: Column(
-        children: [
-          Namebar(
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (_)=>const TabBarExample()));
-            },
+    return Container(height: 250, color: appColorPrimary,
+      child: Column(children: [Namebar(onTap: (){ Navigator.push(context, MaterialPageRoute(builder: (_)=>const TabBarExample()));},
             nametext: "Instalion Service",
             text: 'View all',
             color: appColorAccent,
@@ -166,51 +159,19 @@ class _InstalionServisState extends State<InstalionServis> {
           ),
           
           // Set height of the ListView
-          Expanded(
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
+          Expanded( child: ListView.builder(scrollDirection: Axis.horizontal,
               itemCount: instalionservis.length,
-              itemBuilder: (context, index) {
-                var item = instalionservis[index];
-                return Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: isSmallScreen ? 2 : (isMediumScreen ? 5 : 8), 
-                    vertical: isSmallScreen ? 15 : (isMediumScreen ? 20 : 25), // Adjust padding
-                  ),
-                  child: Material(
-                    color: appColorPrimary,
-                    elevation: 5,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                    ),
-                    child: SizedBox(
-                      height: isSmallScreen ? 100 : (isMediumScreen ? 110 : 130), // Adjust height
-                      width: isSmallScreen ? 145 : (isMediumScreen ? 165 : 185), // Adjust width
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          ClipRRect(
-                            borderRadius: const BorderRadius.vertical(top: Radius.circular(5)),
-                            child: Image.asset(
-                              item['productUrl'],
-                              fit: BoxFit.fill,
-                              width: double.infinity,
-                              height: isSmallScreen ? 100 : (isMediumScreen ? 120 : 140), // Adjust image height
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: isSmallScreen ? 6 : (isMediumScreen ? 8.0 : 10.0),
-                              vertical: isSmallScreen ? 2 : (isMediumScreen ? 4 : 6), // Adjust padding
-                            ),
-                            child: Textedit(
-                              text: item['productname'],
-                              fontSize: isSmallScreen ? 10 : (isMediumScreen ? 14 : 16), // Adjust font size
-                              color: appTextColorPrimary,
-                            ),
-                          ),
-                          // Additional widgets for item details like price, rating, etc.
+              itemBuilder: (context, index) {var item = instalionservis[index];
+                return Padding(padding: EdgeInsets.symmetric( horizontal: isSmallScreen ? 2 : (isMediumScreen ? 5 : 8), vertical: isSmallScreen ? 15 : (isMediumScreen ? 20 : 25), ),
+                   child: Material(color: appColorPrimary, elevation: 5,
+                    shape: const RoundedRectangleBorder( borderRadius: BorderRadius.all(Radius.circular(5)),),
+                     child: SizedBox(height: isSmallScreen ? 100 : (isMediumScreen ? 110 : 130),  width: isSmallScreen ? 145 : (isMediumScreen ? 165 : 185),
+                      child: Column( crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.center,
+                       children: <Widget>[ ClipRRect( borderRadius: const BorderRadius.vertical(top: Radius.circular(5)),
+                        child: Image.asset( item['productUrl'],fit: BoxFit.fill, width: double.infinity,
+                         height: isSmallScreen ? 100 : (isMediumScreen ? 120 : 140), ),),
+                          Padding(padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 6 : (isMediumScreen ? 8.0 : 10.0), vertical: isSmallScreen ? 2 : (isMediumScreen ? 4 : 6), ),
+                            child: Textedit( text: item['productname'],fontSize: isSmallScreen ? 10 : (isMediumScreen ? 14 : 16),),),
                         ],
                       ),
                     ),

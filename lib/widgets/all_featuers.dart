@@ -704,32 +704,12 @@ class _AvatarListViewState extends State<AvatarListView>
                             ),
                           );
                         },
-                                        child: CircleAvatar(
-                                          radius: isWideScreen
-                                              ? 40
-                                              : (isMediumScreen ? 37 : 34),
-                                          backgroundColor: appColorAccent,
-                                          child: CircleAvatar(
-                                            backgroundColor: appLight_purple,
-                                            radius: isWideScreen
-                                                ? 39
-                                                : (isMediumScreen ? 36 : 33),
-                                            child: CircleAvatar(
-                                              radius: isWideScreen
-                                                  ? 36
-                                                  : (isMediumScreen ? 33 : 30),
-                                              backgroundColor: appColorPrimary,
+                                        child: CircleAvatar( radius: isWideScreen ? 40: (isMediumScreen ? 37 : 34),backgroundColor: appColorAccent,
+                                          child: CircleAvatar(backgroundColor: appLight_purple, radius: isWideScreen ? 39 : (isMediumScreen ? 36 : 33),
+                                            child: CircleAvatar( radius: isWideScreen? 36 : (isMediumScreen ? 33 : 30), backgroundColor: appColorPrimary,
                                               backgroundImage: AssetImage(deal['imageUrl']),
-                                              child: ClipOval(
-                                                child: Image.asset(
-                                                  deal['imageUrl'],
-                                                  fit: BoxFit.fill,
-                                                  width: isWideScreen
-                                                      ? 70
-                                                      : (isMediumScreen ? 65 : 60),
-                                                  height: isWideScreen
-                                                      ? 70
-                                                      : (isMediumScreen ? 65 : 60),
+                                                child: ClipOval( child: Image.asset( deal['imageUrl'],fit: BoxFit.fill, width: isWideScreen? 70: (isMediumScreen ? 65 : 60),
+                                                  height: isWideScreen ? 70 : (isMediumScreen ? 65 : 60),
                                                 ),
                                               ),
                                             ),
@@ -739,13 +719,7 @@ class _AvatarListViewState extends State<AvatarListView>
                                     ],
                                   ),
                                   const SizedBox(height: 8),
-                                  Text(
-                                    deal['name'],
-                                    style: TextStyle(
-                                      fontSize: isSmallScreen ? 14 : 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: iconColorSecondary,
-                                    ),
+                                  Text( deal['name'],style: TextStyle( fontSize: isSmallScreen ? 14 : 16,fontWeight: FontWeight.bold,color: iconColorSecondary,),
                                   ),
                                 ],
                               ),

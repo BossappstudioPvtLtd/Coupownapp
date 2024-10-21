@@ -154,77 +154,47 @@ class _SpacialOffersState extends State<SpacialOffers> {
     return Container( height: isSmallScreen? 450 : 500, 
       width: double.infinity,
       color: const Color.fromARGB(210, 237, 247, 251),
-      child: Column( children: [
-             Namebar( 
-              onTap: (){
-                Navigator.push(context, MaterialPageRoute(builder: (_)=>const SapacialOfferView()));
-              },
+      child: Column( children: [ Namebar(  onTap: (){ Navigator.push(context, MaterialPageRoute(builder: (_)=>const SapacialOfferView())); },
              nametext: "Special Offers",text: 'View all',color: appColorAccent,
-             icon: Icons.arrow_forward,
-             border: Border.all(width: 1, color: appColorAccent),
-             iconcolor: appColorAccent, iconsize:isSmallScreen ? 14 : 16, // Adjust icon size for small screens
-          ),
-          const SizedBox(height: 10),
-          SizedBox( height: isSmallScreen? 380: 420, // Adjust list height for small screens
-            width: double.infinity,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
+             icon: Icons.arrow_forward, border: Border.all(width: 1, color: appColorAccent), iconcolor: appColorAccent, iconsize:isSmallScreen ? 14 : 16, 
+          ), const SizedBox(height: 10),
+          SizedBox( height: isSmallScreen? 380: 420, width: double.infinity,
+            child: ListView.builder(scrollDirection: Axis.horizontal,
               itemCount: specialOffers.length,
-              itemBuilder: (context, index) {
-                var deal = specialOffers[index];
+              itemBuilder: (context, index) {var deal = specialOffers[index];
 
-                return InkWell(
-                  borderRadius: const BorderRadius.all(Radius.circular(16)),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SpacialScrean(deal: deal),
-                            ),
+                return InkWell( borderRadius: const BorderRadius.all(Radius.circular(16)),
+                        onTap: () {Navigator.push( context,MaterialPageRoute(  builder: (context) => SpacialScrean(deal: deal), ),
                           );
                         },
                   child: Padding(
-                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                       child: Container(width: cardWidth, height: 300,
-                  decoration: BoxDecoration( color: Colors.white, borderRadius: BorderRadius.circular(8),),
-                       child: Padding(padding: const EdgeInsets.all(10.0),
-                       child: Column(children: [
-                                const         SizedBox(height: 10),
-                              Row( children: [
-                              CircleAvatar( radius: isSmallScreen ? 21 : 31, backgroundColor: appColorAccent,
-                       child: CircleAvatar(radius: isSmallScreen ? 20 : 30,backgroundColor: appColorAccent,
-                       child: CircleAvatar(backgroundColor: appLight_purple, radius: isSmallScreen ? 28 : 38,
-                              backgroundImage: AssetImage( deal['logoUrl'],),
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Container(width: cardWidth, height: 300,
+                        decoration: BoxDecoration( color: Colors.white, borderRadius: BorderRadius.circular(8),),
+                          child: Padding(padding: const EdgeInsets.all(10.0),
+                            child: Column(children: [const SizedBox(height: 10),
+                              Row( children: [ CircleAvatar( radius: isSmallScreen ? 21 : 31, backgroundColor: appColorAccent,
+                                child: CircleAvatar(radius: isSmallScreen ? 20 : 30,backgroundColor: appColorAccent,
+                                  child: CircleAvatar(backgroundColor: appLight_purple, radius: isSmallScreen ? 28 : 38,backgroundImage: AssetImage( deal['logoUrl'],),
                                     ),
                                   ),
                                 ),
                                 const SizedBox(width: 15),
                                 Column( crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text( deal['name'], style: TextStyle(fontSize: isSmallScreen ? 14 : 18, fontWeight: FontWeight.bold,color: appTextColorSecondary,
-                                      ),
-                                    ),
+                                  children: [ Text( deal['name'], style: TextStyle(fontSize: isSmallScreen ? 14 : 18, fontWeight: FontWeight.bold,color: appTextColorSecondary,),),
                                     Text( '18 Locations',style: TextStyle( fontSize: isSmallScreen ? 10 : 12, fontWeight: FontWeight.bold, color: appTextColorSecondary,
                                       ),
                                     ),
                                   ],
                                 ),
                                  const SizedBox(width: 8), 
-                                 // Conditional JobOffer widget display
                                 if (deal['Joboffer'] != null && deal['Joboffer'].isNotEmpty)InkWell(
-                              
-                                   child: JobOffer(
-                                    onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (_)=>JobScreen(deal: deal)));
-                                    },
-                                   )), 
+                                   child: JobOffer( onTap: () {Navigator.push(context, MaterialPageRoute(builder: (_)=>JobScreen(deal: deal)));},)), 
                           
                                    
                                 const SizedBox(width: 8),
                                 const Spacer(),
-                                IconButton(
-                              onPressed: () {
-                              String shareMessage = '''
+                                IconButton(onPressed: () {String shareMessage = '''
                               productUrl:${deal['productUrl']}
                               Name: ${deal['name']}
                               Percentage: ${deal['percentage']}
@@ -232,10 +202,10 @@ class _SpacialOffersState extends State<SpacialOffers> {
                               Coupon Offer: ${deal['coupownoffer']}
                               ''';
                               Share.share(shareMessage);},
-                              icon: const Icon(Icons.share, size: 24),),
-                              IconButton(  icon: Icon( deal['isFavorite'] ? Icons.favorite: Icons.favorite_border,
-                                          color: deal['isFavorite']? Colors.red: Colors.grey,size: 24, ),
-                                      onPressed: () { setState(() {deal['isFavorite'] = !deal['isFavorite'];});},
+                               icon: const Icon(Icons.share, size: 24),),
+                                IconButton(  icon: Icon( deal['isFavorite'] ? Icons.favorite: Icons.favorite_border,
+                                 color: deal['isFavorite']? Colors.red: Colors.grey,size: 24, ),
+                                  onPressed: () { setState(() {deal['isFavorite'] = !deal['isFavorite'];});},
                                 ),
                               ],
                             ),

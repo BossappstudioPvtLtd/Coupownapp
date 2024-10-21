@@ -142,8 +142,8 @@ class _PriceIncreaseBarState extends State<PriceIncreaseBar> {
                     ), // Use the method to build text field row
                     const Spacer(),
                     Slider(
-                      thumbColor: const Color.fromARGB(255, 15, 130, 19),
-                      activeColor: const Color.fromARGB(255, 15, 130, 19),
+                      thumbColor: appColorAccent,
+                      activeColor: appColorAccent,
                       value: _currentPrice,
                       min: 0.0,
                       max: 1000.0, // Adjust maximum value as needed
@@ -159,7 +159,7 @@ class _PriceIncreaseBarState extends State<PriceIncreaseBar> {
             ),
           ),
           const SizedBox(height: 30,),
-          SmallButton(onTap: _applyPriceFilter,elevationsize:  10, text: "Apply",textcolor: textColorPrimary,containerheight: 40,containerwidth: double.infinity,borderRadius: BorderRadius.circular(32),meterialColor: appColorPrimary,),
+          SmallButton(onTap: _applyPriceFilter,elevationsize:  10, text: "Apply",textcolor: appColorPrimary,containerheight: 40,containerwidth: double.infinity,borderRadius: BorderRadius.circular(32),meterialColor:appColorAccent),
  const SizedBox(height: 30,),
         ],
       ),

@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coupown/Const/web_view.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:http/http.dart' as http;
 
 class DealsAdd extends StatefulWidget {
   const DealsAdd({super.key});
@@ -148,23 +150,54 @@ class _DealsAddState extends State<DealsAdd> {
     });
   }
 
-  void _openWebView(String url,  String phoneNumber) {
-    if (url.isNotEmpty) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => WebViewScreen(url: url, phoneNumber: phoneNumber,),
-        ),
-      );
-    } else {
-      print("No web link available for this ad.");
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("No web link available."),
-        ),
-      );
+  // void _openWebView(String url,  String phoneNumber) {
+  //   if (url.isNotEmpty) {
+  //     Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => WebViewScreen(url: url, phoneNumber: phoneNumber,),
+  //       ),
+  //     );
+  //   } else {
+  //     print("No web link available for this ad.");
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(
+  //         content: Text("No web link available."),
+  //       ),
+  //     );
+  //   }
+  // }
+
+  void _openWebView(String url, String phoneNumber) async {
+  Uri? parsedUrl = Uri.tryParse(url);  
+  if (parsedUrl != null && parsedUrl.hasScheme && parsedUrl.hasAuthority) {
+    try { final response = await http.head(parsedUrl);
+      if (response.statusCode == 200) {
+        Navigator.push( context, MaterialPageRoute( builder: (context) => WebViewScreen(url: url, phoneNumber: phoneNumber),),
+        );
+      } else {
+        // URL is not reachable
+        _showErrorMessage("Web link is not accessible.");
+      }
+    } catch (e) {
+      if (e is SocketException) {
+        _showErrorMessage("Unable to connect to the internet.");
+      } else {
+        _showErrorMessage("Error accessing the web link.");
+      }
     }
+  } else {
+    // URL is invalid
+    _showErrorMessage("Invalid web link format.");
   }
+}
+
+void _showErrorMessage(String message) { print(message);
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar( content: Text(message),
+    ),
+  );
+}
 
 
   @override
@@ -175,73 +208,40 @@ class _DealsAddState extends State<DealsAdd> {
   }
 
   @override
-Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
   final double screenWidth = MediaQuery.of(context).size.width;
   final screenHeight = MediaQuery.of(context).size.height;
   final double sliderHeight = screenWidth * 0.4;
 
-  return SizedBox(
-    height: sliderHeight,
-    child: Padding(
-      padding: EdgeInsets.all(screenWidth * 0.02), // Adjust padding based on screen width
+  return SizedBox( height: sliderHeight,
+    child: Padding(padding: EdgeInsets.all(screenWidth * 0.02), 
       child: _isLoading || imageUrls.isEmpty
-          ? Shimmer.fromColors(
-              baseColor: Colors.grey[300]!,
-              highlightColor: Colors.grey[100]!,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 3, // Show a few shimmer placeholders
+          ? Shimmer.fromColors(  baseColor: Colors.grey[300]!, highlightColor: Colors.grey[100]!,
+              child: ListView.builder(scrollDirection: Axis.horizontal,
+                itemCount: 3, 
                 itemBuilder: (context, index) {
-                  return Container(
-                    width: screenWidth * 0.8, // Adjust placeholder width
-                    margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.02), // Adjust margin
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(screenWidth * 0.04), // Adjust border radius
-                    ),
+                  return Container(width: screenWidth * 0.8, margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.02), 
+                    decoration: BoxDecoration(  color: Colors.white,borderRadius: BorderRadius.circular(screenWidth * 0.04), ),
                   );
                 },
               ),
             )
-          : Column(
-              children: [
-                Expanded(
-                  child: PageView.builder(
-                    controller: _pageController,
-                    physics: const NeverScrollableScrollPhysics(), // Disable manual scrolling
-                    itemCount: imageUrls.length,
-                    itemBuilder: (context, index) {
-  final ad = _header[index]; // Use _header to get the full advertisement data
-  final imageUrl = ad['selectedImage']; // Get the image URL
-  return InkWell(
-    onTap: () {
-      _openWebView(ad['webLink'],ad["phone"]); // Access the webLink from the ad map
-    },
-    child: Container(
-      margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.02), // Adjust margin
-      child:ClipRRect(
-  borderRadius: BorderRadius.circular(screenWidth * 0.04), // Adjust border radius
-  child: CachedNetworkImage(
-    imageUrl: imageUrl,
-    fit: BoxFit.fill,
-    width: screenWidth * 0.8, // Adjust width as needed
-    height: screenHeight * 0.1, // Adjust height as needed
-    placeholder: (context, url) => Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
-      child: Container(
-        width: screenWidth * 0.8,
-        height: screenHeight * 0.1,
-        color: Colors.white, // Shimmer effect background
-      ),
-    ),
-    errorWidget: (context, url, error) => Container(
-      width: screenWidth * 0.8,
-      height: screenHeight * 0.1,
-      color: Colors.grey[300], // Optional background color for error widget
-      child: const Center(
-        child: Icon(Icons.error, color: Colors.red), // Show error icon
-      ),
+          : Column( children: [Expanded(
+                     child: PageView.builder(  controller: _pageController,
+                       physics: const NeverScrollableScrollPhysics(), // Disable manual scrolling
+                         itemCount: imageUrls.length,
+                           itemBuilder: (context, index) {
+                             final ad = _header[index]; 
+                               final imageUrl = ad['selectedImage']; 
+  return InkWell( onTap: () {  _openWebView(ad['webLink'],ad["phone"]);  },
+    child: Container(margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+      child:ClipRRect(borderRadius: BorderRadius.circular(screenWidth * 0.04), 
+      child: CachedNetworkImage(imageUrl: imageUrl,fit: BoxFit.fill,
+      width: screenWidth * 0.8, height: screenHeight * 0.1, 
+      placeholder: (context, url) => Shimmer.fromColors( baseColor: Colors.grey[300]!,highlightColor: Colors.grey[100]!,
+      child: Container( width: screenWidth * 0.8,height: screenHeight * 0.1, color: Colors.white,),),
+      errorWidget: (context, url, error) => Container(width: screenWidth * 0.8, height: screenHeight * 0.1,
+      color: Colors.grey[300], child: const Center(  child: Icon(Icons.error, color: Colors.red),),
     ),
   ),
 ),

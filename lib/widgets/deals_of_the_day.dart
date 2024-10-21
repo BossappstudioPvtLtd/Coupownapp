@@ -133,21 +133,15 @@ class _DealsOfTheDayState extends State<DealsOfTheDay> {
 @override
 Widget build(BuildContext context) {
   final screenWidth = MediaQuery.of(context).size.width;
-  final isSmallScreen = screenWidth < 400; // Define your breakpoint for small screens
-  final isMediumScreen = screenWidth >= 400 && screenWidth <= 600; // Define breakpoint for medium screens
-  //final isWideScreen = screenWidth > 600; // Define breakpoint for wide screens
-
+  final isSmallScreen = screenWidth < 400;
+  final isMediumScreen = screenWidth >= 400 && screenWidth <= 600; 
   return SizedBox(
     width: double.infinity,
     height: 420,
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+    child: Column( mainAxisAlignment: MainAxisAlignment.start,
       children: [
         // Header Section
-        Namebar(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (_)=>const DealsView()));
-          },
+        Namebar(onTap: () { Navigator.push(context, MaterialPageRoute(builder: (_)=>const DealsView()));},
           nametext: "Deals Of The Day",
           text: 'View all',
           color: appColorAccent,
@@ -156,13 +150,8 @@ Widget build(BuildContext context) {
           iconcolor: appColorAccent,
           iconsize: isSmallScreen ? 14 : isMediumScreen ? 16 : 18, // Adjust icon size based on screen size
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 8 : isMediumScreen ? 12 : 16),
-          child: Row(
-            children: [
-              const Icon(Icons.alarm),
-              Text(formatDuration(remainingTime)),
-              const Text(" remaining"),
+        Padding( padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 8 : isMediumScreen ? 12 : 16),
+          child: Row( children: [ const Icon(Icons.alarm),Text(formatDuration(remainingTime)),const Text(" remaining"),
             ],
           ),
         ),
@@ -173,51 +162,26 @@ Widget build(BuildContext context) {
             itemCount: todatdeal.length,
             itemBuilder: (context, index) {
               final deal = todatdeal[index];
-              return Padding(
-                padding: EdgeInsets.all(isSmallScreen ? 4 : isMediumScreen ? 8 : 12),
-                child: SizedBox(
-                  width: isSmallScreen ? 200 : isMediumScreen ? 200 : 220, // Adjust width for screen size
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: Padding(
-                              padding: EdgeInsets.only(left: isSmallScreen ? 4 : isMediumScreen ? 8 : 12),
-                              child: Material(
-                                borderRadius: BorderRadius.circular(8),
-                                elevation: 10,
-                                child: Container(
-                                  height: isSmallScreen ? 40 : isMediumScreen ? 45 : 50, // Adjust height for screen size
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
+              return Padding( padding: EdgeInsets.all(isSmallScreen ? 4 : isMediumScreen ? 8 : 12),
+                child: SizedBox(width: isSmallScreen ? 200 : isMediumScreen ? 200 : 220, // Adjust width for screen size
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [ Row(children: [
+                          Expanded(flex: 2, child: Padding(padding: EdgeInsets.only(left: isSmallScreen ? 4 : isMediumScreen ? 8 : 12),
+                              child: Material( borderRadius: BorderRadius.circular(8),elevation: 10,
+                                child: Container( height: isSmallScreen ? 40 : isMediumScreen ? 45 : 50, // Adjust height for screen size
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),
                                     color: appColorPrimary,
                                   ),
-                                  child: Row(
-                                    children: [
-                                      Padding(
+                                      child: Row( children: [Padding(
                                         padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 4 : isMediumScreen ? 8 : 12),
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(50),
-                                          child: Image.asset(
-                                            deal['logoUrl'],
-                                            width: isSmallScreen ? 20 : isMediumScreen ? 22 : 25,
-                                            height: isSmallScreen ? 20 : isMediumScreen ? 22 : 25,
-                                            fit: BoxFit.cover,
+                                          child: ClipRRect( borderRadius: BorderRadius.circular(50),
+                                            child: Image.asset( deal['logoUrl'],width: isSmallScreen ? 20 : isMediumScreen ? 22 : 25,height: isSmallScreen ? 20 : isMediumScreen ? 22 : 25,fit: BoxFit.cover,
                                           ),
                                         ),
                                       ),
-                                      Expanded(
-                                        child: Text(
-                                          deal['name'],
-                                          style: TextStyle(
-                                            fontSize: isSmallScreen ? 12 : isMediumScreen ? 13 : 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: appTextColorSecondary,
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
+                                      Expanded( child: Text(deal['name'],
+                                                  style: TextStyle(fontSize: isSmallScreen ? 12 : isMediumScreen ? 13 : 14, fontWeight: FontWeight.bold,color: appTextColorSecondary,),
+                                                    overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                     ],
@@ -226,132 +190,53 @@ Widget build(BuildContext context) {
                               ),
                             ),
                           ),
-                          IconButton(
-                            icon: Icon(
-                              deal['isFavorite'] ? Icons.favorite : Icons.favorite_border,
-                              color: deal['isFavorite'] ? Colors.red : Colors.grey,
-                              size: isSmallScreen ? 20 : isMediumScreen ? 22 : 24,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                deal['isFavorite'] = !deal['isFavorite'];
-                              });
-                            },
+                          IconButton(icon: Icon( deal['isFavorite'] ? Icons.favorite : Icons.favorite_border, color: deal['isFavorite'] ? Colors.red : Colors.grey,size: isSmallScreen ? 20 : isMediumScreen ? 22 : 24, ),
+                            onPressed: () { setState(() { deal['isFavorite'] = !deal['isFavorite']; });},
                           ),
                         ],
                       ),
-                      InkWell(
-                        borderRadius: const BorderRadius.all(Radius.circular(16)),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DealDetailPage(deal: deal),
-                            ),
-                          );
-                        },
-                        child: Card(
-                        
-                            elevation: 5,
-                          child: Container(
-                           
-                            height: 280,
+                      InkWell( borderRadius: const BorderRadius.all(Radius.circular(16)),
+                        onTap: () { Navigator.push( context,  MaterialPageRoute(  builder: (context) => DealDetailPage(deal: deal),),);},
+                          child: Card( elevation: 5, child: Container( height: 280,
                             decoration: BoxDecoration(borderRadius:BorderRadius.circular(16), color: appColorPrimary),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-                                  child: Image.asset(
-                                    deal['productUrl'],
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
+                              child: Column( crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[ ClipRRect(borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                                  child: Image.asset(deal['productUrl'],fit: BoxFit.cover, width: double.infinity,
                                     height: MediaQuery.of(context).size.height * (isSmallScreen ? 0.2 : isMediumScreen ? 0.22 : 0.25),
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: isSmallScreen ? 8.0 : isMediumScreen ? 10.0 : 12.0,
-                                    vertical: isSmallScreen ? 4.0 : isMediumScreen ? 6.0 : 8.0,
-                                  ),
-                                  child: Textedit(
-                                    text: deal['productname'],
-                                    fontSize: isSmallScreen ? 12 : isMediumScreen ? 13 : 14,
-                                    color: appTextColorPrimary,
+                                Padding( padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 8.0 : isMediumScreen ? 10.0 : 12.0,vertical: isSmallScreen ? 4.0 : isMediumScreen ? 6.0 : 8.0,),
+                                  child: Textedit( text: deal['productname'],fontSize: isSmallScreen ? 12 : isMediumScreen ? 13 : 14,color: appTextColorPrimary,
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 8.0 : isMediumScreen ? 10.0 : 12.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Textedit(
-                                            text: "₹${deal['offerprice']}",
-                                            fontSize: isSmallScreen ? 12 : isMediumScreen ? 13 : 14,
-                                            color: Colors.green,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                "₹${deal['price']}",
-                                                style: TextStyle(
-                                                  fontSize: isSmallScreen ? 12 : isMediumScreen ? 13 : 14,
-                                                  color: Colors.grey,
-                                                  decoration: TextDecoration.lineThrough,
+                                Padding( padding: EdgeInsets.symmetric(horizontal: isSmallScreen ? 8.0 : isMediumScreen ? 10.0 : 12.0),
+                                  child: Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [ Column(crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [ Textedit( text: "₹${deal['offerprice']}",fontSize: isSmallScreen ? 12 : isMediumScreen ? 13 : 14, color: Colors.green, ),
+                                          Row( children: [ Text( "₹${deal['price']}", style: TextStyle( fontSize: isSmallScreen ? 12 : isMediumScreen ? 13 : 14, color: Colors.grey, decoration: TextDecoration.lineThrough,
                                                 ),
                                               ),
                                               const SizedBox(width: 10),
-                                              Textedit(
-                                                text: "${deal['percentage']} OFF",
-                                                fontSize: isSmallScreen ? 12 : isMediumScreen ? 13 : 14,
-                                                color: appDarkRed,
-                                                fontWeight: FontWeight.bold,
+                                              Textedit( text: "${deal['percentage']} OFF", fontSize: isSmallScreen ? 12 : isMediumScreen ? 13 : 14, color: appDarkRed, fontWeight: FontWeight.bold,
                                               ),
                                             ],
                                           ),
-                                          Row(
-                                            children: [
-                                              Row(
-                                                children: List.generate(5, (ratingIndex) {
-                                                  return Icon(
-                                                    ratingIndex < 4 ? Icons.star : Icons.star_half,
-                                                    color: Colors.amber,
-                                                    size: isSmallScreen ? 14 : isMediumScreen ? 15 : 16,
+                                          Row( children: [ Row( children: List.generate(5, (ratingIndex) {
+                                                  return Icon( ratingIndex < 4 ? Icons.star : Icons.star_half, color: Colors.amber, size: isSmallScreen ? 14 : isMediumScreen ? 15 : 16,
                                                   );
                                                 }),
                                               ),
                                               const SizedBox(width: 4),
-                                              Textedit(
-                                                text: "55151555",
-                                                fontSize: isSmallScreen ? 8 : isMediumScreen ? 10 : 12,
-                                                color: textSecondaryColor,
-                                              ),
+                                              Textedit(text: "55151555", fontSize: isSmallScreen ? 8 : isMediumScreen ? 10 : 12, color: textSecondaryColor, ),
                                             ],
                                           ),
                                         ],
                                       ),
-                                      Column(
-                                        children: [
-                                          IconButton(
-                                            icon: Icon(
-                                              deal['isPressed'] ? Icons.handshake : Icons.handshake,
-                                              size: isSmallScreen ? 18 : isMediumScreen ? 19 : 20,
-                                              color: deal['isPressed'] ? Colors.pink : Colors.grey,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                deal['isPressed'] = !deal['isPressed'];
-                                                deal['count'] += deal['isPressed'] ? 1 : -1;
-                                              });
+                                      Column(children: [IconButton(icon: Icon(deal['isPressed'] ? Icons.handshake : Icons.handshake,size: isSmallScreen ? 18 : isMediumScreen ? 19 : 20, color: deal['isPressed'] ? Colors.pink : Colors.grey, ),
+                                            onPressed: () {setState(() { deal['isPressed'] = !deal['isPressed'];deal['count'] += deal['isPressed'] ? 1 : -1;});
                                             },
                                           ),
-                                          Textedit(
-                                            text: '${deal['count']}',
-                                            fontSize: isSmallScreen ? 10 : isMediumScreen ? 12 : 14,
-                                          ),
+                                          Textedit( text: '${deal['count']}',fontSize: isSmallScreen ? 10 : isMediumScreen ? 12 : 14,),
                                         ],
                                       ),
                                     ],

@@ -71,9 +71,7 @@ class _UpcomingOffersState extends State<UpcomingOffers> {
       width: double.infinity,
       child: Column(
         children: [
-          Namebar(
-            onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (_)=>const UpcomingView()));},
+          Namebar( onTap: () { Navigator.push(context, MaterialPageRoute(builder: (_)=>const UpcomingView()));},
             nametext: "Upcoming Offers",
             text: 'View all',
             color: appColorAccent,
@@ -83,92 +81,42 @@ class _UpcomingOffersState extends State<UpcomingOffers> {
             iconsize: isSmallScreen ? 14 : 16, // Adjust icon size for small screens
           ),
           Expanded(
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
+            child: ListView.builder(scrollDirection: Axis.horizontal,
               itemCount: exclusiveOffers.length,
               itemBuilder: (context, index) {
                 final deal = exclusiveOffers[index];
-                return InkWell(
-                   borderRadius: const BorderRadius.all(Radius.circular(16)),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => UpcomingScreen(deal: deal),
-                            ),
-                          );
-                        },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Material(
-                      
-                          borderRadius: BorderRadius.circular(8),
-                          
-                      elevation: 10,
-                      child: Container(
-                  
-                        height: isSmallScreen ? 200 : 240,
+                return InkWell( borderRadius: const BorderRadius.all(Radius.circular(16)),
+                        onTap: () {Navigator.push( context, MaterialPageRoute(builder: (context) => UpcomingScreen(deal: deal),),);},
+                  child: Padding(padding: const EdgeInsets.all(8.0),
+                    child: Material( borderRadius: BorderRadius.circular(8),elevation: 10,
+                      child: Container( height: isSmallScreen ? 200 : 240,
                         width: isSmallScreen ? 290 : 350,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                          
-                        ),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Material(
-                                color: const Color.fromARGB(255, 232, 248, 247),
-                                borderRadius: BorderRadius.circular(8),
-                                elevation: 5,
-                                child: Container(
-                                  height: isSmallScreen ? 40 : 50,
-                                  width: isSmallScreen ? 80 : 90,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    image: DecorationImage(
-                                      image: AssetImage(deal['logoUrl']),
-                                      fit: BoxFit.fill,
+                          decoration: BoxDecoration(color: Colors.white,
+                            borderRadius: BorderRadius.circular(8), ),
+                              child: Row(children: [ Padding( padding: const EdgeInsets.all(8.0),
+                                child: Material(color: const Color.fromARGB(255, 232, 248, 247), borderRadius: BorderRadius.circular(8), elevation: 5,
+                                  child: Container(  height: isSmallScreen ? 40 : 50, width: isSmallScreen ? 80 : 90,
+                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),
+                                      image: DecorationImage( image: AssetImage(deal['logoUrl']),fit: BoxFit.fill,),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.all(isSmallScreen ? 4.0 : 8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Textedit(
-                                      text: deal['productname'],
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: isSmallScreen ? 14 : 16,
-                                    ),
+                              Expanded(child: Padding(padding: EdgeInsets.all(isSmallScreen ? 4.0 : 8.0),
+                                child: Column(crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [ Textedit( text: deal['productname'], fontWeight: FontWeight.bold,fontSize: isSmallScreen ? 14 : 16,),
                                     SizedBox(height: isSmallScreen ? 4 : 8),
-                                    Text(
-                                      '${deal['discretion']}\nNext line content here nNext line content here',
-                                      style: TextStyle(
-                                        fontSize: isSmallScreen ? 14 : 17,
-                                        color: Colors.grey[600],
-                                      ),
-                                      maxLines: 5,
-                                      overflow: TextOverflow.ellipsis,
+                                    Text('${deal['discretion']}\nNext line content here nNext line content here',
+                                      style: TextStyle(fontSize: isSmallScreen ? 14 : 17,color: Colors.grey[600],),
+                                      maxLines: 5, overflow: TextOverflow.ellipsis,
                                     ),
                                     SizedBox(height: isSmallScreen ? 16 : 20),
-                                    Padding(
-                                      padding: EdgeInsets.all(isSmallScreen ? 4.0 : 8.0),
-                                      child: SmallButton(
-                                        borderRadius: BorderRadius.circular(8),
-                                        containerheight: isSmallScreen ? 35 : 40,
-                                        elevationsize: isSmallScreen ? 8 : 10,
-                                        text: 'GET COUPOWN',
+                                    Padding(padding: EdgeInsets.all(isSmallScreen ? 4.0 : 8.0),
+                                      child: SmallButton( borderRadius: BorderRadius.circular(8),
+                                        containerheight: isSmallScreen ? 35 : 40,elevationsize: isSmallScreen ? 8 : 10,text: 'GET COUPOWN',
                                         onTap: (){showCupertinoModalPopup(context: context, builder: (BuildContext context){
               return Center(child: Padding(padding: const EdgeInsets.all(25),
-                  child: Stack(children: [
-                  Container(decoration: BoxDecoration(color: appColorPrimary,
+                  child: Stack(children: [Container(decoration: BoxDecoration(color: appColorPrimary,
                   borderRadius: BorderRadius.circular(8),),height: 300, width: 400,),
                   Positioned(top: 10,  right: 10,  // Adjust as needed
                   child: IconButton(icon: const Icon(Icons.close), color: Colors.black,  // Icon color

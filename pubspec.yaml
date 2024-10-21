@@ -88,6 +88,8 @@ dependencies:
   whatsapp_unilink: ^2.1.0
   font_awesome_flutter: ^10.7.0
   flutter_animate: ^4.5.0
+  mobile_scanner: ^6.0.1
+  pretty_qr_code: ^3.3.0
   
 
 dev_dependencies:

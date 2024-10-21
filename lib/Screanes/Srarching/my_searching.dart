@@ -1,4 +1,5 @@
-import 'package:coupown/components/splash_radius.dart';
+
+import 'package:coupown/Screanes/Srarching/searching_area.dart';
 import 'package:flutter/material.dart';
 import 'package:coupown/Const/app_colors.dart';
 
@@ -25,14 +26,14 @@ class ShopItem {
   ShopItem({required this.item, required this.shop});
 }
 
-class PinnedSearchBarApp extends StatefulWidget {
-  const PinnedSearchBarApp({super.key});
+class MySearching extends StatefulWidget {
+  const MySearching({super.key});
 
   @override
-  State<PinnedSearchBarApp> createState() => _PinnedSearchBarAppState();
+  State<MySearching> createState() => _MySearchingState();
 }
 
-class _PinnedSearchBarAppState extends State<PinnedSearchBarApp> {
+class _MySearchingState extends State<MySearching> {
  
 
   List<Shop> initialShops = [
@@ -151,52 +152,50 @@ class _PinnedSearchBarAppState extends State<PinnedSearchBarApp> {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Container(
-              child: SearchAnchor.bar(
-                viewBackgroundColor: appColorPrimary,
-                viewLeading: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(Icons.arrow_back_ios_new),
-                ),
-                barTrailing: const [
-                  Icon(
-                    Icons.mic,
-                    color: iconColorSecondary,
-                  ),
-                ],
-                barBackgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                barHintText: "Searching...",
-                barHintStyle: MaterialStateProperty.all<TextStyle>(
-                  TextStyle(color: appTextColorSecondary),
-                ),
-                suggestionsBuilder: (BuildContext context, TextEditingController controller) {
-                  _filterSearchResults(controller.text);
-                  return List<Widget>.generate(filteredList.length, (int index) {
-                    return Card(
-                      color: appColorPrimary,
-                      elevation: 5,
-                      shadowColor: appColorPrimary,
-                      child: ListTile(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 20.0),
-                        title: Text(filteredList[index].item),
-                        // onTap: () {
-                        //   // Navigate to the shop details page when an item is clicked
-                        //   Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => SpalshRipple(
-                        //         shop: filteredList[index].shop,
-                        //       ),
-                        //     ),
-                        //   );
-                        // },
-                      ),
-                    );
-                  });
+            child: SearchAnchor.bar(
+              viewBackgroundColor: appColorPrimary,
+              viewLeading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
                 },
+                icon: Icon(Icons.arrow_back_ios_new),
               ),
+              barTrailing: const [
+                Icon(
+                  Icons.mic,
+                  color: iconColorSecondary,
+                ),
+              ],
+              barBackgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+              barHintText: "Searching...",
+              barHintStyle: MaterialStateProperty.all<TextStyle>(
+                TextStyle(color: appTextColorSecondary),
+              ),
+              suggestionsBuilder: (BuildContext context, TextEditingController controller) {
+                _filterSearchResults(controller.text);
+                return List<Widget>.generate(filteredList.length, (int index) {
+                  return Card(
+                    color: appColorPrimary,
+                    elevation: 5,
+                    shadowColor: appColorPrimary,
+                    child: ListTile(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 20.0),
+                      title: Text(filteredList[index].item),
+                       onTap: () {
+                        // Navigate to the shop details page when an item is clicked
+                        Navigator.push(
+                           context,
+                          MaterialPageRoute(
+                            builder: (context) => SearchingArea(
+                               shop: filteredList[index].shop,
+                          ),
+                          ),
+                         );
+                       },
+                    ),
+                  );
+                });
+              },
             ),
           ),
         ],

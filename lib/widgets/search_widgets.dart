@@ -47,46 +47,19 @@ class _SearchWidgetsState extends State<SearchWidgets> {
 
   @override
   Widget build(BuildContext context) {
-    // Use MediaQuery to get screen size
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Padding(
-      padding: EdgeInsets.all(screenWidth * 0.02), // Adjust padding dynamically
-      child: Material(
-        elevation: 5,
-        borderRadius: BorderRadius.circular(screenWidth * 0.08), // Adjust border radius dynamically
-        color: Colors.white,
-        child: SizedBox(
-          height: screenHeight * 0.07, // Adjust height dynamically
-          child: Center(
-            child: TextField(
-              controller: searchController,
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(
-                  vertical: screenHeight * 0.01, // Adjust vertical padding
-                  horizontal: screenWidth * 0.04, // Adjust horizontal padding
-                ),
-                hintText: "Search...",
-                hintStyle: const TextStyle(color: iconColorSecondary),
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: iconColorSecondary,
-                  size: screenWidth * 0.06, // Adjust icon size dynamically
-                ), // Icon on the left side
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    Icons.mic,
-                    color: iconColorSecondary,
-                    size: screenWidth * 0.06, // Adjust mic icon size
-                  ), // Mic icon for voice input
-                  onPressed: _listen, // Start listening on mic press
-                ),
-                border: InputBorder.none, // Removes the baseline (underline)
-              ),
-              onChanged: (value) {
-                // Optionally, you can handle search input changes here
-              },
+    padding: EdgeInsets.all(screenWidth * 0.02), 
+      child: Material(elevation: 5, borderRadius: BorderRadius.circular(screenWidth * 0.08),color: Colors.white,
+        child: SizedBox(height: screenHeight * 0.07, 
+          child: Center(child: TextField(controller: searchController,
+            decoration: InputDecoration(contentPadding: EdgeInsets.symmetric( vertical: screenHeight * 0.01, horizontal: screenWidth * 0.04, ),
+              hintText: "Search...", hintStyle: const TextStyle(color: iconColorSecondary),
+                prefixIcon: Icon( Icons.search, color: iconColorSecondary, size: screenWidth * 0.06, ), 
+                  suffixIcon: IconButton( icon: Icon( Icons.mic,color: iconColorSecondary, size: screenWidth * 0.06,), onPressed: _listen,),
+                    border: InputBorder.none, ),onChanged: (value) {},
             ),
           ),
         ),

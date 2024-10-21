@@ -115,82 +115,37 @@ class _ExclusiveOffersState extends State<ExclusiveOffers> {
           iconsize: 16, // Adjust icon size for small screens
         ),
         const SizedBox(height: 10),
-        SizedBox(
-          height: 250,
-          width: double.infinity,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
+        SizedBox(height: 250,width: double.infinity,
+          child: ListView.builder(scrollDirection: Axis.horizontal,
             itemCount: exclusiveOffers.length,
-            itemBuilder: (context, index) {
-              final deal = exclusiveOffers[index];
-              final cardWidth = screenWidth * 0.5; // Adjust card width based on screen size
-              final imageWidth = cardWidth * 0.8; // Adjust image width based on card width
+              itemBuilder: (context, index) {
+                final deal = exclusiveOffers[index];
+                  final cardWidth = screenWidth * 0.5; // Adjust card width based on screen size
+                    final imageWidth = cardWidth * 0.8; // Adjust image width based on card width
 
-              return InkWell(
-                 borderRadius: const BorderRadius.all(Radius.circular(16)),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ExclusiveScrean(deal: deal),
-                            ),
+              return InkWell( borderRadius: const BorderRadius.all(Radius.circular(16)),
+                        onTap: () { Navigator.push(  context, MaterialPageRoute( builder: (context) => ExclusiveScrean(deal: deal), ),
                           );
                         },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    elevation: 10,
-                    child: Container(
-                      
-                      decoration: BoxDecoration(
-                        color: appColorPrimary,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      width: cardWidth,
-                      child: Column(
-                        children: [
+                child: Padding( padding: const EdgeInsets.all(8.0),
+                  child: Card( elevation: 10,
+                    child: Container( decoration: BoxDecoration(color: appColorPrimary,borderRadius: BorderRadius.circular(8),), width: cardWidth,
+                      child: Column(children: [
                           const SizedBox(height: 30),
-                          Material(
-                            color: appColorPrimary,
-                            borderRadius: BorderRadius.circular(8),
-                            elevation: 5,
-                            child: Container(
-                              height: 100,
-                              width: imageWidth,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  height: 60, // Adjust image height
-                                  width: imageWidth * 0.3,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    image: DecorationImage(
-                                      image: AssetImage(deal['logoUrl'] ),
-                                      fit: BoxFit.fill,
-                                    ),
+                          Material( color: appColorPrimary,borderRadius: BorderRadius.circular(8),elevation: 5,
+                            child: Container(height: 100, width: imageWidth,decoration: BoxDecoration( borderRadius: BorderRadius.circular(8),),
+                              child: Padding( padding: const EdgeInsets.all(8.0),
+                                child: Container( height: 60, // Adjust image height
+                                  width: imageWidth * 0.3, decoration: BoxDecoration(borderRadius: BorderRadius.circular(8),
+                                    image: DecorationImage( image: AssetImage(deal['logoUrl'] ), fit: BoxFit.fill, ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              deal['name'] ?? 'No name',
-                              style: const TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SmallButton(
-                              borderRadius: BorderRadius.circular(8),
-                              containerheight: 30,
-                              elevationsize: 10,
-                              text: 'Upto ${deal['percentage']} Offers',
-                            ),
+                          Padding( padding: const EdgeInsets.all(8.0), child: Text( deal['name'] ?? 'No name',style: const TextStyle(fontWeight: FontWeight.bold), ), ),
+                            Padding(padding: const EdgeInsets.all(8.0),
+                              child: SmallButton( borderRadius: BorderRadius.circular(8), containerheight: 30, elevationsize: 10,text: 'Upto ${deal['percentage']} Offers',),
                           ),
                         ],
                       ),

@@ -13,25 +13,12 @@ class Listilecard extends StatefulWidget {
 class _ListilecardState extends State<Listilecard> {
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      title:  Padding(
-        padding: const EdgeInsets.only(left: 10),
-        child: Text(widget.text, style: const TextStyle(fontWeight: FontWeight.bold)),
-      ),
-      trailing: const Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'View All',
-            style: TextStyle(fontSize: 14,color:appTextColorPrimary),
-          ),
+    return ListTile(contentPadding: EdgeInsets.zero,
+      title:  Padding(padding: const EdgeInsets.only(left: 10), child: Text(widget.text, style: const TextStyle(fontWeight: FontWeight.bold)),),
+       trailing: const Row( mainAxisSize: MainAxisSize.min,
+        children: [ Text('View All',style: TextStyle(fontSize: 14,color:appTextColorPrimary),),
           SizedBox(width: 8.0),
-          Icon(
-            Icons.arrow_forward_ios,
-            size: 16,
-            
-          ),
+          Icon(Icons.arrow_forward_ios,size: 16,),
         ],
       ),
       onTap: widget.onTap,

@@ -16,46 +16,17 @@ class AppbarContainers extends StatelessWidget {
     // Check if the screen width is considered small (e.g., less than 360 pixels)
     final bool isSmallScreen = screenWidth > 10;
 
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Row( mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(
-            Icons.menu,
-            size: isSmallScreen ? screenWidth * 0.08 : screenWidth * 0.07, // Adjust icon size for small screens
-          ),
-          Row(
-            children: [
-              SmallButton(
-                containerheight: isSmallScreen ? screenHeight * 0.04 : screenHeight * 0.05, // Adjust height
-                containerwidth: isSmallScreen ? screenWidth * 0.3 : screenWidth * 0.35, // Adjust width
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => const SubscriptionScreen()));
-                },
-                elevationsize: 5,
-                text: 'Subscribe',
-              ),
-              IconButton(
-                onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (_)=>NotificationScreen()));},
-                icon: Icon(
-                  Icons.notifications_none,
-                  size: isSmallScreen ? screenWidth * 0.06 : screenWidth * 0.065, // Adjust icon size
-                ),
-              ),
-              IconButton(
-                onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (_)=>const LoveScreen()));},
-                icon: Icon(
-                  Icons.favorite_border,
-                  size: isSmallScreen ? screenWidth * 0.06 : screenWidth * 0.065, // Adjust icon size
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => const GoogleMapExample()));
-                },
-                icon: Icon(
-                  Icons.location_on_outlined,
-                  size: isSmallScreen ? screenWidth * 0.06 : screenWidth * 0.065, // Adjust icon size
-                ),
+          Icon(Icons.menu,size: isSmallScreen ? screenWidth * 0.08 : screenWidth * 0.07, ),
+          Row( children: [ SmallButton( containerheight: isSmallScreen ? screenHeight * 0.04 : screenHeight * 0.05,containerwidth: isSmallScreen ? screenWidth * 0.3 : screenWidth * 0.35,
+                onTap: () { Navigator.push(context, MaterialPageRoute(builder: (_) => const SubscriptionScreen()));},elevationsize: 5, text: 'Subscribe',),
+              IconButton( onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (_)=>NotificationScreen()));},
+                          icon: Icon(Icons.notifications_none, size: isSmallScreen ? screenWidth * 0.06 : screenWidth * 0.065, ),),
+              IconButton( onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (_)=>const LoveScreen()));},
+                          icon: Icon(Icons.favorite_border, size: isSmallScreen ? screenWidth * 0.06 : screenWidth * 0.065, ), ),
+              IconButton( onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (_) => const GoogleMapExample())); },
+                          icon: Icon( Icons.location_on_outlined, size: isSmallScreen ? screenWidth * 0.06 : screenWidth * 0.065, ),
               ),
             ],
           ),

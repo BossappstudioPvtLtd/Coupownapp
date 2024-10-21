@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coupown/Const/web_view.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:http/http.dart' as http;
 
 class TrendingDeal extends StatefulWidget {
   const TrendingDeal({super.key});
@@ -148,23 +150,47 @@ class _TrendingDealState extends State<TrendingDeal> {
     });
   }
 
-  void _openWebView(String url,String phoneNumber ) {
-    if (url.isNotEmpty) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => WebViewScreen(url: url, phoneNumber: phoneNumber,),
-        ),
-      );
-    } else {
-      print("No web link available for this ad.");
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("No web link available."),
-        ),
-      );
+  void _openWebView(String url, String phoneNumber) async {
+  Uri? parsedUrl = Uri.tryParse(url);  // Check if the URL is well-formed
+  
+  if (parsedUrl != null && parsedUrl.hasScheme && parsedUrl.hasAuthority) {
+    // Optionally: Check if the link is accessible by performing a head request
+    try {
+      final response = await http.head(parsedUrl);
+
+      if (response.statusCode == 200) {
+        // URL is valid and reachable, open the WebView
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => WebViewScreen(url: url, phoneNumber: phoneNumber),
+          ),
+        );
+      } else {
+        // URL is not reachable
+        _showErrorMessage("Web link is not accessible.");
+      }
+    } catch (e) {
+      if (e is SocketException) {
+        _showErrorMessage("Unable to connect to the internet.");
+      } else {
+        _showErrorMessage("Error accessing the web link.");
+      }
     }
+  } else {
+    // URL is invalid
+    _showErrorMessage("Invalid web link format.");
   }
+}
+
+void _showErrorMessage(String message) {
+  print(message);
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message),
+    ),
+  );
+}
 
   @override
   void dispose() {

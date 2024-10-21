@@ -119,9 +119,8 @@ class _TradingDealsState extends State<TradingDeals> {
 
   @override
   Widget build(BuildContext context) {
-    // Use MediaQuery to get the screen width and height
     final screenWidth = MediaQuery.of(context).size.width;
-    final isSmallScreen = screenWidth < 350; // Adjust based on a small screen threshold
+    final isSmallScreen = screenWidth < 350; 
 
     return Container(
       height: isSmallScreen ? 250 : 300,
@@ -130,112 +129,45 @@ class _TradingDealsState extends State<TradingDeals> {
         children: [
           Namebar(nametext: "Trending Deals" ,text: 'View all',color:appColorAccent,icon: Icons.arrow_forward,border: Border.all(width: 1, color: appColorAccent),iconcolor: appColorAccent,iconsize: 16,
           onTap: (){Navigator.push(context, MaterialPageRoute(builder: (_)=>const TradingDealsScrean()));},),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
+          Expanded( child: Padding(padding: const EdgeInsets.all(8.0),
+              child: ListView.builder(scrollDirection: Axis.horizontal,
                 itemCount: deals.length,
-                itemBuilder: (context, index) {
-                  final deal = deals[index];
-                  return GestureDetector(onTap: () {
-                    Navigator.push(context, MaterialPageRoute( builder: (context) => TradingScrean( deal: deal,  deals: deals, ),
+                itemBuilder: (context, index) { final deal = deals[index];
+                  return GestureDetector(onTap: () {Navigator.push(context, MaterialPageRoute( builder: (context) => TradingScrean( deal: deal,  deals: deals, ),
                      ),
                       );
                         },
-                    child: Container(
-                      width: isSmallScreen ? 180 : 250,
-                      margin: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Positioned(
-                            top: 30,
-                            child: Material(
-                              borderRadius: BorderRadius.circular(8),
-                              elevation: 5,
-                              child: Container(
-                                height: isSmallScreen ? 150 : 190,
-                                width: isSmallScreen ? 180 : 250,
-                                padding: const EdgeInsets.all(3),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: appColorAccent, width: 1),
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: appColorPrimary,
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      const SizedBox(height: 50),
-                                      Row(
-                                        children: [
-                                          const Padding(
-                                            padding: EdgeInsets.only(left: 5),
-                                            child: SmallButton(
-                                              elevationsize: 5,
-                                              text: "Exclusive Offer",
-                                              containerheight: 30,
-                                              containerwidth: 150,
-                                              fontSize: 15,
-                                              textweight: FontWeight.normal,
-                                            ),
-                                          ),
-                                          Flexible(
-                                            child: Textedit(
-                                              text: ' ${deal['offerDate']}',
-                                              fontSize: 10,
+                    child: Container( width: isSmallScreen ? 180 : 250, margin: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Stack( alignment: Alignment.center,
+                        children: [ Positioned(  top: 30,
+                          child: Material(borderRadius: BorderRadius.circular(8), elevation: 5,
+                            child: Container( height: isSmallScreen ? 150 : 190, width: isSmallScreen ? 180 : 250,
+                              padding: const EdgeInsets.all(3),
+                                child: Container( decoration: BoxDecoration( border: Border.all(  color: appColorAccent, width: 1),borderRadius: BorderRadius.circular(8), color: appColorPrimary, ),
+                                  child: Column(children: [const SizedBox(height: 50),
+                                      Row(children: [const Padding( padding: EdgeInsets.only(left: 5),
+                                        child: SmallButton(  elevationsize: 5, text: "Exclusive Offer",containerheight: 30,containerwidth: 150, fontSize: 15, textweight: FontWeight.normal, ), ),
+                                          Flexible( child: Textedit(text: ' ${deal['offerDate']}', fontSize: 10,
                                             ),
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(height: 20),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Textedit(
-                                          text: deal['offerDetails'],
-                                          fontSize: 12,
-                                        ),
-                                      ),
+                                      const SizedBox(height: 20),Padding( padding: const EdgeInsets.all(8.0), child: Textedit( text: deal['offerDetails'], fontSize: 12, ), ),
                                     ],
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          Positioned(
-                            top: 2,
-                            left: 10,
-                            child: Card(
-                              color: appColorPrimary,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                height: 50,
-                                width: isSmallScreen ? 100 : 120,
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 10),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(50),
-                                        child: Image.asset(
-                                          deal['logoUrl'],
-                                          fit: BoxFit.fill,
-                                          width: 25,
-                                          height: 25,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Textedit(
-                                          text: deal['name'],
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                          Positioned(top: 2,  left: 10,
+                            child: Card( color: appColorPrimary,
+                              child: Container( decoration: BoxDecoration(  borderRadius: BorderRadius.circular(8),), height: 50,
+                                width: isSmallScreen ? 100 : 120,child: Padding( padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                                    child: Row( mainAxisAlignment:  MainAxisAlignment.spaceEvenly,
+                                      children: [ClipRRect(borderRadius: BorderRadius.circular(50),
+                                        child: Image.asset( deal['logoUrl'],fit: BoxFit.fill,width: 25, height: 25, ), ),
+                                          Expanded(child: Textedit( text: deal['name'], fontSize: 14,fontWeight: FontWeight.bold,),
                                       ),
                                     ],
                                   ),
